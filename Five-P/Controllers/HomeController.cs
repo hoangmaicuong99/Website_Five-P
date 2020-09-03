@@ -12,7 +12,15 @@ namespace Five_P.Controllers
         {
             return View();
         }
-
+        public ActionResult CauHoi()
+        {
+            return View();
+        }
+        public ActionResult ChiTietCauHoi()
+        {
+            return View();
+        }
+        //---------------------------------------
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
