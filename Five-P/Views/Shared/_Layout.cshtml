@@ -1,8 +1,4 @@
-﻿<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
--->
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -73,16 +69,19 @@ Author URL: http://w3layouts.com
                 </div>
             </div>
             <span class="nav-item dropdown">
-                <a class="avatar avatar-xs rounded-circle" href="javascript:;" id="navbar-primary_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img alt="Image placeholder" src="~/Content/UI/img/faces/team-4.jpg"></a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-primary_dropdown_1">
-                    <a class="dropdown-item" href="javascript:;"><i class="ni ni-single-02"></i>Cá nhân</a>
-                    <a class="dropdown-item" href="javascript:;"><i class="fas fa-magic"></i>Tùy chỉnh</a>
-                    <a class="dropdown-item" href="javascript:;"><i class="ni ni-atom"></i>Nâng cấp tài khoản</a>
-                    <a class="dropdown-item" href="javascript:;"><i class="ni ni-settings"></i>Cài đặt</a>
-                    <a class="dropdown-item" href="javascript:;"><i class="ni ni-button-power"></i>Đăng xuất</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="javascript:;"><i class="ni ni-user-run"></i>Tùy chọn cá nhân</a>
-                </div>
+                @if (Session["user"] != null)
+                {
+                    <a class="avatar avatar-xs rounded-circle" href="javascript:;" id="navbar-primary_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img alt="Image placeholder" src="~/Content/UI/img/faces/team-4.jpg"></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-primary_dropdown_1">
+                        <a class="dropdown-item" href="javascript:;"><i class="ni ni-single-02"></i>Cá nhân</a>
+                        <a class="dropdown-item" href="javascript:;"><i class="fas fa-magic"></i>Tùy chỉnh</a>
+                        <a class="dropdown-item" href="javascript:;"><i class="ni ni-atom"></i>Nâng cấp tài khoản</a>
+                        <a class="dropdown-item" href="javascript:;"><i class="ni ni-settings"></i>Cài đặt</a>
+                        <a class="dropdown-item" href="@Url.Action("LogOut","TaiKhoan")"><i class="ni ni-button-power"></i>Đăng xuất</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:;"><i class="ni ni-user-run"></i>Tùy chọn cá nhân</a>
+                    </div>
+                }
             </span>
         </nav>
     </div>

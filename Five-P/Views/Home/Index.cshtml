@@ -1,9 +1,12 @@
-﻿@{
-    var bient = "active";
-    var bienf = "";
-    var bient2 = "show active";
+﻿@using Five_P.Models;
+@{
+    User user = (User)Session["user"];
+    var action = "";
+    var action1 = "active";
+    var action2 = "show active";
     ViewBag.Title = "Home Page";
 }
+
 <div class="w3l-index-block1">
     <div class="content py-5">
         <div class="container">
@@ -13,20 +16,23 @@
                         <div class="nav-wrapper">
                             <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link mb-sm-3 mb-md-0 @(Session["tab2"]==bient ? bienf:bient)" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false"><i class="far fa-gem"></i>  Five-P</a>
+                                    <a class="nav-link mb-sm-3 mb-md-0 @(Session["NotLogin"] != null ?action:action1 )" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false"><i class="far fa-gem"></i>  Five-P</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a onclick="@Session["tab2"]=@bient" class="nav-link mb-sm-3 mb-md-0 @(Session["tab2"]==bient ? bient:bienf)" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="fas fa-sign-in-alt"></i>  Đăng nhập</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="true"><i class="fas fa-user-plus"></i>  Đăng ký</a>
-                                </li>
+                                @if (user == null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-sm-3 mb-md-0 @(Session["NotLogin"] == null ? action: action1)" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="fas fa-sign-in-alt"></i>  Đăng nhập</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="true"><i class="fas fa-user-plus"></i>  Đăng ký</a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                         <div class="card shadow">
                             <div class="card-body">
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade @(Session["tab2"]==bient ? bienf:bient2)" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                                    <div class="tab-pane fade @(Session["NotLogin"] == null?action2:action)" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
                                         <h1 style="color:#5e72e4">Five-P là gì ?</h1>
                                         <p class="mt-3 mb-md-5 mb-4">
                                             <span class="text-danger mb-0">Là một cộng đồng chia sẽ, giải đáp thắc mắc về khoa học máy tính.</span>
@@ -37,7 +43,7 @@
                                         </p>
                                         <a href="#login.html" class="btn btn-primary btn-theme">Câu hỏi ?</a>
                                     </div>
-                                    <div class="tab-pane fade @(Session["tab2"]==bient ? bient2:bienf)" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                                    <div class="tab-pane fade @(Session["NotLogin"] == null? action:action2)" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
                                         <!--Đăng nhập-->
                                         <div class="">
                                             <div class="card-header bg-white pb-3">
@@ -47,9 +53,9 @@
                                                 <div class="btn-wrapper text-center">
                                                     <a href="javascript:;" class="btn btn-neutral btn-icon">
                                                         <span class="btn-inner--icon">
-                                                            <img src="~/Content/UI/img/icons/common/google.svg">
+                                                            <i class="fab fa-facebook" style="width:25px;height:25px;"></i>
                                                         </span>
-                                                        <span class="btn-inner--text">Google</span>
+                                                        <span class="btn-inner--text">Facebook</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -57,13 +63,13 @@
                                                 <div class="text-center text-muted mb-4">
                                                     <small class="ni ni-send"> Hoặc đăng nhập bằng...</small>
                                                 </div>
-                                                <form role="form">
+                                                <form onsubmit="return Checkformlogin()" action="@Url.Action("Login","TaiKhoan")" method="post">
                                                     <div class="form-group mb-3">
                                                         <div class="input-group input-group-alternative">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                                             </div>
-                                                            <input class="form-control" placeholder="Nhập Email" type="email">
+                                                            <input class="form-control" id="user_email" name="user_email" placeholder="Nhập Email" type="text">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -71,17 +77,18 @@
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                                             </div>
-                                                            <input class="form-control" placeholder="Nhập mật khẩu" type="password">
+                                                            <input class="form-control" id="user_pass" name="user_pass" placeholder="Nhập mật khẩu" type="password">
                                                         </div>
                                                     </div>
                                                     <div class="custom-control custom-control-alternative custom-checkbox">
+                                                        <p id="notify" style="color:red">@Html.Raw(Session["NotLogin"])</p>
                                                         <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
                                                         <label class="custom-control-label" for=" customCheckLogin">
                                                             <span>Nhớ mật khẩu</span>
                                                         </label>
                                                     </div>
                                                     <div class="text-center">
-                                                        <button type="button" class="btn btn-primary my-4">Vào Five-P</button>
+                                                        <button type="submit" class="btn btn-primary my-4 "><i class="ni ni-send"></i> Vào Five-P</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -97,13 +104,13 @@
                                                 </div>
                                             </div>
                                             <div class="card-body px-lg-5 py-lg-3">
-                                                <form role="form">
+                                                <form role="form" onsubmit="return CheckformRegistration()" action="@Url.Action("Registration","TaiKhoan")" method="post">
                                                     <div class="form-group mb-3">
                                                         <div class="input-group input-group-alternative">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                                             </div>
-                                                            <input class="form-control" placeholder="Nhập Email" type="email">
+                                                            <input class="form-control" name="user_email" id="user_email_RS" placeholder="Nhập Email" type="text">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -111,7 +118,7 @@
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                                             </div>
-                                                            <input class="form-control" placeholder="Nhập mật khẩu" type="password">
+                                                            <input class="form-control" name="user_pass" id="user_pass_RS" placeholder="Nhập mật khẩu" type="password">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -119,11 +126,12 @@
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                                             </div>
-                                                            <input class="form-control" placeholder="Nhập lại mật khẩu" type="password">
+                                                            <input class="form-control" id="user_pass_ARS" placeholder="Nhập lại mật khẩu" type="password">
                                                         </div>
                                                     </div>
+                                                    <p id="notifyRS" style="color:red"></p>
                                                     <div class="text-center">
-                                                        <button type="button" class="btn btn-primary my-3">Đăng ký</button>
+                                                        <button type="submit" class="btn btn-primary my-3">Đăng ký</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -136,7 +144,7 @@
                     </div>
                 </div>
                 <div class="col-md-7 content-photo mt-md-0 mt-5">
-                    <img src="~/Content/LayoutNguoiDung/images/main.jpg" class="img-fluid" alt="main image">
+                    <img src="~/Content/LayoutNguoiDung/images/main.jpg" class="img-fluid" alt="main image"/>
                 </div>
             </div>
             <div class="clear"></div>
@@ -488,4 +496,50 @@
             <a href="contact.html" class="btn btn-primary btn-demo ml-2">Get Started</a>
         </div>
     </div>
+    <script>
+        function CheckformRegistration() {
+            let user_email_RS = document.getElementById('user_email_RS').value;
+            let user_pass_RS = document.getElementById('user_pass_RS').value;
+            let user_pass_ARS = document.getElementById('user_pass_ARS').value;
+            if (user_email_RS == '' && user_pass_RS == '' && user_pass_ARS == '') {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập thông tin!</u>";
+            } else if (user_email_RS == '' && user_pass_RS == '') {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập (email) và (password)!</u>";
+            } else if (user_email_RS == '' && user_pass_ARS == '') {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập (email) và (mật khẩu nhập lại)!</u>";
+            } else if (user_pass_RS == '' && user_pass_ARS == '') {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập (mật khẩu) và (mật khẩu nhập lại)!</u>";
+            }
+            else if (user_email_RS == '') {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập email!</u>";
+            }
+            else if (user_pass_RS == '') {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập mật khẩu!</u>";
+            }
+            else if (user_pass_ARS == '') {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Chưa nhập mật khẩu nhập lại!</u>";
+            }
+            else if (user_pass_RS != user_pass_ARS) {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Nhập sai mật khẩu nhập lại!</u>";
+            }
+            else {
+                return true;
+            }
+            return false;
+        }
+        function Checkformlogin() {
+            var user_email = document.getElementById('user_email').value;
+            var user_pass = document.getElementById('user_pass').value;
+            if (user_email == '' && user_pass == '') {
+                document.getElementById('notify').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Vui lòng nhập tài khoản mật khẩu!</u>";
+            } else if (user_email == '') {
+                document.getElementById('notify').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u><u> Vui lòng nhập email!</u>";
+            } else if (user_pass == '') {
+                document.getElementById('notify').innerHTML = "<u><i class='fas fa-times-circle'>&nbsp;</i><u> Vui lòng nhập mật khẩu!</u>";
+            } else {
+                return true;
+            }
+            return false;
+        }
+    </script>
 </section>
