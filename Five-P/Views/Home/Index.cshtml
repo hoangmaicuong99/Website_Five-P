@@ -1,6 +1,8 @@
 ﻿@using Five_P.Models;
 @{
     User user = (User)Session["user"];
+    var a = "@([da-z.-]+)";
+    var b = "@";
     var action = "";
     var action1 = "active";
     var action2 = "show active";
@@ -16,7 +18,7 @@
                         <div class="nav-wrapper">
                             <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link mb-sm-3 mb-md-0 @(Session["NotLogin"] != null ?action:action1 )" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false"><i class="far fa-gem"></i>  Five-P</a>
+                                    <a class="nav-link mb-sm-3 mb-md-0 @(Session["NotLogin"] != null && Session["NotRegistration"] != null ?action:Session["NotLogin"] != null && Session["NotRegistration"] == null? action:Session["NotLogin"] == null && Session["NotRegistration"] != null?action:action1 )" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false"><i class="far fa-gem"></i>  Five-P</a>
                                 </li>
                                 @if (user == null)
                                 {
@@ -24,7 +26,7 @@
                                         <a class="nav-link mb-sm-3 mb-md-0 @(Session["NotLogin"] == null ? action: action1)" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="fas fa-sign-in-alt"></i>  Đăng nhập</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="true"><i class="fas fa-user-plus"></i>  Đăng ký</a>
+                                        <a class="nav-link mb-sm-3 mb-md-0 @(Session["NotRegistration"] == null? action: action1)"  id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="true"><i class="fas fa-user-plus"></i>  Đăng ký</a>
                                     </li>
                                 }
                             </ul>
@@ -32,7 +34,7 @@
                         <div class="card shadow">
                             <div class="card-body">
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade @(Session["NotLogin"] == null?action2:action)" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                                    <div class="tab-pane fade @(Session["NotLogin"] != null && Session["NotRegistration"] != null ?action:Session["NotLogin"] != null && Session["NotRegistration"] == null? action:Session["NotLogin"] == null && Session["NotRegistration"] != null?action:action2)" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
                                         <h1 style="color:#5e72e4">Five-P là gì ?</h1>
                                         <p class="mt-3 mb-md-5 mb-4">
                                             <span class="text-danger mb-0">Là một cộng đồng chia sẽ, giải đáp thắc mắc về khoa học máy tính.</span>
@@ -63,7 +65,7 @@
                                                 <div class="text-center text-muted mb-4">
                                                     <small class="ni ni-send"> Hoặc đăng nhập bằng...</small>
                                                 </div>
-                                                <form onsubmit="return Checkformlogin()" action="@Url.Action("Login","TaiKhoan")" method="post">
+                                                <form onsubmit="return Checkformlogin()" action="@Url.Action("Login","Account")" method="post">
                                                     <div class="form-group mb-3">
                                                         <div class="input-group input-group-alternative">
                                                             <div class="input-group-prepend">
@@ -95,7 +97,7 @@
                                         </div>
                                         <!--^Đăng nhập-->
                                     </div>
-                                    <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
+                                    <div class="tab-pane fade @(Session["NotRegistration"] == null ? action : action2)" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
                                         <!--Đăng ký-->
                                         <div class="">
                                             <div class="card-header bg-white pb-2">
@@ -104,7 +106,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-body px-lg-5 py-lg-3">
-                                                <form role="form" onsubmit="return CheckformRegistration()" action="@Url.Action("Registration","TaiKhoan")" method="post">
+                                                <form onsubmit="return CheckformRegistration()" action="@Url.Action("Registration","Account")" method="post">
                                                     <div class="form-group mb-3">
                                                         <div class="input-group input-group-alternative">
                                                             <div class="input-group-prepend">
@@ -129,7 +131,7 @@
                                                             <input class="form-control" id="user_pass_ARS" placeholder="Nhập lại mật khẩu" type="password">
                                                         </div>
                                                     </div>
-                                                    <p id="notifyRS" style="color:red"></p>
+                                                    <p id="notifyRS" style="color:red">@Html.Raw(Session["NotRegistration"])</p>
                                                     <div class="text-center">
                                                         <button type="submit" class="btn btn-primary my-3">Đăng ký</button>
                                                     </div>
@@ -167,7 +169,7 @@
                 <div class="s-block">
                     <a href="#blog-single.html" class="d-block p-lg-4 p-3">
                         <img src="~/Content/LayoutNguoiDung/images/s1.png" alt="" class="img-fluid" />
-                        <h3 class="my-3">Global Network</h3>
+                        <h3 class="my-3">Tất cả câu hỏi ?</h3>
                         <p class="">Our goal is to help our companies maintain or achieve best in class positions. Build an online presence with this professional bootstrap 4 template.</p>
                     </a>
                 </div>
@@ -176,7 +178,7 @@
                 <div class="s-block">
                     <a href="#blog-single.html" class="d-block p-lg-4 p-3">
                         <img src="~/Content/LayoutNguoiDung/images/s2.png" alt="" class="img-fluid" />
-                        <h3 class="my-3">High Benefits</h3>
+                        <h3 class="my-3">Tìm việc</h3>
                         <p class="">Our goal is to help our companies maintain or achieve best in class positions. Build an online presence with this professional bootstrap 4 template.</p>
                     </a>
                 </div>
@@ -185,7 +187,7 @@
                 <div class="s-block">
                     <a href="#blog-single.html" class="d-block p-lg-4 p-3">
                         <img src="~/Content/LayoutNguoiDung/images/s3.png" alt="" class="img-fluid" />
-                        <h3 class="my-3">Partnership</h3>
+                        <h3 class="my-3">Thành viên</h3>
                         <p class="">Our goal is to help our companies maintain or achieve best in class positions. Build an online presence with this professional bootstrap 4 template.</p>
                     </a>
                 </div>
@@ -497,10 +499,13 @@
         </div>
     </div>
     <script>
+        // kiểm tra form đăng ký
         function CheckformRegistration() {
             let user_email_RS = document.getElementById('user_email_RS').value;
             let user_pass_RS = document.getElementById('user_pass_RS').value;
             let user_pass_ARS = document.getElementById('user_pass_ARS').value;
+            let regex_email = /^([a-z0-9_\.-]+)@a\.([a-z\.]{2,6})$/;
+            let regex_pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@b$!%*?&])[A-Za-z\d@(b)$!%*?&]{8,}$/;
             if (user_email_RS == '' && user_pass_RS == '' && user_pass_ARS == '') {
                 document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập thông tin!</u>";
             } else if (user_email_RS == '' && user_pass_RS == '') {
@@ -521,12 +526,17 @@
             }
             else if (user_pass_RS != user_pass_ARS) {
                 document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Nhập sai mật khẩu nhập lại!</u>";
+            }  else if (regex_email.test(user_email_RS) == false) {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Email không hợp lệ!</u>";
+            } else if (regex_pass.test(user_pass_RS) == false) {
+                document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Tối thiểu 8 ký tự, ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt!</u>";
             }
             else {
                 return true;
             }
             return false;
         }
+        //kiểm tra form đăng nhập
         function Checkformlogin() {
             var user_email = document.getElementById('user_email').value;
             var user_pass = document.getElementById('user_pass').value;

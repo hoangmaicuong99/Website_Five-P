@@ -128,56 +128,64 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TaiKhoanController.cs" />
-    <Compile Include="Controllers\testController\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\dataFiveP.Context.cs">
+    <Compile Include="Models\FiveP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>dataFiveP.Context.tt</DependentUpon>
+      <DependentUpon>FiveP.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\dataFiveP.cs">
+    <Compile Include="Models\FiveP.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\dataFiveP.Designer.cs">
+    <Compile Include="Models\FiveP.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>dataFiveP.edmx</DependentUpon>
+      <DependentUpon>FiveP.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Friend.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Like.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Like_Reply_Post.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Post.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Reply_Comment.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Reply_Post.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Search.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tag.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Technology_Care.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Type_Post.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>dataFiveP.tt</DependentUpon>
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1829,10 +1837,32 @@
     <Content Include="Content\LayoutNguoiDung\images\s3.png" />
     <Content Include="Content\LayoutNguoiDung\images\shared-bg.jpg" />
     <Content Include="Content\LayoutNguoiDung\images\video.jpg" />
+    <Content Include="Content\LayoutNguoiDung\ImgUser\Khong gian trang thái.png" />
     <Content Include="Content\LayoutNguoiDung\js\bootstrap.min.js" />
     <Content Include="Content\LayoutNguoiDung\js\jquery-3.3.1.min.js" />
     <Content Include="Content\LayoutNguoiDung\js\jquery.magnific-popup.min.js" />
     <Content Include="Content\LayoutNguoiDung\js\owl.carousel.js" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\css\bootstrap.min.css" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\css\demo.css" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\css\gsdk-bootstrap-wizard.css" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\apple-icon.png" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\default-avatar.png" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\favicon.ico" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\favicon.png" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\new_logo.png" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\thumb_list_boat.png" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\thumb_list_place.png" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\thumb_register.png" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\tim_80x80.png" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\wizard-boat.jpg" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\wizard-city.jpg" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\img\wizard.jpg" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\js\bootstrap.min.js" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\js\gsdk-bootstrap-wizard.js" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\js\jquery-1.10.2.js" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\js\jquery-2.2.4.min.js" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\js\jquery.bootstrap.wizard.js" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\js\jquery.validate.min.js" />
     <Content Include="Content\UI\css\argon-design-system.css" />
     <Content Include="Content\UI\css\argon-design-system.min.css" />
     <Content Include="Content\UI\css\font-awesome.css" />
@@ -1992,15 +2022,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\dataFiveP.Context.tt">
+    <Content Include="Models\FiveP.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dataFiveP.edmx</DependentUpon>
-      <LastGenOutput>dataFiveP.Context.cs</LastGenOutput>
+      <DependentUpon>FiveP.edmx</DependentUpon>
+      <LastGenOutput>FiveP.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\dataFiveP.tt">
+    <Content Include="Models\FiveP.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dataFiveP.edmx</DependentUpon>
-      <LastGenOutput>dataFiveP.cs</LastGenOutput>
+      <DependentUpon>FiveP.edmx</DependentUpon>
+      <LastGenOutput>FiveP.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -2146,12 +2176,27 @@
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.ttf" />
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.woff" />
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.woff2" />
-    <EntityDeploy Include="Models\dataFiveP.edmx">
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\mixins\_vendor-prefixes.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_buttons.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_card.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_footers.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_inputs.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_labels.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_misc.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_mixins.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_navs-pagination.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_responsive.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_tooltips.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_typography.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_variables.scss" />
+    <Content Include="Content\Layout_RegisterPersonalInformation\scss\gsdk-bootstrap-wizard\_wizard-card.scss" />
+    <EntityDeploy Include="Models\FiveP.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>dataFiveP.Designer.cs</LastGenOutput>
+      <LastGenOutput>FiveP.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\dataFiveP.edmx.diagram">
-      <DependentUpon>dataFiveP.edmx</DependentUpon>
+    <Content Include="Models\FiveP.edmx.diagram">
+      <DependentUpon>FiveP.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -2179,16 +2224,18 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\CauHoi.cshtml" />
-    <Content Include="Views\TaiKhoan\TrangCaNhan.cshtml" />
     <Content Include="Views\Home\ChiTietCauHoi.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Home\AllQuestion.cshtml" />
+    <Content Include="Views\Home\DetailQuestion.cshtml" />
+    <Content Include="Views\Account\UserPage.cshtml" />
+    <Content Include="Views\Account\RegisterPersonalInformation.cshtml" />
+    <Content Include="Views\Shared\LayoutRegisterPersonalInformation.cshtml" />
+    <Content Include="Views\Account\ManageUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Database\" />
+    <Folder Include="Controllers\testController\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

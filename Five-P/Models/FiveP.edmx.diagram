@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dd2c7fc1ba194a47a5e260292d616953" Name="Diagram1">
+        <EntityTypeShape EntityType="FivePModel.Comment" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Friend" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Like" Width="1.5" PointX="8.25" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Like_Reply_Post" Width="1.5" PointX="3" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Post" Width="1.5" PointX="3" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Reply_Comment" Width="1.5" PointX="7.5" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Reply_Post" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Search" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Tag" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Technology_Care" Width="1.5" PointX="3" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Type_Post" Width="1.5" PointX="5.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.User" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <AssociationConnector Association="FivePModel.FK_Comment_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Comment_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Reply_Comment_Comment" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Friend_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Like_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Like_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Like_Reply_Post_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Reply_Post_Like_Reply_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Post_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Type_Post_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Reply_Comment_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Reply_Post_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Technology_Care_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

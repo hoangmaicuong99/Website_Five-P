@@ -24,6 +24,7 @@ namespace Five_P.Models
             this.Posts = new HashSet<Post>();
             this.Reply_Comment = new HashSet<Reply_Comment>();
             this.Reply_Post = new HashSet<Reply_Post>();
+            this.Technology_Care = new HashSet<Technology_Care>();
         }
     
         public int user_id { get; set; }
@@ -38,6 +39,13 @@ namespace Five_P.Models
         public Nullable<int> user_phone { get; set; }
         public string user_address { get; set; }
         public string user_img { get; set; }
+        public Nullable<int> user_sex { get; set; }
+        public string user_link_facebok { get; set; }
+        public string user_link_github { get; set; }
+        public string user_hobby_work { get; set; }
+        public string user_hobby { get; set; }
+        public Nullable<bool> user_activate_admin { get; set; }
+        public Nullable<System.DateTime> user_date_born { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
@@ -53,5 +61,7 @@ namespace Five_P.Models
         public virtual ICollection<Reply_Comment> Reply_Comment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reply_Post> Reply_Post { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Technology_Care> Technology_Care { get; set; }
     }
 }

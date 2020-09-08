@@ -12,11 +12,11 @@ namespace Five_P.Controllers
         {
             return View();
         }
-        public ActionResult CauHoi()
+        public ActionResult AllQuestion()
         {
             return View();
         }
-        public ActionResult ChiTietCauHoi()
+        public ActionResult DetailQuestion()
         {
             return View();
         }
