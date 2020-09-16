@@ -6,7 +6,8 @@
     ViewBag.Title = "DetailQuestion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <section class="w3l-index-block2 py-5">
     <div class="container py-md-0">
         <div class="row bottom_grids pt-md-0">
@@ -58,13 +59,10 @@
                                                 }
                                                 else
                                                 {
-                                            <form id="formRatePostT">
-                                                <input type="hidden" name="post_id" value="@Model.post_id" />
-                                                <input type="hidden" name="post_id" value="@Model.post_id" />
-                                                <input type="hidden" name="post_id" value="@Model.post_id" />
-                                                <input type="hidden" name="post_id" value="@Model.post_id" />
-                                                <button type="submit" id="btnRatePostT" class="btn btn-link"><i class="far fa-caret-square-up w-25 h-25"></i></button>
-                                            </form>
+                                                    <form id="formRatePostT">
+                                                        <input type="hidden" name="post_id" value="@Model.post_id" />
+                                                        <button type="button" id="btnRatePostT" class="btn btn-link"><i class="far fa-caret-square-up w-25 h-25"></i></button>
+                                                    </form>
                                                 }
 
                                                 @{
@@ -81,7 +79,10 @@
                                                 }
                                                 else
                                                 {
-                                                    <a href="#" class="text-center"><i class="far fa-caret-square-down w-50 h-50"></i></a>
+                                                    <form id="formRatePostF">
+                                                        <input type="hidden" name="post_id" value="@Model.post_id" />
+                                                        <button type="button" id="btnRatePostF" class="btn btn-link"><i class="far fa-caret-square-down w-25 h-25"></i></button>
+                                                    </form>
                                                 }
                                             </div>
                                             <div class="text-center mb-2" style="color:gold">
@@ -202,18 +203,31 @@
         </div>
     </div>
 </section>
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script>
-    //vow bài post rate= true
     $(document).ready(function () {
         $("#btnRatePostT").click(function () {
             var data = $("#formRatePostT").serialize();
             $.ajax({
                 type: "POST",
-                url: "/Post/RatePostT",
+                url: "/Home/RatePostT",
                 data: data,
                 success: function (response) {
-                    alert("thêm thành công");
+                    window.alert("Sữa thành công");
+                    $(this).show();
+                }
+            })
+        })
+    })
+    $(document).ready(function () {
+        $("#btnRatePostF").click(function () {
+            var data = $("#formRatePostF").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Home/RatePostF",
+                data: data,
+                success: function (response) {
+                    window.alert("Sữa thành công");
+                    $(this).show();
                 }
             })
         })

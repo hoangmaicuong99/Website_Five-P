@@ -1,9 +1,9 @@
 ﻿@using Five_P.Models;
 @model List<Reply_Post>
-    @{ 
-        User user = (User)Session["user"];
-        FivePEntities db = new FivePEntities();
-    }
+@{
+    User user = (User)Session["user"];
+    FivePEntities db = new FivePEntities();
+}
 @foreach (var item in Model)
 {
     <br />
@@ -12,7 +12,6 @@
             <div class="row mt-2">
                 <div class="col-md-3 border-right">
                     <div class="row">
-                        <a href="#" class="text-center"><i class="far fa-caret-square-up w-50 h-50"></i></a>
                         @{
                             List<Rate_Reply_Post> listRateReplyPost_T = db.Rate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.rate_reply_post1 == true).ToList();
                             List<Rate_Reply_Post> listRateReplyPost_F = db.Rate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.rate_reply_post1 == false).ToList();
@@ -20,8 +19,51 @@
                             int intCoutF = listRateReplyPost_F.Count();
                             int intDivided = intCoutT - intCoutF;
                         }
-                        <div class="w-100 text-center mt--5"><p style="font-size:200%;color:#ff0090">@intDivided</p></div>
-                        <a href="#" class="text-center"><i class="far fa-caret-square-down w-50 h-50"></i></a>
+                        <!--Kiểm tra nút vow-->
+                        @if (user == null)
+                        {
+                            <a data-toggle="modal" data-target="#modal-notification" class="text-center"><i class="far fa-caret-square-up w-50 h-50"></i></a>
+                            <div class="w-100 text-center mt--5"><p style="font-size:200%;color:#ff0090">@intDivided</p></div>
+
+                            <a data-toggle="modal" data-target="#modal-notification" class="text-center"><i class="far fa-caret-square-down w-50 h-50"></i></a>
+                        }
+                        else
+                        {
+                            <form id="formRateReplyPostT">
+                                <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
+                                <button type="button" id="btnRateReplyPostT" class="btn btn-link"><i class="far fa-caret-square-up w-25 h-25"></i></button>
+                            </form>
+                            <div class="w-100 text-center"><p style="font-size:200%;color:#ff0090">@intDivided</p></div>
+                            <form id="formRatePostF">
+                                <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
+                                <button type="button" id="btnRatePostF" class="btn btn-link"><i class="far fa-caret-square-down w-25 h-25"></i></button>
+                            </form>
+                        }
+                    </div>
+                    <!--Model thông báo-->
+                    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                            <div class="modal-content bg-gradient-danger">
+                                <div class="modal-header">
+                                    <h6 class="modal-title" id="modal-title-notification">Thông báo đến bạn!!</h6>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center">
+                                        <i class="ni ni-bell-55 ni-3x"></i>
+                                        <h4 class="heading mt-4">Đăng nhập để thực hiện chức năng này.</h4>
+                                        <p>Five-P cảm ơn!</p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white">Đăng nhập</button>
+                                    <button type="button" class="btn btn-white">Đăng ký</button>
+                                    <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="" style="color:#fc45ff;text-align:center">
                         @if (user == null)
@@ -30,7 +72,7 @@
                         }
                         else
                         {
-                            <a href="#" ><i class="fas fa-history" style="width:12%;height:12%"></i></a>
+                            <a href="#"><i class="fas fa-history" style="width:12%;height:12%"></i></a>
                         }
                         <!--hien thị hoạt động bài viết này-->
                     </div>
@@ -114,7 +156,7 @@
                         <textarea name="#" class="w-100"></textarea>
                         <button type="submit" class="btn btn-block btn-warning mb-3">Bình luận <i class="fas fa-comments"></i></button>
                     </form>
-                    @Html.Action("Comment","CommentReplyPost", new { idReplyPost = item.reply_post_id})
+                    @Html.Action("Comment", "CommentReplyPost", new { idReplyPost = item.reply_post_id })
                     <a class="badge badge-pill badge-info text-uppercas" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                         <i class="fas fa-angle-double-up"></i><i class="fas fa-angle-double-up"></i>
                     </a>
@@ -123,3 +165,33 @@
         </div>
     </div>
 }
+<script>
+    $(document).ready(function () {
+        $("#btnRateReplyPostT").click(function () {
+            var data = $("#formRateReplyPostT").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Home/RateReplyPostT",
+                data: data,
+                success: function (response) {
+                    window.alert("Sữa thành công");
+                    $(this).show();
+                }
+            })
+        })
+    })
+    $(document).ready(function () {
+        $("#btnRatePostF").click(function () {
+            var data = $("#formRatePostF").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Home/RateReplyPostT",
+                data: data,
+                success: function (response) {
+                    window.alert("Sữa thành công");
+                    $(this).show();
+                }
+            })
+        })
+    })
+</script>

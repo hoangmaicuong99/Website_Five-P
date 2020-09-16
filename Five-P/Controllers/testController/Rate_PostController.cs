@@ -43,24 +43,12 @@ namespace Five_P.Controllers.testController
             ViewBag.user_id = new SelectList(db.Users, "user_id", "user_pass");
             return View();
         }
-
-        // POST: Rate_Post/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "rate_post_id,user_id,post_id,rate_post1,rate_post_datetime")] Rate_Post rate_Post)
         {
-            if (ModelState.IsValid)
-            {
-                db.Rate_Post.Add(rate_Post);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.post_id = new SelectList(db.Posts, "post_id", "post_content", rate_Post.post_id);
-            ViewBag.user_id = new SelectList(db.Users, "user_id", "user_pass", rate_Post.user_id);
-            return View(rate_Post);
+            db.Rate_Post.Add(rate_Post);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Rate_Post/Edit/5
