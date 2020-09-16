@@ -1,0 +1,48 @@
+﻿@using Five_P.Models;
+@model List<Post>
+    @{ 
+        FivePEntities db = new FivePEntities();
+    }
+@foreach (var item in Model)
+{
+    <hr />
+    <div class="s-block">
+        <div href="#" class="d-block p-lg-4 p-3">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <div class="">
+                        <i class="fab fa-galactic-senate" style="font-size:25px"></i> Đề xuất
+                    </div>
+                    <div class="">
+                        @{
+                            List<Reply_Post> ReplyPost = db.Reply_Post.Where(n => n.post_id == item.post_id).ToList();
+                            int intDemReplyPost = ReplyPost.Count();
+                        }
+                        <p class="">@intDemReplyPost <i class="fas fa-lightbulb"></i> Đáp án</p>
+                    </div>
+                    <div >
+                        <p class="">@item.post_view<i class="fas fa-eye"></i> Lượt xem</p>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="h-auto">
+                        <a href="@Url.Action("DetailQuestion","Home", new { idpost = item.post_id})"><u>@item.post_title</u></a>
+                    </div>
+                    <br />
+                    <div class="h-auto">
+                        @item.post_content
+                    </div>
+                    <hr />
+                    <div class="row h-auto">
+                        <div class="col-md-7">
+                            @item.Technology.technology_name
+                        </div>
+                        <div class="col-md-5" style="">
+                            <span style="float:right">Ngày @item.post_datecreated.Value.Day / @item.post_datecreated.Value.Month / @item.post_datecreated.Value.Year</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

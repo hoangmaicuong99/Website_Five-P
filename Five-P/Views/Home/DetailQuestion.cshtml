@@ -1,5 +1,8 @@
-﻿
+﻿@using Five_P.Models;
+@model Post
 @{
+    User user = (User)Session["user"];
+    FivePEntities db = new FivePEntities();
     ViewBag.Title = "DetailQuestion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -10,14 +13,13 @@
             <div class="col-lg-3 col-md-6 mt-5">
                 <div class="s-block">
                     <div class="list-group">
-                        <button type="button" class="list-group-item list-group-item-action active " style="text-align:center">
+                        <h7 class="list-group-item list-group-item-action active " style="text-align:center">
                             Tùy chọn <i class="fas fa-magic"></i>
-                        </button>
-                        <a href="/"><button type="button" class="list-group-item list-group-item btn btn-outline-success w-100">Thành viên</button></a>
-                        <button type="button" class="list-group-item btn btn-outline-danger w-100">Top thành viên</button>
-                        <button type="button" class="list-group-item btn btn-outline-default w-100">Các loại câu hỏi</button>
-                        <button type="button" class="list-group-item btn btn-outline-warning w-100">Việc làm</button>
-                        <button type="button" class="list-group-item btn btn-outline-default w-100" disabled>Vestibulum at eros</button>
+                        </h7>
+                        <a href="/" class="list-group-item list-group-item btn btn-outline-success w-100">Thành viên</></a>
+                        <a href="#" class="list-group-item btn btn-outline-danger w-100">Top thành viên</a>
+                        <a href="#" class="list-group-item btn btn-outline-default w-100">Các loại câu hỏi</a>
+                        <a href="#" class="list-group-item btn btn-outline-warning w-100">Việc làm</a>
                     </div>
                 </div>
             </div>
@@ -27,163 +29,171 @@
                     <div class="d-block p-lg-4 p-3">
                         <div class="">
                             <div class="row">
-                                <h3 class="text-blue mb-0 col-md-7">Tên câu hỏi</h3>
+                                <h3 class="text-blue mb-0">@Model.post_title</h3>
                             </div><br />
                             <div class="row">
                                 <div class="blockquote-footer col-md-3">
-                                    11111
+                                    @Model.post_sum_reply
                                     <cite title="Source Title">Câu trả lời <i class="ni ni-air-baloon" style="color:gold"></i></cite>
                                     </>
                                 </div>
                                 <div class="blockquote-footer col-md-9 ">
-                                    <cite title="Source Title">Đăng tải <i class="ni ni-calendar-grid-58"></i> 20/8/2020 </cite>
-                                    <cite title="Source Title">&nbsp;&nbsp;&nbsp; 200 Lượt xem  <i class="fas fa-eye"></i></cite>
-                                    <cite title="Source Title">&nbsp;&nbsp;&nbsp; 200 Lượt bình luận <i class="fas fa-comments"></i></cite>
+                                    <cite title="Source Title">Đăng tải <i class="ni ni-calendar-grid-58"></i> @Model.post_datecreated.Value.Day / @Model.post_datecreated.Value.Month/ @Model.post_datecreated.Value.Year </cite>
+                                    <cite title="Source Title">&nbsp;|&nbsp;&nbsp; @Model.post_view Lượt xem <i class="fas fa-eye"></i></cite>
+                                    <cite title="Source Title">&nbsp;|&nbsp;&nbsp; @Model.post_sum_comment Lượt bình luận <i class="fas fa-comments"></i> |</cite>
 
                                 </div>
                             </div><br />
                             <div class="s-block">
                                 <div href="#" class="d-block p-lg-4 p-2">
                                     <div class="row form-control h-auto mt--1 alert alert-secondary" role="alert" style="color:black">
-                                        Tiền <a href="#"><b class="text-danger mb-0">thưởng</b></a> sẽ hết hạn sau 6 phút . Các câu trả lời cho câu hỏi này đủ điều kiện nhận được <b class="btn btn-sm btn-default">+200</b> danh tiếng. <a href="#"><u class="text-success">Rainbow Randolph</u></a> muốn thu hút sự chú ý nhiều hơn đến câu hỏi này.
+                                        Tiền <a href="#"><b class="text-danger mb-0">thưởng</b></a> sẽ hết hạn sau 6 phút . Các câu trả lời cho câu hỏi này đủ điều kiện nhận được <b class="btn btn-sm btn-default">+@Model.post_fame</b> danh tiếng. <a href="@Url.Action("UserPage","Account", new { idUser = Model.user_id})"><u class="text-success">@Model.User.user_nicename</u></a> muốn thu hút sự chú ý nhiều hơn đến câu hỏi này.
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-3 border-right">
-                                            <div class="row ml-5">
-                                                <div class="far fa-caret-square-up w-25 h-25"></div>
-                                                <div class="w-100 mt-3 mb-3" style="color:#ff0090">100</div>
-                                                <div class="far fa-caret-square-down w-25 h-25"></div>
-                                            </div>
-                                            <div class="row ml-5 mt-3 mb-3" " style="color:gold">
-                                                &nbsp;&nbsp;
-                                                <i class="far fa-bookmark"></i>
-                                                <!--đánh giấu câu hỏi này quan trọng-->
-                                            </div>
-                                            <div class="row ml-5 " style="color:#fc45ff">
-                                                &nbsp;&nbsp;
-                                                <i class="fas fa-history"></i>
-                                                <!--hien thị hoạt động bài viết này-->
+                                            <div class="row">
+                                                @if (user == null)
+                                                {
+                                                    <a href="#" class="text-center" data-toggle="modal" data-target="#modal-notification"><i class="far fa-caret-square-up w-50 h-50"></i></a>
+                                                }
+                                                else
+                                                {
+                                            <form id="formRatePostT">
+                                                <input type="hidden" name="post_id" value="@Model.post_id" />
+                                                <input type="hidden" name="post_id" value="@Model.post_id" />
+                                                <input type="hidden" name="post_id" value="@Model.post_id" />
+                                                <input type="hidden" name="post_id" value="@Model.post_id" />
+                                                <button type="submit" id="btnRatePostT" class="btn btn-link"><i class="far fa-caret-square-up w-25 h-25"></i></button>
+                                            </form>
+                                                }
 
+                                                @{
+                                                    List<Rate_Post> listRatePostT = db.Rate_Post.Where(n => n.post_id == Model.post_id && n.rate_post1 == true).ToList();
+                                                    List<Rate_Post> listRatePostF = db.Rate_Post.Where(n => n.post_id == Model.post_id && n.rate_post1 == false).ToList();
+                                                    int intCoutT = listRatePostT.Count();
+                                                    int intCoutF = listRatePostF.Count();
+                                                    int intDivided = intCoutT - intCoutF;
+                                                }
+                                                <div class="w-100 mb-4" style="text-align:center;"><p class=" mb--2" style="color: #ff0090;font-size: 200%">@intDivided</p></div>
+                                                @if (user == null)
+                                                {
+                                                    <a href="#" class="text-center" data-toggle="modal" data-target="#modal-notification"><i class="far fa-caret-square-down w-50 h-50"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" class="text-center"><i class="far fa-caret-square-down w-50 h-50"></i></a>
+                                                }
+                                            </div>
+                                            <div class="text-center mb-2" style="color:gold">
+                                                <center>
+                                                    @{
+                                                        if (user == null)
+                                                        {
+                                                            <a href="#" data-toggle="modal" data-target="#modal-notification"><i class="far fa-bookmark" style="width:12%; height:12%"></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            Tick_Post tickPost = db.Tick_Post.FirstOrDefault(n => n.post_id == Model.post_id && n.user_id == user.user_id);
+                                                            if (tickPost == null)
+                                                            {
+                                                                <a href="#"><i class="far fa-bookmark" style="width:12%; height:12%"></i></a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p><i class="far fa-bookmark" style="width:12%; height:12%"></i></p>
+                                                            }
+                                                        }
+                                                    }
+                                                </center>
+                                                <!--đánh giấu câu hỏi này quan trọng-->
+                                                <!--Model thông báo-->
+                                                <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                                    <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                                        <div class="modal-content bg-gradient-danger">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title" id="modal-title-notification">Thông báo đến bạn!!</h6>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="py-3 text-center">
+                                                                    <i class="ni ni-bell-55 ni-3x"></i>
+                                                                    <h4 class="heading mt-4">Đăng nhập để thực hiện chức năng này.</h4>
+                                                                    <p>Five-P cảm ơn!</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-white">Đăng nhập</button>
+                                                                <button type="button" class="btn btn-white">Đăng ký</button>
+                                                                <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Đóng</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center" style="color:#fc45ff">
+                                                @{
+                                                    if (user == null)
+                                                    {
+                                                        <a href="#" data-toggle="modal" data-target="#modal-notification"><i style="width:12%; height:12%" class="fas fa-history"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        Show_Activate_Post showActivatePost = db.Show_Activate_Post.FirstOrDefault(n => n.post_id == Model.post_id && n.user_id == user.user_id);
+                                                        if (showActivatePost == null)
+                                                        {
+                                                            <a href="#"><i class="fas fa-history" style="width:12%; height:12%"></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fas fa-history" style="width:12%; height:12%"></i>
+                                                        }
+                                                    }
+                                                }
+                                                <!--hien thị hoạt động bài viết này-->
                                             </div>
                                         </div>
                                         <div class="col-md-9">
-                                            <div class="row">
-                                                Điểm danh tiếng
+                                            <div class="h-auto">
+                                                <p>@Model.post_title</p>
                                             </div>
-                                            <div class="row h-auto">
-                                                <p>Tiêu để câu hỏi.-----------------------</p>
-                                            </div>
-                                            <div class="row h-auto">
-                                                <p>Nội dung câu hỏi?----------------------</p>
+                                            <div class="h-auto">
+                                                <p>@Model.post_content</p>
                                             </div>
                                             <div class="row h-auto">
                                                 <div class="col-md-7">
-                                                    <p>thẻ câu hỏi?----------------------</p>
+                                                    <span>@Model.Technology.technology_name </span>
                                                 </div>
                                                 <div class="col-md-5" style="">
-                                                    <span style="float:right">hỏi ngày 20/12/2020</span>
+                                                    <span style="float:right">Hỏi ngày @Model.post_datecreated.Value.Day / @Model.post_datecreated.Value.Month / @Model.post_datecreated.Value.Year</span>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6"></div>
                                                 <div class="col-md-6" style="">
-                                                    <img src="~/Content/UI/img/faces/team-4.jpg" alt="Rounded image" class="img-fluid rounded shadow" style="width: 50px;">
-                                                    <span style="float:right">Người hỏi</span>
-                                                    <div>Điểm danh tiếng</div>
-                                                    <div>Điểm huy hiệu vàng</div>
-                                                    <div>Điểm huy hiệu bạc</div>
+                                                    <a href="@Url.Action("UserPage","Account",new { idUser = Model.user_id})">
+                                                        <img src="~/Content/UI/img/faces/@Model.post_img" alt="Rounded image" class="img-fluid rounded shadow" style="width: 50px;">
+                                                        <span style="float:right">
+                                                            @Model.User.user_nicename
+                                                        </span>
+                                                    </a>
+                                                    <div>Huy hiệu <i class="fas fa-medal" style="color:yellow"></i> 5</div>
+                                                    <div>Huy hiệu <i class="fas fa-medal" style="color:silver"></i> 5</div>
+                                                    <div>Huy hiệu <i class="fas fa-medal" style="color:#e88d15"></i> 5</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <p>Có 100 câu trả lời <i class="ni ni-air-baloon" style="color:gold"></i></p>
+                                    @{
+                                        List<Reply_Post> listReplyPost = db.Reply_Post.Where(n => n.post_id == Model.post_id).ToList();
+                                        int intSumReplyPost = listReplyPost.Count();
+                                    }
+                                    <p>Có @intSumReplyPost câu trả lời <i class="ni ni-air-baloon" style="color:gold"></i></p>
                                     <i class="fas fa-angle-double-down"></i>
                                 </div>
                             </div>
-                            <br />
-                            <div class="s-block">
-                                <div href="#" class="d-block p-lg-4 p-2">
-                                    <div class="row mt-2">
-                                        <div class="col-md-3 border-right">
-                                            <div class="row ml-5">
-                                                <div class="far fa-caret-square-up w-25 h-25"></div>
-                                                <div class="w-100 mt-3 mb-3" style="color:#ff0090">100</div>
-                                                <div class="far fa-caret-square-down w-25 h-25"></div>
-                                            </div>
-                                            <div class="row ml-5 mt-3 mb-3" " style="color:gold">
-                                                &nbsp;&nbsp;
-                                                <i class="far fa-bookmark"></i>
-                                                <!--đánh giấu câu hỏi này quan trọng-->
-                                            </div>
-                                            <div class="row ml-5 " style="color:#fc45ff">
-                                                &nbsp;&nbsp;
-                                                <i class="fas fa-history"></i>
-                                                <!--hien thị hoạt động bài viết này-->
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="row h-auto">
-                                                <p>Tiêu để câu trả lời.-----------------------</p>
-                                            </div>
-                                            <div class="row h-auto">
-                                                <p>Nội dung câu trả lời----------------------</p>
-                                            </div>
-                                            <div class="row h-auto">
-                                                <div class="col-md-7">
-                                                    <p>thẻ câu trả lời----------------------</p>
-                                                </div>
-                                                <div class="col-md-5" style="">
-                                                    <span style="float:right">hỏi ngày 20/12/2020</span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6"></div>
-                                                <div class="col-md-6" style="">
-                                                    <img src="~/Content/UI/img/faces/team-4.jpg" alt="Rounded image" class="img-fluid rounded shadow" style="width: 50px;">
-                                                    <span style="float:right">Người hỏi</span>
-                                                    <div>Điểm danh tiếng</div>
-                                                    <div>Điểm huy hiệu vàng</div>
-                                                    <div>Điểm huy hiệu bạc</div>
-                                                    <div>kết bạn</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a class="badge badge-pill badge-info text-uppercase" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        Bình luận <i class="fas fa-angle-double-down"></i>
-                                    </a>
-                                    <div class="collapse" id="collapseExample">
-                                        <div class="card card-body">
-                                            <form>
-                                                <textarea name="#" class="w-100"></textarea>
-                                                <button type="submit" class="btn btn-block btn-warning mb-3">Bình luận <i class="fas fa-comments"></i></button>
-                                            </form>
-                                            <div class="border-left border-bottom border-right row">
-                                                <div class="col-md-9">
-                                                    <p>ttttgggggggggggggggggggggggggggggggggggggfqqqqqqqqqqqqqqqqqqqqqqqqqqq</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span class="float-right">tên<img src="#" /></span>
-                                                    <p><i class="fas fa-clock"></i> 5h trước</p>
-                                                </div>
-                                            </div><br />
-                                            <div class="border-left border-bottom border-right row">
-                                                <div class="col-md-9">
-                                                    <p>ttttggggggggggggggggggggqqqqqqqqqqqqqqqqqqqq</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span class="float-right">tên<img src="#" /></span>
-                                                    <p><i class="fas fa-clock"></i> 5h trước</p>
-                                                </div>
-                                            </div>
-                                            <a class="badge badge-pill badge-info text-uppercas" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                <i class="fas fa-angle-double-up"></i><i class="fas fa-angle-double-up"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @Html.Action("ReplyPost", "Home", new { intPostId = Model.post_id, intUserId = Model.user_id })
                         </div>
                         <a class="navbar-brand mt--2" href="/" style="color:#f5365c;float:right"><span class="far fa-gem"></span>Five-P</a>
                     </div>
@@ -192,4 +202,21 @@
         </div>
     </div>
 </section>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    //vow bài post rate= true
+    $(document).ready(function () {
+        $("#btnRatePostT").click(function () {
+            var data = $("#formRatePostT").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Post/RatePostT",
+                data: data,
+                success: function (response) {
+                    alert("thêm thành công");
+                }
+            })
+        })
+    })
+</script>
 

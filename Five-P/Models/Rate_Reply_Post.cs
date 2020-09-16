@@ -12,13 +12,15 @@ namespace Five_P.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Technology_Care
+    public partial class Rate_Reply_Post
     {
-        public int technology_care_id { get; set; }
+        public int rate_reply_post_id { get; set; }
         public Nullable<int> user_id { get; set; }
-        public Nullable<int> technology_id { get; set; }
+        public Nullable<int> reply_post_id { get; set; }
+        public Nullable<bool> rate_reply_post1 { get; set; }
+        public Nullable<System.DateTime> rate_reply_post_datetime { get; set; }
     
-        public virtual Technology Technology { get; set; }
+        public virtual Reply_Post Reply_Post { get; set; }
         public virtual User User { get; set; }
     }
 }

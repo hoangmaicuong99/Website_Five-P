@@ -129,7 +129,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommentReplyPostController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\testController\PostsController.cs" />
+    <Compile Include="Controllers\testController\Rate_PostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -163,13 +167,22 @@
     <Compile Include="Models\Post.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Reply_Comment.cs">
+    <Compile Include="Models\Rate_Post.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Rate_Reply_Post.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Reply_Post.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Reviews_User.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Search.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Show_Activate_Post.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
@@ -178,10 +191,13 @@
     <Compile Include="Models\Tag.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Technology.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Technology_Care.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Type_Post.cs">
+    <Compile Include="Models\Tick_Post.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
@@ -1837,7 +1853,9 @@
     <Content Include="Content\LayoutNguoiDung\images\s3.png" />
     <Content Include="Content\LayoutNguoiDung\images\shared-bg.jpg" />
     <Content Include="Content\LayoutNguoiDung\images\video.jpg" />
+    <Content Include="Content\LayoutNguoiDung\ImgUser\emp1.jpg" />
     <Content Include="Content\LayoutNguoiDung\ImgUser\Khong gian trang thái.png" />
+    <Content Include="Content\LayoutNguoiDung\ImgUser\team-5.jpg" />
     <Content Include="Content\LayoutNguoiDung\js\bootstrap.min.js" />
     <Content Include="Content\LayoutNguoiDung\js\jquery-3.3.1.min.js" />
     <Content Include="Content\LayoutNguoiDung\js\jquery.magnific-popup.min.js" />
@@ -2204,6 +2222,8 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -2231,11 +2251,25 @@
     <Content Include="Views\Account\RegisterPersonalInformation.cshtml" />
     <Content Include="Views\Shared\LayoutRegisterPersonalInformation.cshtml" />
     <Content Include="Views\Account\ManageUser.cshtml" />
+    <Content Include="Views\Shared\_ViewQuestion.cshtml" />
+    <Content Include="Views\Home\ReplyPost.cshtml" />
+    <Content Include="Views\CommentReplyPost\Comment.cshtml" />
+    <Content Include="Views\Account\ShowAllPostOneUser.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Rate_Post\Create.cshtml" />
+    <Content Include="Views\Rate_Post\Delete.cshtml" />
+    <Content Include="Views\Rate_Post\Details.cshtml" />
+    <Content Include="Views\Rate_Post\Edit.cshtml" />
+    <Content Include="Views\Rate_Post\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Database\" />
-    <Folder Include="Controllers\testController\" />
+    <Folder Include="Views\Post\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

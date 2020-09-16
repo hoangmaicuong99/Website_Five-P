@@ -12,12 +12,15 @@ namespace Five_P.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Type_Post
+    public partial class Rate_Post
     {
-        public int type_post_id { get; set; }
-        public string type_post_name { get; set; }
+        public int rate_post_id { get; set; }
+        public Nullable<int> user_id { get; set; }
         public Nullable<int> post_id { get; set; }
+        public Nullable<bool> rate_post1 { get; set; }
+        public Nullable<System.DateTime> rate_post_datetime { get; set; }
     
         public virtual Post Post { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -14,11 +14,13 @@ namespace Five_P.Controllers
         // GET: Account
         FivePEntities db = new FivePEntities();
         String Viewhome = "/";
+        String AllQuestion = "/Home/AllQuestion";
         String strRegisterPersonalInformation = "/Account/RegisterPersonalInformation";
         // GET: TaiKhoan
-        public ActionResult UserPage()
+        public ActionResult UserPage(int? idUser)
         {
-            return View();
+            User user = db.Users.Where(n=>n.user_activate == true && n.user_activate_admin == true).FirstOrDefault(n => n.user_id == idUser);
+            return View(user);
         }
         [HttpPost]
         public ActionResult Login(FormCollection f)
@@ -33,7 +35,7 @@ namespace Five_P.Controllers
                 db.Users.Find(user.user_id).user_datelogin = DateTime.Now;
                 db.Users.Find(user.user_id).user_token = Guid.NewGuid().ToString();
                 db.SaveChanges();
-                return Redirect(Viewhome);
+                return Redirect(AllQuestion);
             }
             else
             {
@@ -119,6 +121,11 @@ namespace Five_P.Controllers
                 return Redirect(Viewhome);
             }
             return View(user);
+        }
+        public PartialViewResult ShowAllPostOneUser(int? idUser)
+        {
+            List<Post> listPost = db.Posts.Where(n => n.user_id == idUser && n.post_activate_admin == true && n.post_activate == true).ToList();
+            return PartialView(listPost);
         }
         public ActionResult ManageUser()
         {

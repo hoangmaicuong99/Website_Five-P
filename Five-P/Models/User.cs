@@ -22,9 +22,15 @@ namespace Five_P.Models
             this.Likes = new HashSet<Like>();
             this.Like_Reply_Post = new HashSet<Like_Reply_Post>();
             this.Posts = new HashSet<Post>();
-            this.Reply_Comment = new HashSet<Reply_Comment>();
+            this.Rate_Post = new HashSet<Rate_Post>();
+            this.Rate_Reply_Post = new HashSet<Rate_Reply_Post>();
             this.Reply_Post = new HashSet<Reply_Post>();
+            this.Show_Activate_Post = new HashSet<Show_Activate_Post>();
             this.Technology_Care = new HashSet<Technology_Care>();
+            this.Tick_Post = new HashSet<Tick_Post>();
+            this.Friends1 = new HashSet<Friend>();
+            this.Reviews_User = new HashSet<Reviews_User>();
+            this.Reviews_User1 = new HashSet<Reviews_User>();
         }
     
         public int user_id { get; set; }
@@ -46,6 +52,7 @@ namespace Five_P.Models
         public string user_hobby { get; set; }
         public Nullable<bool> user_activate_admin { get; set; }
         public Nullable<System.DateTime> user_date_born { get; set; }
+        public Nullable<int> user_popular { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
@@ -58,10 +65,22 @@ namespace Five_P.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Posts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reply_Comment> Reply_Comment { get; set; }
+        public virtual ICollection<Rate_Post> Rate_Post { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rate_Reply_Post> Rate_Reply_Post { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reply_Post> Reply_Post { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Show_Activate_Post> Show_Activate_Post { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Technology_Care> Technology_Care { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tick_Post> Tick_Post { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Friend> Friends1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reviews_User> Reviews_User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reviews_User> Reviews_User1 { get; set; }
     }
 }

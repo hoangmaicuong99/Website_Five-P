@@ -1,9 +1,20 @@
-﻿
+﻿@using Five_P.Models;
+@model List<Post>
 @{
     ViewBag.Title = "AllQuestion";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    FivePEntities db = new FivePEntities();
 }
-
+<style>
+    .RutNgan {
+        overflow: hidden;
+        line-height: 30px;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+</style>
 <section class="w3l-index-block2 py-5">
     <div class="container py-md-0">
         <div class="row bottom_grids pt-md-0">
@@ -32,15 +43,15 @@
                             </div><br />
                             <div class="row">
                                 <div class="blockquote-footer col-md-3">
-                                    11111
+                                    Có @ViewBag.demCauHoi
                                     <cite title="Source Title">Câu hỏi?</cite>
                                     </>
                                 </div>
                                 <div class="col-md-9 nav-item dropdown navbar">
-                                    <button type="button" class="btn btn-sm btn-info btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Mới</button>
-                                    <button type="button" class="btn btn-sm btn-success btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Chưa trả lời</button>
-                                    <button type="button" class="btn btn-sm btn-danger btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Đánh giá cao</button>
-                                    <button type="button" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Lượt xem</button>
+                                    <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#AllQuestion" href="@Url.Action("NewQuestion","Home")" class="btn btn-sm btn-info btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Mới</a>
+                                    <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#AllQuestion" href="@Url.Action("NoAnswer","Home")" class="btn btn-sm btn-success btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Chưa trả lời</a>
+                                    <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#AllQuestion" href="@Url.Action("Answer","Home")" class="btn btn-sm btn-danger btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Trả lời nhiều</a>
+                                    <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#AllQuestion" href="@Url.Action("Views","Home")" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Lượt xem</a>
                                     <a class="btn btn-sm btn-warning" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                         Lọc<i class="fas fa-angle-double-down"></i>
                                     </a>
@@ -49,7 +60,7 @@
                                             <div class="row">
                                                 <div class="col-md-6 border-right">
                                                     <div class="mb-3">
-                                                        <small class="text-uppercase font-weight-bold">Toggle buttons</small>
+                                                        <small class="text-uppercase font-weight-bold">Huy hiệu</small>
                                                     </div><label class="custom-toggle">
                                                         <input type="checkbox">
                                                         <span class="custom-toggle-slider rounded-circle"></span>
@@ -98,59 +109,78 @@
                                 </div>
                             </div>
                             <hr />
-                            <div class="s-block">
-                                <div href="#" class="d-block p-lg-4 p-3">
-                                    <div class="row">
-                                        <div class="col-md-3 border-right">
-                                            <div class="row h-25 ">
-                                                150 Đề xuất
-                                            </div>
-                                            <div class="row h-50">
-                                                <p class="mb--3">150 Đáp án</p>
-                                            </div>
-                                            <div class="row h-25 ">
-                                                150 Lượt xem
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="row">
-                                                Điểm danh tiếng
-                                            </div>
-                                            <div class="row h-auto">
-                                                Tiêu để câu hỏi.-----------------------
-                                            </div>
-                                            <div class="row h-auto">
-                                                Nội dung câu hỏi?----------------------
-                                            </div>
-                                            <div class="row h-auto">
-                                                <div class="col-md-7">
-                                                    thẻ câu hỏi?----------------------
+                            @foreach (var item in Model)
+                            {
+                                <div class="s-block" id="AllQuestion">
+                                    <div class="d-block p-lg-4 p-3">
+                                        <div class="row">
+                                            <div class="col-md-3 border-right">
+                                                <div class="row">
+                                                    <p>150 <i class="fab fa-galactic-senate" style="font-size:25px"></i> Đề xuất</p>
                                                 </div>
-                                                <div class="col-md-5" style="">
-                                                    <span style="float:right">hỏi ngày 20/12/2020</span>
+                                                <div class="row">
+                                                    @{
+                                                        List<Reply_Post> ReplyPost = db.Reply_Post.Where(n => n.post_id == item.post_id).ToList();
+                                                        int intDemReplyPost = ReplyPost.Count();
+                                                    }
+                                                    <p class="mt-3">@intDemReplyPost <i class="fas fa-lightbulb"></i> Đáp án</p>
+                                                </div>
+                                                <div class="row">
+                                                    <p>@item.post_view <i class="fas fa-eye"></i> Lượt xem</p>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="">
+                                                    <p><i class="fab fa-jedi-order" style="color:#f5ed0c;font-size:30px"></i> @item.post_popular Điểm danh tiếng của bài viết.</p>
+                                                </div>
+                                                <div class="h-auto">
+                                                    <a href="@Url.Action("DetailQuestion","Home", new { idpost = item.post_id})"><u>@item.post_title</u></a>
+                                                </div>
+                                                <div class="h-auto">
+                                                    <p class="RutNgan">@item.post_content</p>
+                                                </div>
+                                                <hr />
+                                                <div class="row h-auto">
+                                                    <div class="col-md-6">
+                                                        <span>@item.Technology.technology_name </span>
+                                                    </div>
+                                                    <div class="col-md-6" style="">
+                                                        <span style="float:right">Ngày đăng : @item.post_datecreated.Value.Day / @item.post_datecreated.Value.Month / @item.post_datecreated.Value.Year</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb--2">
+                                                    <div class="col-md-6"></div>
+                                                    <div class="col-md-6">
+                                                        <div>
+                                                            <a href="@Url.Action("UserPage","Account",new { idUser = item.user_id})">
+                                                                <img style="float:right" src="~/Content/LayoutNguoiDung/ImgUser/@item.User.user_img" alt="" class="w-50 h-50" />
+
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p style="float:right"><a href="@Url.Action("UserPage","Account",new { idUser = item.user_id})">@item.User.user_nicename</a> &nbsp;<i class="fab fa-galactic-senate" style="color:red;font-size:28px"></i> 5 | <i class="fas fa-medal" style="color:yellow"></i> 5| <i class="fas fa-medal" style="color:silver"></i> 5 | <i class="fas fa-medal" style="color:#e88d15"></i> 5|</p>
+                                                </div>
+                                                @{
+                                                    List<Technology_Care> listTechnologyCare = db.Technology_Care.Where(n => n.user_id == item.user_id).ToList();
+                                                }
+                                            <div class="row w-100">
                                                 <div class="col-md-6"></div>
-                                                <div class="col-md-6" style="">
-                                                    <img src="~/Content/LayoutNguoiDung/images/s2.png" alt="" class="img-fluid" />
-                                                    <span style="float:right">Người hỏi</span>
-                                                    <div>Điểm danh tiếng</div>
-                                                    <div>Điểm huy hiệu vàng</div>
-                                                    <div>Điểm huy hiệu bạc</div>
+                                                <div class="col-md-6 mt--2">
+                                                    @foreach (var item2 in listTechnologyCare)
+                                                    {
+                                                    <span class="float-right">&nbsp; @item2.Technology.technology_name&nbsp; | </span>
+                                                    }
                                                 </div>
                                             </div>
+                                            </div>
                                         </div>
+                                        <span><a href="https://www.facebook.com/sharer.php?u=https://localhost:44345/Home/DetailQuestion?idpost=@item.post_id"><i class="fas fa-share"></i> Chia sẽ <i class="fab fa-facebook" style="color:#4ba0d1"></i></a></span>
                                     </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div class="s-block">
-                                <div href="#" class="d-block p-lg-4 p-3">
-                                    <img src="~/Content/LayoutNguoiDung/images/s2.png" alt="" class="img-fluid" />
-                                    <p class="">Our goal is to help our companies maintain or achieve best in class positions. Build an online presence with this professional bootstrap 4 template.</p>
-                                </div>
-                            </div>
+                                <br />
+                            }
                         </div>
                     </div>
                 </div>
@@ -158,4 +188,5 @@
         </div>
     </div>
 </section>
-
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>

@@ -36,7 +36,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:;" id="navbar-primary_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Câu hỏi <i class="fas fa-question"></i></a>
                             <div class="dropdown-menu dropdown-menu-right row" aria-labelledby="navbar-primary_dropdown_1">
-                                <a class="dropdown-item" href="javascript:;">Tất cả câu hỏi ?</a>
+                                <a class="dropdown-item" href="@Url.Action("AllQuestion","Home")">Tất cả câu hỏi ?</a>
                                 <a class="dropdown-item" href="javascript:;">Word</a>
                                 <a class="dropdown-item" href="javascript:;">Excel</a>
                                 <a class="dropdown-item" href="javascript:;">C#</a>
@@ -51,7 +51,7 @@
                             <a class="nav-link" href="about.html">Liên hệ <i class="fas fa-phone"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Chính sách <i class="fas fa-grin-hearts"></i></a>
+                            <a class="nav-link" href="contact.html">Quy chế hoạt động <i class="fas fa-grin-hearts"></i></a>
                         </li>
                     </ul>
                     <div class="form-inline">
@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <span class="nav-item dropdown">
+            <div class="nav-item dropdown">
                 @if (Session["user"] != null)
                 {
                     <a class="avatar avatar-xs rounded-circle" href="javascript:;" id="navbar-primary_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img alt="Image placeholder" src="~/Content/UI/img/faces/team-4.jpg"></a>
@@ -81,7 +81,7 @@
                         <a class="dropdown-item" href="javascript:;"><i class="ni ni-user-run"></i>Tùy chọn cá nhân</a>
                     </div>
                 }
-            </span>
+            </div>
         </nav>
     </div>
     <!--DĂng ý-->

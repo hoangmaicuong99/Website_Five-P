@@ -12,17 +12,14 @@ namespace Five_P.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Reply_Comment
+    public partial class Tick_Post
     {
-        public int reply_comment_id { get; set; }
-        public string reply_comment_content { get; set; }
-        public Nullable<System.DateTime> reply_comment_datecreated { get; set; }
-        public Nullable<System.DateTime> reply_comment_dateedit { get; set; }
-        public Nullable<int> comment_id { get; set; }
+        public int tick_post_id { get; set; }
+        public Nullable<int> post_id { get; set; }
         public Nullable<int> user_id { get; set; }
-        public Nullable<int> reply_comment_option { get; set; }
+        public Nullable<System.DateTime> tick_post_datetime { get; set; }
     
-        public virtual Comment Comment { get; set; }
+        public virtual Post Post { get; set; }
         public virtual User User { get; set; }
     }
 }
