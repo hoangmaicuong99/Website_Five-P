@@ -31,6 +31,7 @@ namespace Five_P.Controllers
             if (user != null)
             {
                 Session["NotLogin"] = null;
+                Session["NotRegistration"] = null;
                 Session["user"] = user;
                 db.Users.Find(user.user_id).user_datelogin = DateTime.Now;
                 db.Users.Find(user.user_id).user_token = Guid.NewGuid().ToString();
@@ -59,6 +60,7 @@ namespace Five_P.Controllers
                 db.Users.Add(user);
                 db.SaveChanges();
                 Session["NotRegistration"] = null;
+                Session["NotLogin"] = null;
                 Session["user"] = user;
                 return Redirect(strRegisterPersonalInformation);
             }

@@ -46,6 +46,9 @@
         <AssociationConnector Association="FivePModel.FK_Friend_User1" />
         <AssociationConnector Association="FivePModel.FK_Reviews_User_User" />
         <AssociationConnector Association="FivePModel.FK_Reviews_User_User1" />
+        <EntityTypeShape EntityType="FivePModel.Show_Activate_Reply_Post" Width="1.5" PointX="10.5" PointY="17.25" />
+        <AssociationConnector Association="FivePModel.FK_Show_Activate_Reply_Post_Reply_Post" />
+        <AssociationConnector Association="FivePModel.FK_Show_Activate_Reply_Post_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

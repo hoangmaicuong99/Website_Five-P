@@ -31,6 +31,7 @@ namespace Five_P.Models
             this.Friends1 = new HashSet<Friend>();
             this.Reviews_User = new HashSet<Reviews_User>();
             this.Reviews_User1 = new HashSet<Reviews_User>();
+            this.Show_Activate_Reply_Post = new HashSet<Show_Activate_Reply_Post>();
         }
     
         public int user_id { get; set; }
@@ -82,5 +83,7 @@ namespace Five_P.Models
         public virtual ICollection<Reviews_User> Reviews_User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reviews_User> Reviews_User1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Show_Activate_Reply_Post> Show_Activate_Reply_Post { get; set; }
     }
 }

@@ -124,6 +124,16 @@
           <Property Name="show_activate_post_datetime" Type="datetime" />
           <Property Name="show_activate_post_Readed" Type="bit" />
         </EntityType>
+        <EntityType Name="Show_Activate_Reply_Post">
+          <Key>
+            <PropertyRef Name="show_activate_reply_post_id" />
+          </Key>
+          <Property Name="show_activate_reply_post_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="reply_post_id" Type="int" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="show_activate_reply_post_datetime" Type="datetime" />
+          <Property Name="show_activate_reply_post_readed" Type="bit" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -431,6 +441,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Show_Activate_Reply_Post_Reply_Post">
+          <End Role="Reply_Post" Type="Self.Reply_Post" Multiplicity="0..1" />
+          <End Role="Show_Activate_Reply_Post" Type="Self.Show_Activate_Reply_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reply_Post">
+              <PropertyRef Name="reply_post_id" />
+            </Principal>
+            <Dependent Role="Show_Activate_Reply_Post">
+              <PropertyRef Name="reply_post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Show_Activate_Reply_Post_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Show_Activate_Reply_Post" Type="Self.Show_Activate_Reply_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Show_Activate_Reply_Post">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Technology_Care_Technology">
           <End Role="Technology" Type="Self.Technology" Multiplicity="0..1" />
           <End Role="Technology_Care" Type="Self.Technology_Care" Multiplicity="*" />
@@ -491,6 +525,7 @@
           <EntitySet Name="Reviews_User" EntityType="Self.Reviews_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Search" EntityType="Self.Search" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Show_Activate_Post" EntityType="Self.Show_Activate_Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Show_Activate_Reply_Post" EntityType="Self.Show_Activate_Reply_Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Technology" EntityType="Self.Technology" Schema="dbo" store:Type="Tables" />
@@ -576,6 +611,14 @@
           <AssociationSet Name="FK_Show_Activate_Post_User" Association="Self.FK_Show_Activate_Post_User">
             <End Role="User" EntitySet="User" />
             <End Role="Show_Activate_Post" EntitySet="Show_Activate_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Show_Activate_Reply_Post_Reply_Post" Association="Self.FK_Show_Activate_Reply_Post_Reply_Post">
+            <End Role="Reply_Post" EntitySet="Reply_Post" />
+            <End Role="Show_Activate_Reply_Post" EntitySet="Show_Activate_Reply_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Show_Activate_Reply_Post_User" Association="Self.FK_Show_Activate_Reply_Post_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Show_Activate_Reply_Post" EntitySet="Show_Activate_Reply_Post" />
           </AssociationSet>
           <AssociationSet Name="FK_Technology_Care_Technology" Association="Self.FK_Technology_Care_Technology">
             <End Role="Technology" EntitySet="Technology" />
@@ -715,6 +758,7 @@
           <NavigationProperty Name="Post" Relationship="Self.FK_Reply_Post_Post" FromRole="Reply_Post" ToRole="Post" />
           <NavigationProperty Name="Rate_Reply_Post" Relationship="Self.FK_Rate_Reply_Post_Reply_Post" FromRole="Reply_Post" ToRole="Rate_Reply_Post" />
           <NavigationProperty Name="User" Relationship="Self.FK_Reply_Post_User" FromRole="Reply_Post" ToRole="User" />
+          <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="FivePModel.FK_Show_Activate_Reply_Post_Reply_Post" FromRole="Reply_Post" ToRole="Show_Activate_Reply_Post" />
         </EntityType>
         <EntityType Name="Search">
           <Key>
@@ -820,6 +864,7 @@
           <NavigationProperty Name="Friends1" Relationship="FivePModel.FK_Friend_User1" FromRole="User" ToRole="Friend" />
           <NavigationProperty Name="Reviews_User" Relationship="FivePModel.FK_Reviews_User_User" FromRole="User" ToRole="Reviews_User" />
           <NavigationProperty Name="Reviews_User1" Relationship="FivePModel.FK_Reviews_User_User1" FromRole="User" ToRole="Reviews_User" />
+          <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="FivePModel.FK_Show_Activate_Reply_Post_User" FromRole="User" ToRole="Show_Activate_Reply_Post" />
         </EntityType>
         <Association Name="FK_Comment_Reply_Post">
           <End Role="Reply_Post" Type="Self.Reply_Post" Multiplicity="0..1" />
@@ -1187,6 +1232,15 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Reviews_User" EntitySet="Reviews_User" />
           </AssociationSet>
+          <EntitySet Name="Show_Activate_Reply_Post" EntityType="FivePModel.Show_Activate_Reply_Post" />
+          <AssociationSet Name="FK_Show_Activate_Reply_Post_Reply_Post" Association="FivePModel.FK_Show_Activate_Reply_Post_Reply_Post">
+            <End Role="Reply_Post" EntitySet="Reply_Post" />
+            <End Role="Show_Activate_Reply_Post" EntitySet="Show_Activate_Reply_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Show_Activate_Reply_Post_User" Association="FivePModel.FK_Show_Activate_Reply_Post_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Show_Activate_Reply_Post" EntitySet="Show_Activate_Reply_Post" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Reviews_User">
           <Key>
@@ -1232,6 +1286,42 @@
             </Principal>
             <Dependent Role="Reviews_User">
               <PropertyRef Name="reviews_id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Show_Activate_Reply_Post">
+          <Key>
+            <PropertyRef Name="show_activate_reply_post_id" />
+          </Key>
+          <Property Name="show_activate_reply_post_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reply_post_id" Type="Int32" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="show_activate_reply_post_datetime" Type="DateTime" Precision="3" />
+          <Property Name="show_activate_reply_post_readed" Type="Boolean" />
+          <NavigationProperty Name="Reply_Post" Relationship="FivePModel.FK_Show_Activate_Reply_Post_Reply_Post" FromRole="Show_Activate_Reply_Post" ToRole="Reply_Post" />
+          <NavigationProperty Name="User" Relationship="FivePModel.FK_Show_Activate_Reply_Post_User" FromRole="Show_Activate_Reply_Post" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Show_Activate_Reply_Post_Reply_Post">
+          <End Type="FivePModel.Reply_Post" Role="Reply_Post" Multiplicity="0..1" />
+          <End Type="FivePModel.Show_Activate_Reply_Post" Role="Show_Activate_Reply_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reply_Post">
+              <PropertyRef Name="reply_post_id" />
+            </Principal>
+            <Dependent Role="Show_Activate_Reply_Post">
+              <PropertyRef Name="reply_post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Show_Activate_Reply_Post_User">
+          <End Type="FivePModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="FivePModel.Show_Activate_Reply_Post" Role="Show_Activate_Reply_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Show_Activate_Reply_Post">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1441,6 +1531,17 @@
                 <ScalarProperty Name="reviews_id_user" ColumnName="reviews_id_user" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="reviews_user_id" ColumnName="reviews_user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Show_Activate_Reply_Post">
+            <EntityTypeMapping TypeName="FivePModel.Show_Activate_Reply_Post">
+              <MappingFragment StoreEntitySet="Show_Activate_Reply_Post">
+                <ScalarProperty Name="show_activate_reply_post_readed" ColumnName="show_activate_reply_post_readed" />
+                <ScalarProperty Name="show_activate_reply_post_datetime" ColumnName="show_activate_reply_post_datetime" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="reply_post_id" ColumnName="reply_post_id" />
+                <ScalarProperty Name="show_activate_reply_post_id" ColumnName="show_activate_reply_post_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

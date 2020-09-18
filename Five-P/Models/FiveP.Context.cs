@@ -42,5 +42,6 @@ namespace Five_P.Models
         public virtual DbSet<Tick_Post> Tick_Post { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Reviews_User> Reviews_User { get; set; }
+        public virtual DbSet<Show_Activate_Reply_Post> Show_Activate_Reply_Post { get; set; }
     }
 }

@@ -3,6 +3,8 @@
 @{
     User user = (User)Session["user"];
     FivePEntities db = new FivePEntities();
+    var varColorOrange = "orange";
+    var varColorMain = "#5e72e4";
 }
 @foreach (var item in Model)
 {
@@ -22,84 +24,41 @@
                         <!--Kiểm tra nút vow-->
                         @if (user == null)
                         {
-                            <a data-toggle="modal" data-target="#modal-notification" class="text-center"><i class="far fa-caret-square-up w-50 h-50"></i></a>
-                            <div class="w-100 text-center mt--5"><p style="font-size:200%;color:#ff0090">@intDivided</p></div>
-
-                            <a data-toggle="modal" data-target="#modal-notification" class="text-center"><i class="far fa-caret-square-down w-50 h-50"></i></a>
+                            <button data-toggle="modal" data-target="#modal-notification" class="btn btn-link"><i class="far fa-caret-square-up w-25 h-25"></i></button>
+                            <div class="w-100 text-center"><p style="font-size:200%;color:#ff0090">@intDivided</p></div>
+                            <button data-toggle="modal" data-target="#modal-notification" class="btn btn-link"><i class="far fa-caret-square-down w-25 h-25"></i></button>
                         }
                         else
                         {
-                            <form id="formRateReplyPostT">
+                            Rate_Reply_Post checkUserRateReplyPostT = db.Rate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.user_id == user.user_id && n.rate_reply_post1 == true).FirstOrDefault();
+                            <form id="formRateReplyPostT@{@item.reply_post_id}" class="changSizeButtonRatePost">
                                 <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
-                                <button type="button" id="btnRateReplyPostT" class="btn btn-link"><i class="far fa-caret-square-up w-25 h-25"></i></button>
+                                <button onclick="btnButtonChangeRateReplyPostT@{@item.reply_post_id}()" type="button" id="btnRateReplyPostT@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (checkUserRateReplyPostT != null) { @varColorOrange} else { @varColorMain}" id="RateReplyPostT@{@item.reply_post_id}" class="far fa-caret-square-up w-25 h-25"></i></button>
                             </form>
-                            <div class="w-100 text-center"><p style="font-size:200%;color:#ff0090">@intDivided</p></div>
-                            <form id="formRatePostF">
+                            //vow trên
+                            <div class="w-100 text-center"><p style="font-size:200%;color:#ff0090" id="coutRateReplyPost@{@item.reply_post_id}">@intDivided</p></div>
+                            //vow dưới
+                            Rate_Reply_Post checkUserRateReplyPostF = db.Rate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.user_id == user.user_id && n.rate_reply_post1 == false).FirstOrDefault();
+                            <form id="formRateReplyPostF@{@item.reply_post_id}" class="changSizeButtonRatePost">
                                 <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
-                                <button type="button" id="btnRatePostF" class="btn btn-link"><i class="far fa-caret-square-down w-25 h-25"></i></button>
+                                <button onclick="btnButtonChangeRateReplyPostF@{@item.reply_post_id}()" type="button" id="btnRateReplyPostF@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (checkUserRateReplyPostF != null) { @varColorOrange} else { @varColorMain}" id="RateReplyPostF@{@item.reply_post_id}" class="far fa-caret-square-down w-25 h-25"></i></button>
                             </form>
                         }
-                    </div>
-                    <!--Model thông báo-->
-                    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
-                        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
-                            <div class="modal-content bg-gradient-danger">
-                                <div class="modal-header">
-                                    <h6 class="modal-title" id="modal-title-notification">Thông báo đến bạn!!</h6>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="py-3 text-center">
-                                        <i class="ni ni-bell-55 ni-3x"></i>
-                                        <h4 class="heading mt-4">Đăng nhập để thực hiện chức năng này.</h4>
-                                        <p>Five-P cảm ơn!</p>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-white">Đăng nhập</button>
-                                    <button type="button" class="btn btn-white">Đăng ký</button>
-                                    <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Đóng</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="" style="color:#fc45ff;text-align:center">
                         @if (user == null)
                         {
-                            <a href="#" data-toggle="modal" data-target="#modal-notification"><i class="fas fa-history" style="width:12%;height:12%"></i></a>
+                            <button class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="fas fa-history" style="width:12%;height:12%"></i></button>
                         }
                         else
                         {
-                            <a href="#"><i class="fas fa-history" style="width:12%;height:12%"></i></a>
+                            Show_Activate_Reply_Post showActivateReplyPost = db.Show_Activate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.user_id == user.user_id).FirstOrDefault();
+                            <form id="formShowActivateReplyPost@{@item.reply_post_id}" class="changSizeButtonRatePost">
+                                <input type="hidden" name="reply_post_id" value="@item.reply_post_id"/>
+                                <button onclick="btnChangeShowActivateReplyPost@{@item.reply_post_id}()" type="button" id="btnButtonChangeActivateReplyPost@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (showActivateReplyPost != null) { @varColorOrange} else { @varColorMain}" id="ShowActivateReplyPost@{@item.reply_post_id}" class="fas fa-history w-25 h-25"></i></button>
+                            </form>
                         }
                         <!--hien thị hoạt động bài viết này-->
-                    </div>
-                    <!--Hiển thị thông báo-->
-                    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
-                        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
-                            <div class="modal-content bg-gradient-danger">
-                                <div class="modal-header">
-                                    <h6 class="modal-title" id="modal-title-notification">Thông báo đến bạn!!</h6>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="py-3 text-center">
-                                        <i class="ni ni-bell-55 ni-3x"></i>
-                                        <h4 class="heading mt-4">Đăng nhập để thực hiện chức năng này.</h4>
-                                        <p>Five-P cảm ơn!</p>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-white">Đăng nhập</button>
-                                    <button type="button" class="btn btn-white">Đăng ký</button>
-                                    <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Đóng</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -126,19 +85,19 @@
                                 if (user == null)
                                 {
                                     <div><a href="@Url.Action("Index", "Home")">Đăng nhập kết bạn @{Session["NotLogin"] = "<i class='fas fa-times-circle'>&nbsp;</i> Sai tài khoản hoặc mật khẩu!";}</a></div>
-                                }
-                                else
-                                {
-                                    Friend friend = db.Friends.FirstOrDefault(n => n.user_friend_id == item.user_id && n.user_id == user.user_id);
-                                    if (friend == null)
-                                    {
+                                        }
+                                        else
+                                        {
+                                            Friend friend = db.Friends.FirstOrDefault(n => n.user_friend_id == item.user_id && n.user_id == user.user_id);
+                                            if (friend == null)
+                                            {
                                         <div><a href="#">Kết bạn</a></div>
-                                    }
-                                    else
-                                    {
+                                            }
+                                            else
+                                            {
                                         <div>Bạn bè</div>
-                                    }
-                                }
+                                            }
+                                        }
                             }
                             <div>Huy hiệu <i class="fas fa-medal" style="color:yellow"></i> 5</div>
                             <div>Huy hiệu <i class="fas fa-medal" style="color:silver"></i> 5</div>
@@ -164,34 +123,96 @@
             </div>
         </div>
     </div>
+    <script>
+        //nút vow trả lời bài viết
+        $(document).ready(function () {
+            $("#btnRateReplyPostT@{@item.reply_post_id}").click(function () {
+                var data = $("#formRateReplyPostT@{@item.reply_post_id}").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/RateReplyPostT",
+                    data: data,
+                    success: function (response) {
+                        window.alert("Sữa thành công");
+                        $(this).show();
+                    }
+                })
+            })
+        })
+        $(document).ready(function () {
+            $("#btnRateReplyPostF@{@item.reply_post_id}").click(function () {
+                var data = $("#formRateReplyPostF@{@item.reply_post_id}").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/RateReplyPostF",
+                    data: data,
+                    success: function (response) {
+                        window.alert("Sữa thành công");
+                        $(this).show();
+                    }
+                })
+            })
+        })
+        //đổi màu các nút vow
+        function btnButtonChangeRateReplyPostT@{@item.reply_post_id}()
+        {
+                if (document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color == 'orange')
+                {
+                    document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) + 2;
+                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "orange";
+                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "#5e72e4";
+                }
+                else if (document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color == 'orange')
+                {
+                    document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) - 1;
+                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "#5e72e4";
+                }
+                else {
+                    document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) + 1;
+                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "orange";
+                }
+            }
+            function btnButtonChangeRateReplyPostF@{@item.reply_post_id}()
+            {
+                if (document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color == 'orange') {
+                    document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) - 2;
+                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "orange";
+                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "#5e72e4";
+                }
+                else if (document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color == 'orange') {
+                    document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) + 1;
+                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "#5e72e4";
+                }
+                else {
+                    document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) - 1;
+                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "orange";
+                }
+        }
+        //Save hiển thị hoạt động của bài viết (show activate reply post)
+        $(document).ready(function () {
+            $("#btnButtonChangeActivateReplyPost@{@item.reply_post_id}").click(function () {
+                var data = $("#formShowActivateReplyPost@{@item.reply_post_id}").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/ShowActivateReplyPost",
+                    data: data,
+                    success: function (response) {
+                        window.alert("Sữa thành công");
+                        $(this).show();
+                    }
+                })
+            })
+        })
+        //Đổi màu cho nút hiển thị hoạt động trả lời bài viết (show activate reply post)
+        function btnChangeShowActivateReplyPost@{@item.reply_post_id}()
+        {
+            if (document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color == "orange")
+            {
+                document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color = "#5e72e4";
+            }
+            else {
+                document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color = 'orange';
+            }
+        }
+    </script>
 }
-<script>
-    $(document).ready(function () {
-        $("#btnRateReplyPostT").click(function () {
-            var data = $("#formRateReplyPostT").serialize();
-            $.ajax({
-                type: "POST",
-                url: "/Home/RateReplyPostT",
-                data: data,
-                success: function (response) {
-                    window.alert("Sữa thành công");
-                    $(this).show();
-                }
-            })
-        })
-    })
-    $(document).ready(function () {
-        $("#btnRatePostF").click(function () {
-            var data = $("#formRatePostF").serialize();
-            $.ajax({
-                type: "POST",
-                url: "/Home/RateReplyPostT",
-                data: data,
-                success: function (response) {
-                    window.alert("Sữa thành công");
-                    $(this).show();
-                }
-            })
-        })
-    })
-</script>

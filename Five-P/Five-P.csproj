@@ -135,6 +135,9 @@
     <Compile Include="Controllers\testController\PostsController.cs" />
     <Compile Include="Controllers\testController\Rate_PostController.cs" />
     <Compile Include="Controllers\testController\Rate_Reply_PostController.cs" />
+    <Compile Include="Controllers\testController\Show_Activate_PostController.cs" />
+    <Compile Include="Controllers\testController\Show_Activate_Reply_PostController.cs" />
+    <Compile Include="Controllers\testController\Tick_PostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -184,6 +187,9 @@
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Show_Activate_Post.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Show_Activate_Reply_Post.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
@@ -2271,6 +2277,21 @@
     <Content Include="Views\Rate_Reply_Post\Details.cshtml" />
     <Content Include="Views\Rate_Reply_Post\Edit.cshtml" />
     <Content Include="Views\Rate_Reply_Post\Index.cshtml" />
+    <Content Include="Views\Tick_Post\Create.cshtml" />
+    <Content Include="Views\Tick_Post\Delete.cshtml" />
+    <Content Include="Views\Tick_Post\Details.cshtml" />
+    <Content Include="Views\Tick_Post\Edit.cshtml" />
+    <Content Include="Views\Tick_Post\Index.cshtml" />
+    <Content Include="Views\Show_Activate_Post\Create.cshtml" />
+    <Content Include="Views\Show_Activate_Post\Delete.cshtml" />
+    <Content Include="Views\Show_Activate_Post\Details.cshtml" />
+    <Content Include="Views\Show_Activate_Post\Edit.cshtml" />
+    <Content Include="Views\Show_Activate_Post\Index.cshtml" />
+    <Content Include="Views\Show_Activate_Reply_Post\Create.cshtml" />
+    <Content Include="Views\Show_Activate_Reply_Post\Delete.cshtml" />
+    <Content Include="Views\Show_Activate_Reply_Post\Details.cshtml" />
+    <Content Include="Views\Show_Activate_Reply_Post\Edit.cshtml" />
+    <Content Include="Views\Show_Activate_Reply_Post\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

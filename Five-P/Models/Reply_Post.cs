@@ -19,6 +19,7 @@ namespace Five_P.Models
         {
             this.Comments = new HashSet<Comment>();
             this.Rate_Reply_Post = new HashSet<Rate_Reply_Post>();
+            this.Show_Activate_Reply_Post = new HashSet<Show_Activate_Reply_Post>();
         }
     
         public int reply_post_id { get; set; }
@@ -38,5 +39,7 @@ namespace Five_P.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rate_Reply_Post> Rate_Reply_Post { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Show_Activate_Reply_Post> Show_Activate_Reply_Post { get; set; }
     }
 }

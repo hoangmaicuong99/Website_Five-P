@@ -29,6 +29,50 @@ namespace Five_P.Controllers
             Post post = db.Posts.FirstOrDefault(n => n.post_id == idpost);
             return View(post);
         }
+        //Đánh giấu bài viết tick post
+        [HttpPost]
+        public ActionResult SaveTickPost(Tick_Post tick_Post)
+        {
+            User user = (User)Session["user"];
+            Tick_Post tickPost = db.Tick_Post.Where(n => n.post_id == tick_Post.post_id && n.user_id == user.user_id).FirstOrDefault();
+            if(tickPost == null)
+            {
+                tick_Post.user_id = user.user_id;
+                tick_Post.tick_post_datetime = DateTime.Now;
+                db.Tick_Post.Add(tick_Post);
+                db.SaveChanges();
+                return View();
+            }
+            else
+            {
+                db.Tick_Post.Remove(db.Tick_Post.Find(tickPost.tick_post_id));
+                db.SaveChanges();
+                return View();
+            }
+        }
+        //Hiển thị hoạt động của bài viết
+        [HttpPost]
+        public ActionResult SaveShowActivatePost(Show_Activate_Post show_Activate_Post)
+        {
+            User user = (User)Session["user"];
+            Show_Activate_Post showActivatePost = db.Show_Activate_Post.FirstOrDefault(n => n.post_id == show_Activate_Post.post_id && n.user_id == user.user_id);
+            if(showActivatePost == null)
+            {
+                show_Activate_Post.user_id = user.user_id;
+                show_Activate_Post.show_activate_post_datetime = DateTime.Now;
+                show_Activate_Post.show_activate_post_Readed = true;
+                db.Show_Activate_Post.Add(show_Activate_Post);
+                db.SaveChanges();
+                return View();
+            }
+            else
+            {
+                db.Show_Activate_Post.Remove(db.Show_Activate_Post.Find(showActivatePost.show_activate_post_id));
+                db.SaveChanges();
+                return View();
+            }
+            
+        }
         //vow post trong chi tiết bài post
         [HttpPost]
         public ActionResult RatePostT(Rate_Post rate_Post)
@@ -141,7 +185,55 @@ namespace Five_P.Controllers
                 return View();
             }
         }
-
+        [HttpPost]
+        public ActionResult RateReplyPostF(Rate_Reply_Post rate_Reply_Post)
+        {
+            User user = (User)Session["user"];
+            Rate_Reply_Post rateReplyPost = db.Rate_Reply_Post.Where(n => n.reply_post_id == rate_Reply_Post.reply_post_id && n.user_id == user.user_id).SingleOrDefault();
+            if (rateReplyPost == null)
+            {
+                rate_Reply_Post.user_id = user.user_id;
+                rate_Reply_Post.rate_reply_post1 = false;
+                rate_Reply_Post.rate_reply_post_datetime = DateTime.Now;
+                db.Rate_Reply_Post.Add(rate_Reply_Post);
+                db.SaveChanges();
+                return View();
+            }
+            else if (rateReplyPost.rate_reply_post1 == false)
+            {
+                db.Rate_Reply_Post.Find(rateReplyPost.rate_reply_post_id).rate_reply_post1 = null;
+                db.SaveChanges();
+                return View();
+            }
+            else
+            {
+                db.Rate_Reply_Post.Find(rateReplyPost.rate_reply_post_id).rate_reply_post1 = false;
+                db.SaveChanges();
+                return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult ShowActivateReplyPost(Show_Activate_Reply_Post show_Activate_Reply_Post)
+        {
+            User user = (User)Session["user"];
+            Show_Activate_Reply_Post showActivateReplyPost = db.Show_Activate_Reply_Post.Where(n => n.reply_post_id == show_Activate_Reply_Post.reply_post_id && n.user_id == user.user_id).FirstOrDefault();
+            if(showActivateReplyPost == null)
+            {
+                show_Activate_Reply_Post.show_activate_reply_post_datetime = DateTime.Now;
+                show_Activate_Reply_Post.show_activate_reply_post_readed = true;
+                show_Activate_Reply_Post.user_id = user.user_id;
+                db.Show_Activate_Reply_Post.Add(show_Activate_Reply_Post);
+                db.SaveChanges();
+                return View();
+            }
+            else
+            {
+                db.Show_Activate_Reply_Post.Remove(db.Show_Activate_Reply_Post.Find(showActivateReplyPost.show_activate_reply_post_id));
+                db.SaveChanges();
+                return View();
+            }
+            
+        }
 
 
 
