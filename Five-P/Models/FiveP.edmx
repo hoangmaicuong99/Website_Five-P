@@ -24,6 +24,7 @@
           <Property Name="friend_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="user_id" Type="int" />
           <Property Name="user_friend_id" Type="int" />
+          <Property Name="friend_status" Type="bit" />
         </EntityType>
         <EntityType Name="Like">
           <Key>
@@ -664,6 +665,7 @@
           <Property Name="user_friend_id" Type="Int32" />
           <NavigationProperty Name="User" Relationship="Self.FK_Friend_User" FromRole="Friend" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="FivePModel.FK_Friend_User1" FromRole="Friend" ToRole="User" />
+          <Property Name="friend_status" Type="Boolean" />
         </EntityType>
         <EntityType Name="Like">
           <Key>
@@ -1347,6 +1349,7 @@
           <EntitySetMapping Name="Friends">
             <EntityTypeMapping TypeName="FivePModel.Friend">
               <MappingFragment StoreEntitySet="Friend">
+                <ScalarProperty Name="friend_status" ColumnName="friend_status" />
                 <ScalarProperty Name="friend_id" ColumnName="friend_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="user_friend_id" ColumnName="user_friend_id" />

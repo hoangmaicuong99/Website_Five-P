@@ -9,9 +9,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .changSizeButtonRatePost .w-25:hover{
+    .changSizeButtonRatePost .w-25:hover {
         width: 28% !important;
-        transition-duration:0.2s;
+        transition-duration: 0.2s;
     }
 </style>
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
@@ -133,7 +133,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <a href="@Url.Action("Index","Home")" onclick="TakeSessionLogin()" class="btn btn-white">Đăng nhập</a>
+                                                                <a href="@Url.Action("BackLogin","Home")" class="btn btn-white">Đăng nhập</a>
+                                                                <a href="@Url.Action("BackRegistration","Home")" class="btn btn-white">Đăng Ký</a>
                                                                 <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Đóng</button>
                                                             </div>
                                                         </div>
@@ -151,7 +152,7 @@
                                                     {
                                                         Show_Activate_Post showActivatePost = db.Show_Activate_Post.FirstOrDefault(n => n.post_id == Model.post_id && n.user_id == user.user_id);
                                                         <form id="formShowActivatePost@{@Model.post_id}" class="changSizeButtonRatePost">
-                                                            <input  type="hidden" name="post_id" value="@Model.post_id"/>
+                                                            <input type="hidden" name="post_id" value="@Model.post_id" />
                                                             <button onclick="btnButtonChangeShowActivatePost()" id="btnShowActivatePost@{@Model.post_id}" type="button" class="btn btn-link"><i style="color:@if (showActivatePost != null) {@varColorOrange } else { @varColorMain}" id="ShowActivatePost" class="fas fa-history w-25 h-25"></i></button>
                                                         </form>
                                                     }
@@ -199,6 +200,24 @@
                                 </div>
                             </div>
                             @Html.Action("ReplyPost", "Home", new { intPostId = Model.post_id, intUserId = Model.user_id })
+                        </div>
+                        <hr />
+                        <div>
+                            <h3 class="heading-title text-warning mb-0">Ý kiến của bạn... </h3>
+                            <form action="@Url.Action("ReplyPost","Post")" method="post">
+                                <textarea name="reply_post_title" placeholder="Tiêu đề..." class="w-100"></textarea>
+                                <input type="hidden" name="post_id" value="@Model.post_id" />
+                                <textarea name="reply_post_content" class="ckeditor"></textarea>
+                                <!--Trả lời bài viết-->
+                                @if (user == null)
+                                {
+                                    <button type="button" class="btn btn-warning w-100" data-toggle="modal" data-target="#modal-notification">Trả lời</button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-warning w-100">Trả lời</button>
+                                }
+                            </form>
                         </div>
                         <a class="navbar-brand mt--2" href="/" style="color:#f5365c;float:right"><span class="far fa-gem"></span>Five-P</a>
                     </div>
@@ -319,10 +338,6 @@
         else {
             document.getElementById("ShowActivatePost").style.color = "orange";
         }
-    }
-    //lấy session của login
-    function TakeSessionLogin() {
-        @{Session["NotLogin"] = "<i>&nbsp; Nhập tài khoản mật khẩu</i>";};
     }
 </script>
 

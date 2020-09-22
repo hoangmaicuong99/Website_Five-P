@@ -5,15 +5,27 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Five_P.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace Five_P.Controllers
 {
     public class HomeController : Controller
     {
+        String strHome = "Index";
         FivePEntities db = new FivePEntities();
         public ActionResult Index()
         {
             return View();
+        }
+        public ActionResult BackRegistration()
+        {
+            Session["NotRegistration"] = "Đăng ký để đăng câu hỏi ^_^";
+            return RedirectToAction(strHome);
+        }
+        public ActionResult BackLogin()
+        {
+            Session["NotLogin"] = "Nhập tài khoản mật khẩu";
+            return RedirectToAction("Index");
         }
         public ActionResult AllQuestion()
         {
@@ -234,7 +246,19 @@ namespace Five_P.Controllers
             }
             
         }
-
+        //comment
+        [HttpPost]
+        public ActionResult CommentHttpost(Comment comment)
+        {
+            User user = (User)Session["user"];
+            comment.comment_datecreated = DateTime.Now;
+            comment.comment_dateedit = DateTime.Now;
+            comment.comment_option = 0;
+            comment.user_id = user.user_id;
+            db.Comments.Add(comment);
+            db.SaveChanges();
+            return View();
+        }
 
 
 

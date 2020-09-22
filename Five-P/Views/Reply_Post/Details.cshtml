@@ -1,0 +1,83 @@
+﻿@model Five_P.Models.Reply_Post
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Reply_Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.reply_post_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reply_post_content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reply_post_datecreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reply_post_datecreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reply_post_dateedit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reply_post_dateedit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reply_post_activate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reply_post_activate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reply_post_title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reply_post_title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Like_Reply_Post.like_reply_post_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Like_Reply_Post.like_reply_post_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Post.post_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Post.post_content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.user_pass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.user_pass)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.reply_post_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

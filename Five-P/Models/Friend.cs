@@ -17,6 +17,7 @@ namespace Five_P.Models
         public int friend_id { get; set; }
         public Nullable<int> user_id { get; set; }
         public Nullable<int> user_friend_id { get; set; }
+        public Nullable<bool> friend_status { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }

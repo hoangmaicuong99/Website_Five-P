@@ -5,7 +5,11 @@
     FivePEntities db = new FivePEntities();
     var varColorOrange = "orange";
     var varColorMain = "#5e72e4";
+    var varFriend = "Nhắn tin";
+    var varAddFriend = "Kết bạn";
+    var varFinishFriend = "Đã gửi kết bạn";
 }
+
 @foreach (var item in Model)
 {
     <br />
@@ -43,7 +47,7 @@
                                 <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
                                 <button onclick="btnButtonChangeRateReplyPostF@{@item.reply_post_id}()" type="button" id="btnRateReplyPostF@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (checkUserRateReplyPostF != null) { @varColorOrange} else { @varColorMain}" id="RateReplyPostF@{@item.reply_post_id}" class="far fa-caret-square-down w-25 h-25"></i></button>
                             </form>
-                        }
+                            }
                     </div>
                     <div class="" style="color:#fc45ff;text-align:center">
                         @if (user == null)
@@ -54,10 +58,10 @@
                         {
                             Show_Activate_Reply_Post showActivateReplyPost = db.Show_Activate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.user_id == user.user_id).FirstOrDefault();
                             <form id="formShowActivateReplyPost@{@item.reply_post_id}" class="changSizeButtonRatePost">
-                                <input type="hidden" name="reply_post_id" value="@item.reply_post_id"/>
+                                <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
                                 <button onclick="btnChangeShowActivateReplyPost@{@item.reply_post_id}()" type="button" id="btnButtonChangeActivateReplyPost@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (showActivateReplyPost != null) { @varColorOrange} else { @varColorMain}" id="ShowActivateReplyPost@{@item.reply_post_id}" class="fas fa-history w-25 h-25"></i></button>
                             </form>
-                        }
+    }
                         <!--hien thị hoạt động bài viết này-->
                     </div>
                 </div>
@@ -66,7 +70,7 @@
                         <p>@item.reply_post_title</p>
                     </div>
                     <div class="row h-auto">
-                        <p>@item.reply_post_content</p>
+                        <p>@Html.Raw(item.reply_post_content)</p>
                     </div>
                     <div class="row h-auto">
                         <div class="col-md-7">
@@ -84,18 +88,29 @@
                             @{
                                 if (user == null)
                                 {
-                                    <div><a href="@Url.Action("Index", "Home")">Đăng nhập kết bạn @{Session["NotLogin"] = "<i class='fas fa-times-circle'>&nbsp;</i> Sai tài khoản hoặc mật khẩu!";}</a></div>
+                                    // còn kiểm tra đó là mình thì không được kết bạn
+                                    <div><a href="@Url.Action("Index", "Home")">Đăng nhập kết bạn</a></div>
                                         }
                                         else
                                         {
-                                            Friend friend = db.Friends.FirstOrDefault(n => n.user_friend_id == item.user_id && n.user_id == user.user_id);
-                                            if (friend == null)
+                                            Friend sfriend = db.Friends.Where(n => n.user_id == user.user_id || n.user_friend_id == item.user_id && n.user_id == item.user_id || n.user_friend_id == user.user_id).FirstOrDefault();
+                                            if (sfriend == null)
                                             {
-                                        <div><a href="#">Kết bạn</a></div>
+                                        <form id="formAddFriend@{@item.reply_post_id}">
+                                            <input type="hidden" name="user_friend_id" value="@item.user_id" />
+                                            <button onclick="BtnChangeValueAddFriend@{@item.reply_post_id}()" id="btnAddFriend@{@item.reply_post_id}" type="button" class="btn btn-sm btn-primary">@varAddFriend</button>
+                                        </form>
                                             }
-                                            else
+                                            else if (sfriend.friend_status == true)
                                             {
-                                        <div>Bạn bè</div>
+                                                <button  id="" type="button" class="btn btn-sm btn-primary">@varFriend</button>
+                                            }
+                                            else if (sfriend.friend_status == false) 
+                                            { 
+                                                <form id="formAddFriend@{@item.reply_post_id}">
+                                                    <input type="hidden" name="user_friend_id" value="@item.user_id" />
+                                                    <button onclick="BtnChangeValueAddFriend@{@item.reply_post_id}()" id="btnAddFriend@{@item.reply_post_id}" type="button" class="btn btn-sm btn-primary">@varFinishFriend</button>
+                                                </form>
                                             }
                                         }
                             }
@@ -106,16 +121,29 @@
                     </div>
                 </div>
             </div>
-            <a class="badge badge-pill badge-info text-uppercase" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <a class="badge badge-pill badge-info text-uppercase" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="@item.post_id">
                 Bình luận <i class="fas fa-angle-double-down"></i>
             </a>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
-                    <form>
-                        <textarea name="#" class="w-100"></textarea>
-                        <button type="submit" class="btn btn-block btn-warning mb-3">Bình luận <i class="fas fa-comments"></i></button>
+                    <div id="showComment@{@item.reply_post_id}">
+                        @Html.Action("Comment", "CommentReplyPost", new { idReplyPost = item.reply_post_id })
+                    </div>
+                    <form id="formComment@{@item.reply_post_id}">
+                        <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
+                        <input type="hidden" id="user_nicename@{@item.reply_post_id}" value="@if (user != null) { @user.user_nicename}" />
+                        <input type="hidden" id="date_created@{@item.reply_post_id}" value="@DateTime.Now" />
+                        <textarea name="comment_content" id="contentReplyPost@{@item.reply_post_id}" class="w-100"></textarea>
+                        <!--Comment-->
+                        @if (user == null)
+                        {
+                            <button type="button" class="btn btn-block btn-warning mb-3" data-toggle="modal" data-target="#modal-notification">Bình luận</button>
+                        }
+                        else
+                        {
+                            <button id="btnComment@{@item.reply_post_id}" type="reset" class="btn btn-block btn-warning mb-3">Bình luận <i class="fas fa-comments"></i></button>
+    }
                     </form>
-                    @Html.Action("Comment", "CommentReplyPost", new { idReplyPost = item.reply_post_id })
                     <a class="badge badge-pill badge-info text-uppercas" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                         <i class="fas fa-angle-double-up"></i><i class="fas fa-angle-double-up"></i>
                     </a>
@@ -123,34 +151,34 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="text/javascript">
         //nút vow trả lời bài viết
         $(document).ready(function () {
             $("#btnRateReplyPostT@{@item.reply_post_id}").click(function () {
-                var data = $("#formRateReplyPostT@{@item.reply_post_id}").serialize();
+                                    var data = $("#formRateReplyPostT@{@item.reply_post_id}").serialize();
                 $.ajax({
-                    type: "POST",
+                                    type: "POST",
                     url: "/Home/RateReplyPostT",
                     data: data,
                     success: function (response) {
-                        window.alert("Sữa thành công");
+                                            window.alert("Sữa thành công");
                         $(this).show();
-                    }
-                })
+                                        }
+                                    })
             })
         })
         $(document).ready(function () {
             $("#btnRateReplyPostF@{@item.reply_post_id}").click(function () {
-                var data = $("#formRateReplyPostF@{@item.reply_post_id}").serialize();
+                                    var data = $("#formRateReplyPostF@{@item.reply_post_id}").serialize();
                 $.ajax({
-                    type: "POST",
+                                    type: "POST",
                     url: "/Home/RateReplyPostF",
                     data: data,
                     success: function (response) {
-                        window.alert("Sữa thành công");
+                                            window.alert("Sữa thành công");
                         $(this).show();
-                    }
-                })
+                                        }
+                                    })
             })
         })
         //đổi màu các nút vow
@@ -212,6 +240,60 @@
             }
             else {
                 document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color = 'orange';
+            }
+        }
+        //comment
+        $(document).ready(function () {
+            $("#btnComment@{@item.reply_post_id}").click(function () {
+                var checkContentInput = document.getElementById("contentReplyPost@{@item.reply_post_id}").value;
+                if (checkContentInput.length < 2 || checkContentInput == '' || checkContentInput.length > 249) {
+                alert("ít nhất 2 ký tự, nhỏ hơn 249 ký tự và không được để trống");
+            }
+            else
+            {
+                var noidung = $("#contentReplyPost@{@item.reply_post_id}").val();
+                var tennguoidung = $("#user_nicename@{@item.reply_post_id}").val();
+                var ngaytao = $("#date_created@{@item.reply_post_id}").val();
+                var data = $("#formComment@{@item.reply_post_id}").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/CommentReplyPost/Comment",
+                    data: data,
+                    complete: function () {
+                        $("#showComment@{@item.reply_post_id}").append(
+                            '<div class="border-left border-bottom border-right row"><div class="col-md-9"><p>' + noidung + '</p></div><div class="col-md-3"><span class="float-right">' + tennguoidung + '<img src="~/Content/LayoutNguoiDung/ImgUser/Khong gian trang thái.png" class="w-50 h-50" /></span><p><i class="fas fa-clock"></i>' + ngaytao + '</p></div></div><br />'
+                        )
+                    },
+                });
+            }
+
+            })
+        })
+        // kết bạn
+        $(document).ready(function () {
+            $("#btnAddFriend@{@item.reply_post_id}").click(function () {
+                var data = $("#formAddFriend@{@item.reply_post_id}").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Friend/AddFriend",
+                    data: data,
+                    success: function (response) {
+                        window.alert("Sữa thành công");
+                        $(this).show();
+                    }
+                })
+            })
+        })
+        //Gửi lời kết bạn
+        function BtnChangeValueAddFriend@{@item.reply_post_id} ()
+        {
+            if (document.getElementById("btnAddFriend@{@item.reply_post_id}").innerHTML == "Kết bạn")
+            {
+                document.getElementById("btnAddFriend@{@item.reply_post_id}").innerText = 'Đã gửi kết bạn';
+            }
+            else
+            {
+                document.getElementById("btnAddFriend@{@item.reply_post_id}").innerText = 'Kết bạn';
             }
         }
     </script>

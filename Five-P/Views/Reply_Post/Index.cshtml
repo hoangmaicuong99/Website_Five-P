@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Five_P.Models.Reply_Post>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.reply_post_content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reply_post_datecreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reply_post_dateedit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reply_post_activate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reply_post_title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Like_Reply_Post.like_reply_post_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Post.post_content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.user_pass)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.reply_post_content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.reply_post_datecreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.reply_post_dateedit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.reply_post_activate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.reply_post_title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Like_Reply_Post.like_reply_post_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Post.post_content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.user_pass)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.reply_post_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.reply_post_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.reply_post_id })
+        </td>
+    </tr>
+}
+
+</table>

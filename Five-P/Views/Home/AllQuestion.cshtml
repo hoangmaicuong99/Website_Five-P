@@ -1,6 +1,7 @@
 ﻿@using Five_P.Models;
 @model List<Post>
 @{
+    User user = (User)Session["user"];
     ViewBag.Title = "AllQuestion";
     Layout = "~/Views/Shared/_Layout.cshtml";
     FivePEntities db = new FivePEntities();
@@ -39,7 +40,14 @@
                         <div class="">
                             <div class="row">
                                 <h3 class="text-danger mb-0 col-md-7">Tất cả câu hỏi?</h3>
-                                <button type="button" class="btn btn-primary col-md-4">Đặt câu hỏi?</button>
+                                @if (user == null)
+                                {
+                                    <a href="@Url.Action("BackRegistration","Home")" data-toggle="modal" data-target="#modal-notification" class="btn btn-primary col-md-4">Đặt câu hỏi?</a>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-primary col-md-4">Đặt câu hỏi?</button>
+                                }
                             </div><br />
                             <div class="row">
                                 <div class="blockquote-footer col-md-3">
@@ -60,16 +68,20 @@
                                             <div class="row">
                                                 <div class="col-md-6 border-right">
                                                     <div class="mb-3">
-                                                        <small class="text-uppercase font-weight-bold">Huy hiệu</small>
-                                                    </div><label class="custom-toggle">
-                                                        <input type="checkbox">
-                                                        <span class="custom-toggle-slider rounded-circle"></span>
-                                                    </label>
-                                                    <span class="clearfix"></span>
-                                                    <label class="custom-toggle">
-                                                        <input type="checkbox" checked>
-                                                        <span class="custom-toggle-slider rounded-circle"></span>
-                                                    </label>
+                                                        <small class="text-uppercase font-weight-bold">Radios</small>
+                                                    </div>
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <input name="custom-radio-1" class="custom-control-input" id="customRadio1" type="radio">
+                                                        <label class="custom-control-label" for="customRadio1">
+                                                            <span>Unchecked</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <a><input name="custom-radio-1" class="custom-control-input" id="customRadio2" checked type="radio"></a>
+                                                        <label class="custom-control-label" for="customRadio2">
+                                                            <span>Checked</span>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
@@ -165,15 +177,15 @@
                                                 @{
                                                     List<Technology_Care> listTechnologyCare = db.Technology_Care.Where(n => n.user_id == item.user_id).ToList();
                                                 }
-                                            <div class="row w-100">
-                                                <div class="col-md-6"></div>
-                                                <div class="col-md-6 mt--2">
-                                                    @foreach (var item2 in listTechnologyCare)
-                                                    {
-                                                    <span class="float-right">&nbsp; @item2.Technology.technology_name&nbsp; | </span>
-                                                    }
+                                                <div class="row w-100">
+                                                    <div class="col-md-6"></div>
+                                                    <div class="col-md-6 mt--2">
+                                                        @foreach (var item2 in listTechnologyCare)
+                                                        {
+                                                            <span class="float-right">&nbsp; @item2.Technology.technology_name&nbsp; | </span>
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
                                             </div>
                                         </div>
                                         <span><a href="https://www.facebook.com/sharer.php?u=https://localhost:44345/Home/DetailQuestion?idpost=@item.post_id"><i class="fas fa-share"></i> Chia sẽ <i class="fab fa-facebook" style="color:#4ba0d1"></i></a></span>
@@ -183,6 +195,31 @@
                             }
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model thông báo-->
+    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content bg-gradient-danger">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Thông báo đến bạn!!</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="heading mt-4">Đăng nhập để thực hiện chức năng này.</h4>
+                        <p>Five-P cảm ơn!</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("BackLogin","Home")" class="btn btn-white">Đăng nhập</a>
+                    <a href="@Url.Action("BackRegistration","Home")" class="btn btn-white">Đăng Ký</a>
+                    <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
