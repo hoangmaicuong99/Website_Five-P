@@ -13,7 +13,7 @@ namespace Five_P.Controllers
     {
         // GET: Account
         FivePEntities db = new FivePEntities();
-        String Viewhome = "/";
+        String Viewhome = "/Home/Index";
         String AllQuestion = "/Home/AllQuestion";
         String strRegisterPersonalInformation = "/Account/RegisterPersonalInformation";
         // GET: TaiKhoan
@@ -131,7 +131,65 @@ namespace Five_P.Controllers
         }
         public ActionResult ManageUser()
         {
-            return View();
+            int coutViewPost = 0;
+            User user = (User)Session["user"];
+            if(user == null)
+            {
+                return View("/Home/Index");
+            }
+            else
+            {
+                List<Reply_Post> replyPost = db.Reply_Post.Where(n => n.user_id == user.user_id).ToList();
+                List<Comment> comment = db.Comments.Where(n => n.user_id == user.user_id).ToList();
+                List<Post> ViewPost = db.Posts.Where(n => n.user_id == user.user_id).ToList();
+                List<Post> coutMyPost = db.Posts.Where(n => n.user_id == user.user_id).ToList();
+                List<Reply_Post> replyMyPost = db.Reply_Post.Where(n => n.Post.user_id == user.user_id).ToList();
+                List<Comment> coutCommentMyPost = db.Comments.Where(n => n.Reply_Post.user_id == user.user_id).ToList();
+                List<Rate_Post> ratePost = db.Rate_Post.Where(n => n.Post.user_id == user.user_id).ToList();
+                List<Tick_Post> tickMyPost = db.Tick_Post.Where(n => n.user_id == user.user_id).ToList();
+                List<Show_Activate_Post> showActivatePost = db.Show_Activate_Post.Where(n => n.user_id == user.user_id).ToList();
+                List<Show_Activate_Reply_Post> showActivateReplyPost = db.Show_Activate_Reply_Post.Where(n => n.user_id == user.user_id).ToList();
+                List<Reply_Post> replyMyPostUnder10 = db.Reply_Post.Where(n => n.Post.user_id == user.user_id && n.reply_post_popular < 10).ToList();
+                List<Reply_Post> replyMyPostUnder20 = db.Reply_Post.Where(n => n.Post.user_id == user.user_id && n.reply_post_popular < 20 && n.reply_post_popular > 10).ToList();
+                List<Reply_Post> replyMyPostUnder40 = db.Reply_Post.Where(n => n.Post.user_id == user.user_id && n.reply_post_popular < 40 && n.reply_post_popular > 20).ToList();
+                List<Reply_Post> replyMyPostAbove70 = db.Reply_Post.Where(n => n.Post.user_id == user.user_id && n.reply_post_popular > 70).ToList();
+                List<Reply_Post> replyMyPostUnder1 = db.Reply_Post.Where(n => n.Post.user_id == user.user_id && n.reply_post_popular < 1).ToList();
+                List<Post> postUnder10 = db.Posts.Where(n => n.user_id == user.user_id && n.post_popular < 10).ToList();
+                List<Post> postUnder20 = db.Posts.Where(n => n.user_id == user.user_id && n.post_popular < 20 && n.post_popular > 10).ToList();
+                List<Post> postAbove40 = db.Posts.Where(n => n.user_id == user.user_id && n.post_popular > 40).ToList();
+                List<Post> postUnder1 = db.Posts.Where(n => n.user_id == user.user_id && n.post_popular < 1).ToList();
+
+                foreach (var item in ViewPost)
+                {
+                    coutViewPost += (int)item.post_view;
+                }
+                // [ Bài viết bạn đã quan tâm ]
+                ViewBag.CoutReplyPost = replyPost.Count();
+                ViewBag.CoutMyComment = comment.Count();
+                // [ Bài viết của bạn ]
+                ViewBag.coutViewPost = coutViewPost;
+                ViewBag.CoutMyPost = coutMyPost.Count();
+                ViewBag.coutRepyMyPost = replyMyPost.Count();
+                ViewBag.coutCommentMyPost = coutCommentMyPost.Count();
+                ViewBag.postUnder10 = postUnder10.Count();
+                ViewBag.postUnder20 = postUnder20.Count();
+                ViewBag.postAbove40 = postAbove40.Count();
+                ViewBag.postUnder1 = postUnder1.Count();
+                //[ Bài viết ]
+                ViewBag.ratePost = ratePost.Count();
+                // [ Bài viết đã đánh dấu ]
+                ViewBag.tickMyPost = tickMyPost.Count();
+                // Hoạt động bài viết bạn đã đánh giấu ]
+                ViewBag.showActivatePost = showActivatePost.Count();
+                ViewBag.showActivateReplyPost = showActivateReplyPost.Count();
+                //[ Trả lời bài viết của bạn được đề xuất cao]
+                ViewBag.replyMyPostUnder10 = replyMyPostUnder10.Count();
+                ViewBag.replyMyPostUnder20 = replyMyPostUnder20.Count();
+                ViewBag.replyMyPostUnder40 = replyMyPostUnder40.Count();
+                ViewBag.replyMyPostAbove70 = replyMyPostAbove70.Count();
+                ViewBag.replyMyPostUnder1 = replyMyPostUnder1.Count();
+                return View(db.Users.Find(user.user_id));
+            }
         }
     }
 }

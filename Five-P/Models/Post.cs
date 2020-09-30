@@ -22,6 +22,7 @@ namespace Five_P.Models
             this.Reply_Post = new HashSet<Reply_Post>();
             this.Show_Activate_Post = new HashSet<Show_Activate_Post>();
             this.Tick_Post = new HashSet<Tick_Post>();
+            this.Technology_Post = new HashSet<Technology_Post>();
         }
     
         public int post_id { get; set; }
@@ -31,19 +32,16 @@ namespace Five_P.Models
         public Nullable<System.DateTime> post_dateedit { get; set; }
         public Nullable<int> user_id { get; set; }
         public Nullable<bool> post_activate { get; set; }
-        public Nullable<int> post_option { get; set; }
         public Nullable<bool> post_activate_admin { get; set; }
         public string post_title { get; set; }
         public Nullable<int> post_sum_reply { get; set; }
         public Nullable<int> post_sum_comment { get; set; }
-        public Nullable<int> post_fame { get; set; }
         public Nullable<int> post_view { get; set; }
-        public Nullable<int> technology_id { get; set; }
         public Nullable<int> post_popular { get; set; }
+        public Nullable<int> post_calculate_medal { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Like> Likes { get; set; }
-        public virtual Technology Technology { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rate_Post> Rate_Post { get; set; }
@@ -53,5 +51,7 @@ namespace Five_P.Models
         public virtual ICollection<Show_Activate_Post> Show_Activate_Post { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tick_Post> Tick_Post { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Technology_Post> Technology_Post { get; set; }
     }
 }

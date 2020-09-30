@@ -3,8 +3,8 @@
 @{
     User user = (User)Session["user"];
     FivePEntities db = new FivePEntities();
-    var varColorOrange = "orange";
-    var varColorMain = "#5e72e4";
+    var varColororangered = "orangered";
+    var varColorMain = "#172b4d";
     ViewBag.Title = "DetailQuestion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -22,13 +22,13 @@
             <div class="col-lg-3 col-md-6 mt-5">
                 <div class="s-block">
                     <div class="list-group">
-                        <h7 class="list-group-item list-group-item-action active " style="text-align:center">
+                        <h7 class="bg-warning list-group-item list-group-item-action " style="text-align:center;color:white">
                             Tùy chọn <i class="fas fa-magic"></i>
                         </h7>
-                        <a href="/" class="list-group-item list-group-item btn btn-outline-success w-100">Thành viên</></a>
-                        <a href="#" class="list-group-item btn btn-outline-danger w-100">Top thành viên</a>
+                        <a href="/" class="list-group-item list-group-item btn btn-outline-default w-100">Thành viên</></a>
+                        <a href="#" class="list-group-item btn btn-outline-default w-100">Top thành viên</a>
                         <a href="#" class="list-group-item btn btn-outline-default w-100">Các loại câu hỏi</a>
-                        <a href="#" class="list-group-item btn btn-outline-warning w-100">Việc làm</a>
+                        <a href="#" class="list-group-item btn btn-outline-default w-100">Việc làm</a>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <div class="d-block p-lg-4 p-3">
                         <div class="">
                             <div class="row">
-                                <h3 class="text-blue mb-0">@Model.post_title</h3>
+                                <h3 class="text-default mb-0">@Model.post_title</h3>
                             </div><br />
                             <div class="row">
                                 <div class="blockquote-footer col-md-3">
@@ -56,7 +56,7 @@
                             <div class="s-block">
                                 <div href="#" class="d-block p-lg-4 p-2">
                                     <div class="row form-control h-auto mt--1 alert alert-secondary" role="alert" style="color:black">
-                                        Tiền <a href="#"><b class="text-danger mb-0">thưởng</b></a> sẽ hết hạn sau 6 phút . Các câu trả lời cho câu hỏi này đủ điều kiện nhận được <b class="btn btn-sm btn-default">+@Model.post_fame</b> danh tiếng. <a href="@Url.Action("UserPage","Account", new { idUser = Model.user_id})"><u class="text-success">@Model.User.user_nicename</u></a> muốn thu hút sự chú ý nhiều hơn đến câu hỏi này.
+                                        Tiền<b class="text-warning mb-0">thưởng</b> sẽ hết hạn sau 6 phút . Các câu trả lời cho câu hỏi này đủ điều kiện nhận được <b class="btn btn-sm bg-default" style="color:white">@Model.post_popular</b> danh tiếng. <a href="@Url.Action("UserPage","Account", new { idUser = Model.user_id})"><u class="text-warning">@Model.User.user_nicename</u></a> muốn thu hút sự chú ý nhiều hơn đến câu hỏi này.
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-3 border-right">
@@ -64,14 +64,14 @@
                                                 <!--Kiểm tra nút phía trên của chi tiết bài viết-->
                                                 @if (user == null)
                                                 {
-                                                    <button class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="far fa-caret-square-up w-25 h-25"></i></button>
+                                                    <button style="color:#172b4d" class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="far fa-caret-square-up w-25 h-25"></i></button>
                                                 }
                                                 else
                                                 {
                                                     Rate_Post checkUserRatePost = db.Rate_Post.Where(n => n.post_id == Model.post_id && n.user_id == user.user_id && n.rate_post1 == true).FirstOrDefault();
                                                     <form id="formRatePostT" class="changSizeButtonRatePost">
                                                         <input type="hidden" name="post_id" value="@Model.post_id" />
-                                                        <button type="button" id="btnRatePostT" onclick="btnButtonChangeRatePost()" class="btn btn-link"><i id="RatePostT" style="color:@if (checkUserRatePost != null) { @varColorOrange } else { @varColorMain }" class="far fa-caret-square-up w-25 h-25"></i></button>
+                                                        <button type="button" id="btnRatePostT" onclick="btnButtonChangeRatePost()" class="btn btn-link"><i id="RatePostT" style="color:@if (checkUserRatePost != null) { @varColororangered } else { @varColorMain }" class="far fa-caret-square-up w-25 h-25"></i></button>
                                                     </form>
                                                 }
 
@@ -82,17 +82,17 @@
                                                     int intCoutF = listRatePostF.Count();
                                                     int intDivided = intCoutT - intCoutF;
                                                 }
-                                                <div class="w-100" style="text-align:center;"><p style="color: #ff0090;font-size: 200%" id="coutRatePost">@intDivided</p></div>
+                                                <div class="w-100" style="text-align:center;"><p style="color: #172b4d;font-size: 200%" id="coutRatePost">@intDivided</p></div>
                                                 @if (user == null)
                                                 {
-                                                    <button class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="far fa-caret-square-down w-25 h-25"></i></button>
+                                                    <button style="color:#172b4d" class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="far fa-caret-square-down w-25 h-25"></i></button>
                                                 }
                                                 else
                                                 {
                                                     Rate_Post checkUserRatePost = db.Rate_Post.Where(n => n.post_id == Model.post_id && n.user_id == user.user_id && n.rate_post1 == false).FirstOrDefault();
                                                     <form id="formRatePostF" class="changSizeButtonRatePost">
                                                         <input type="hidden" name="post_id" value="@Model.post_id" />
-                                                        <button onclick="btnButtonChangeRatePostF()" type="button" id="btnRatePostF" class="btn btn-link"><i id="RatePostF" style="color:@if (checkUserRatePost != null) {@varColorOrange } else { @varColorMain}" class="far fa-caret-square-down w-25 h-25"></i></button>
+                                                        <button onclick="btnButtonChangeRatePostF()" type="button" id="btnRatePostF" class="btn btn-link"><i id="RatePostF" style="color:@if (checkUserRatePost != null) {@varColororangered } else { @varColorMain}" class="far fa-caret-square-down w-25 h-25"></i></button>
                                                     </form>
                                                 }
                                             </div>
@@ -102,14 +102,14 @@
                                                     @{
                                                         if (user == null)
                                                         {
-                                                            <button class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="far fa-bookmark" style="width:20%; height:20%"></i></button>
+                                                            <button style="color:#172b4d" class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="far fa-bookmark" style="width:20%; height:20%"></i></button>
                                                         }
                                                         else
                                                         {
                                                             Tick_Post checkUserTickPost = db.Tick_Post.Where(n => n.post_id == Model.post_id && n.user_id == user.user_id).FirstOrDefault();
                                                             <form id="formTickPost@{@Model.post_id}" class="changSizeButtonRatePost">
                                                                 <input type="hidden" name="post_id" value="@Model.post_id" />
-                                                                <button onclick="btnButtonChangeTickPost()" id="btnTickPost@{@Model.post_id}" type="button" class="btn btn-link"><i id="TickPost" class="far fa-bookmark w-25 h-25" style="color:@if (checkUserTickPost != null) {@varColorOrange } else { @varColorMain}"></i></button>
+                                                                <button onclick="btnButtonChangeTickPost()" id="btnTickPost@{@Model.post_id}" type="button" class="btn btn-link"><i id="TickPost" class="far fa-bookmark w-25 h-25" style="color:@if (checkUserTickPost != null) {@varColororangered } else { @varColorMain}"></i></button>
                                                             </form>
                                                         }
                                                     }
@@ -146,14 +146,14 @@
                                                 @{
                                                     if (user == null)
                                                     {
-                                                        <button class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i style="width:20%; height:20%" class="fas fa-history"></i></button>
+                                                        <button style="color:#172b4d" class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i style="width:20%; height:20%" class="fas fa-history"></i></button>
                                                     }
                                                     else
                                                     {
                                                         Show_Activate_Post showActivatePost = db.Show_Activate_Post.FirstOrDefault(n => n.post_id == Model.post_id && n.user_id == user.user_id);
                                                         <form id="formShowActivatePost@{@Model.post_id}" class="changSizeButtonRatePost">
                                                             <input type="hidden" name="post_id" value="@Model.post_id" />
-                                                            <button onclick="btnButtonChangeShowActivatePost()" id="btnShowActivatePost@{@Model.post_id}" type="button" class="btn btn-link"><i style="color:@if (showActivatePost != null) {@varColorOrange } else { @varColorMain}" id="ShowActivatePost" class="fas fa-history w-25 h-25"></i></button>
+                                                            <button onclick="btnButtonChangeShowActivatePost()" id="btnShowActivatePost@{@Model.post_id}" type="button" class="btn btn-link"><i style="color:@if (showActivatePost != null) {@varColororangered } else { @varColorMain}" id="ShowActivatePost" class="fas fa-history w-25 h-25"></i></button>
                                                         </form>
                                                     }
                                                 }
@@ -162,14 +162,14 @@
                                         </div>
                                         <div class="col-md-9">
                                             <div class="h-auto">
-                                                <p>@Model.post_title</p>
+                                                <p>@Html.Raw(Model.post_title)</p>
                                             </div>
                                             <div class="h-auto">
-                                                <p>@Model.post_content</p>
+                                                <p>@Html.Raw(Model.post_content)</p>
                                             </div>
                                             <div class="row h-auto">
                                                 <div class="col-md-7">
-                                                    <span>@Model.Technology.technology_name </span>
+                                                    <span>Công nghệ </span>
                                                 </div>
                                                 <div class="col-md-5" style="">
                                                     <span style="float:right">Hỏi ngày @Model.post_datecreated.Value.Day / @Model.post_datecreated.Value.Month / @Model.post_datecreated.Value.Year</span>
@@ -204,11 +204,13 @@
                         <hr />
                         <div>
                             <h3 class="heading-title text-warning mb-0">Ý kiến của bạn... </h3>
-                            <form action="@Url.Action("ReplyPost","Post")" method="post">
-                                <textarea name="reply_post_title" placeholder="Tiêu đề..." class="w-100"></textarea>
+                            <form onsubmit="return CheckFormReplyPost()" action="@Url.Action("ReplyPost","Post")" method="post">
+                                <textarea name="reply_post_title" id="checkTitleReplyPost" placeholder="Tiêu đề (không quá 200 từ chưa viết xong)..." class="w-100"></textarea>
                                 <input type="hidden" name="post_id" value="@Model.post_id" />
-                                <textarea name="reply_post_content" class="ckeditor"></textarea>
+                                <textarea name="reply_post_content" id="showCheckContentReplyPost" class="ckeditor"></textarea>
                                 <!--Trả lời bài viết-->
+                                <br />
+                                <p style="color:red" id="checkReplyPost"></p>
                                 @if (user == null)
                                 {
                                     <button type="button" class="btn btn-warning w-100" data-toggle="modal" data-target="#modal-notification">Trả lời</button>
@@ -257,39 +259,39 @@
     })
     //đổi màu các nút vow
     function btnButtonChangeRatePost() {
-        if (document.getElementById("RatePostF").style.color == 'orange')
+        if (document.getElementById("RatePostF").style.color == 'orangered')
         {
             document.getElementById("coutRatePost").innerText = Number(document.getElementById("coutRatePost").innerText) + 2;
-            document.getElementById("RatePostT").style.color = "orange";
-            document.getElementById("RatePostF").style.color = "#5e72e4";
+            document.getElementById("RatePostT").style.color = "orangered";
+            document.getElementById("RatePostF").style.color = "#172b4d";
         }
-        else if (document.getElementById("RatePostT").style.color == 'orange')
+        else if (document.getElementById("RatePostT").style.color == 'orangered')
         {
             document.getElementById("coutRatePost").innerText = Number(document.getElementById("coutRatePost").innerText) - 1;
-            document.getElementById("RatePostT").style.color = "#5e72e4";
+            document.getElementById("RatePostT").style.color = "#172b4d";
         }
         else
         {
             document.getElementById("coutRatePost").innerText = Number(document.getElementById("coutRatePost").innerText)+1;
-            document.getElementById("RatePostT").style.color = "orange";
+            document.getElementById("RatePostT").style.color = "orangered";
         }
     }
     function btnButtonChangeRatePostF() {
-        if (document.getElementById("RatePostT").style.color == 'orange')
+        if (document.getElementById("RatePostT").style.color == 'orangered')
         {
             document.getElementById("coutRatePost").innerText = Number(document.getElementById("coutRatePost").innerText) - 2;
-            document.getElementById("RatePostF").style.color = "orange";
-            document.getElementById("RatePostT").style.color = "#5e72e4";
+            document.getElementById("RatePostF").style.color = "orangered";
+            document.getElementById("RatePostT").style.color = "#172b4d";
         }
-        else if (document.getElementById("RatePostF").style.color == 'orange')
+        else if (document.getElementById("RatePostF").style.color == 'orangered')
         {
             document.getElementById("coutRatePost").innerText = Number(document.getElementById("coutRatePost").innerText) + 1;
-            document.getElementById("RatePostF").style.color = "#5e72e4";
+            document.getElementById("RatePostF").style.color = "#172b4d";
         }
         else
         {
             document.getElementById("coutRatePost").innerText = Number(document.getElementById("coutRatePost").innerText) - 1;
-            document.getElementById("RatePostF").style.color = "orange";
+            document.getElementById("RatePostF").style.color = "orangered";
         }
     }
     //check nút đánh dấu bài viết tick_post
@@ -309,11 +311,11 @@
     })
     //Đổi màu nút đó
     function btnButtonChangeTickPost() {
-        if (document.getElementById("TickPost").style.color == 'orange') {
-            document.getElementById("TickPost").style.color = '#5e72e4';
+        if (document.getElementById("TickPost").style.color == 'orangered') {
+            document.getElementById("TickPost").style.color = '#172b4d';
         }
         else {
-            document.getElementById("TickPost").style.color = 'orange';
+            document.getElementById("TickPost").style.color = 'orangered';
         }
     }
     //Hiển thị hoạt động của bài viết đó
@@ -332,12 +334,29 @@
         })
     })
     function btnButtonChangeShowActivatePost() {
-        if (document.getElementById("ShowActivatePost").style.color == "orange") {
-            document.getElementById("ShowActivatePost").style.color = "#5e72e4";
+        if (document.getElementById("ShowActivatePost").style.color == "orangered") {
+            document.getElementById("ShowActivatePost").style.color = "#172b4d";
         }
         else {
-            document.getElementById("ShowActivatePost").style.color = "orange";
+            document.getElementById("ShowActivatePost").style.color = "orangered";
         }
+    }
+    function CheckFormReplyPost()
+    {
+        let checkTitleReplyPost = document.getElementById("checkTitleReplyPost").value;
+        let checkContentReplyPost = document.getElementById("showCheckContentReplyPost").value;
+        let showCheckContentReplyPost = document.getElementById("checkReplyPost");
+        if (checkTitleReplyPost == '' || checkContentReplyPost == '') {
+
+            showCheckContentReplyPost.innerHTML = 'Tiêu đề và nội dung không được để trống!';
+        }
+        else if (checkTitleReplyPost.length < 20 || checkContentReplyPost.length < 20) {
+            showCheckContentReplyPost.innerHTML = 'Tiêu đề và nội dung không dưới 20 ký tự!';
+        }
+        else {
+            return true;
+        }
+        return false;
     }
 </script>
 

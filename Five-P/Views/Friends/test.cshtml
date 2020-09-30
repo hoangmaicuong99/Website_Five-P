@@ -1,0 +1,21 @@
+﻿
+<br />
+<br />
+<br />
+<br />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<select class="form-control" id="them_ca_sy" multiple="multiple" name="MaCaSy" style="width: 99%" required>
+    <option> value1</option>
+    <option> value2</option>
+    <option> value3</option>
+    <option> value4</option>
+</select>
+<script>
+    $("#them_ca_sy").select2({
+        placeholder: 'Nhập ca sỹ (tối đa 3 ca sỹ)..',
+        maximumSelectionLength: 3,
+        allowClear: true
+    });
+</script>
+

@@ -13,7 +13,14 @@ namespace Five_P.Controllers.testController
     public class FriendsController : Controller
     {
         private FivePEntities db = new FivePEntities();
-
+        public ActionResult test()
+        {
+            return View();
+        }
+        public PartialViewResult test2()
+        {
+            return PartialView();
+        }
         // GET: Friends
         public ActionResult Index()
         {

@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<style>
+    .modal-backdrop {
+        position: inherit;
+    }
+</style>
+<style>
+    .post form {
+        width: 100%;
+    }
+
+    .input-file-container {
+        position: relative;
+        width: 225px;
+    }
+
+    .js .input-file-trigger {
+        display: block;
+        padding: 14px 45px;
+        background: #39D2B4;
+        color: #fff;
+        font-size: 1em;
+        transition: all .4s;
+        cursor: pointer;
+    }
+
+    .js .input-file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 225px;
+        opacity: 0;
+        padding: 14px 0;
+        cursor: pointer;
+    }
+
+        .js .input-file:hover + .input-file-trigger,
+        .js .input-file:focus + .input-file-trigger,
+        .js .input-file-trigger:hover,
+        .js .input-file-trigger:focus {
+            background: #34495E;
+            color: #39D2B4;
+        }
+
+    .file-return {
+        margin: 0;
+    }
+
+        .file-return:not(:empty) {
+            margin: 1em 0;
+        }
+
+    .js .file-return {
+        font-style: italic;
+        font-size: .9em;
+        font-weight: bold;
+    }
+
+        .js .file-return:not(:empty):before {
+            content: "Selected file: ";
+            font-style: normal;
+            font-weight: normal;
+        }
+    /* Useless styles, just for demo styles */
+
+    body {
+        font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
+        color: #7F8C9A;
+        background: #FCFDFD;
+    }
+
+    h1, h2 {
+        margin-bottom: 5px;
+        font-weight: normal;
+        text-align: center;
+        color: #aaa;
+    }
+
+    h2 {
+        margin: 5px 0 2em;
+        color: #1ABC9C;
+    }
+
+    form {
+        width: 225px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    h2 + P {
+        text-align: center;
+    }
+
+    .txtcenter {
+        margin-top: 4em;
+        font-size: .9em;
+        text-align: center;
+        color: #aaa;
+    }
+
+    .copy {
+        margin-top: 2em;
+    }
+
+        .copy a {
+            text-decoration: none;
+            color: #1ABC9C;
+        }
+</style>
+<section class="w3l-index-block2 py-5 mt--4">
+    <div class="container py-md-3">
+        <div class="row bottom_grids pt-md-3">
+            <div class="col-lg-8 col-md-6 mt-5">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <span class="alert-inner--icon"><i class="ni ni-bell-55"></i></span>
+                    <span class="alert-inner--text"><strong>Warning!</strong> This is a warning alert—check it out!</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="s-block row ml-2" id="Post">
+                    <div class="container post mt-2">
+                        <form onsubmit="return CheckPost()" action="@Url.Action("Post","Post")" method="post">
+                            <h3 class="title">Tiêu đề bài viết</h3>
+                            <textarea name="post_title" class="form-control" id="titlePost" onclick="GuideTitle()"></textarea>
+                            <br />
+                            <h3 class="title">Nội dung bài viết <i class="fas fa-directions"></i><a href="#" onclick="GuideContentPost()" style="color:black"> ( Hướng dẫn )</a></h3>
+                            <textarea name="post_content" class="ckeditor form-control" id="contentPost"></textarea>
+                            <br />
+                            <h3 class="title">Công nghệ liên quan <i class="fas fa-directions"></i><a href="#" onclick="GuideTechnology()" style="color:black"> ( Hướng dẫn )</a></h3>
+                            <select class="form-control" id="addTechnologys" multiple="multiple" name="postTechnology">
+                                @foreach (var item in ViewBag.dataTechnologys)
+                                {
+                                    <option value="@item.technology_id">@item.technology_name</option>
+                                }
+                            </select>
+                            <h3 id="showCheckPost" style="color:red"></h3>
+                            <hr />
+                            @if (Session["user"] != null)
+                            {
+                                <button type="submit" class="btn btn-warning w-100">Đăng bài</button>
+                            }
+                            else
+                            {
+                                <a href="#" class="btn btn-warning w-100" data-toggle="modal" data-target="#modal-notification">Đăng bài</a>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mt-5">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <center><a href="/Account/ManageUser" class="btn btn-default">Trang cá nhân</a></center>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <center><button type="button" class="btn btn-default">Tài khoản</button></center>
+                    </div>
+                </div>
+                <div class="s-block">
+                    <div class="row">
+                        <div class="col-md-1">
+
+                        </div>
+                        <div class="col-md-10 mt-2">
+                            <h5 class="title">Hướng dẫn và thông báo <i class="far fa-bell" style="color:orangered"></i></h5>
+                            <div>
+                                <p id="showGuide" style="font-family:Arial">Bạn làm theo hướng dẫn này để được bài viết sự đúng đắng và nhiều người biết đến bạn nhé!</p>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model thông báo-->
+    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content bg-gradient-danger">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Thông báo đến bạn!!</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="heading mt-4">Đăng nhập để thực hiện chức năng này.</h4>
+                        <p>Five-P cảm ơn!</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("BackLogin","Home")" class="btn btn-white">Đăng nhập</a>
+                    <a href="@Url.Action("BackRegistration","Home")" class="btn btn-white">Đăng Ký</a>
+                    <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelector("html").classList.add('js');
+
+        var fileInput = document.querySelector(".input-file"),
+            button = document.querySelector(".input-file-trigger"),
+            the_return = document.querySelector(".file-return");
+
+        button.addEventListener("keydown", function (event) {
+            if (event.keyCode == 13 || event.keyCode == 32) {
+                fileInput.focus();
+            }
+        });
+        button.addEventListener("click", function (event) {
+            fileInput.focus();
+            return false;
+        });
+        fileInput.addEventListener("change", function (event) {
+            the_return.innerHTML = this.value;
+        });
+    </script>
+</section>
+<script src="~/Scripts/User/CheckPost.js"></script>
+<script>
+    $("#addTechnologys").select2({
+        placeholder: 'Chọn tối đa (5 công nghệ)...',
+        maximumSelectionLength: 5,
+        allowClear: true
+    });
+</script>

@@ -33,15 +33,16 @@ namespace Five_P.Models
         public virtual DbSet<Rate_Post> Rate_Post { get; set; }
         public virtual DbSet<Rate_Reply_Post> Rate_Reply_Post { get; set; }
         public virtual DbSet<Reply_Post> Reply_Post { get; set; }
+        public virtual DbSet<Reviews_User> Reviews_User { get; set; }
         public virtual DbSet<Search> Searches { get; set; }
         public virtual DbSet<Show_Activate_Post> Show_Activate_Post { get; set; }
+        public virtual DbSet<Show_Activate_Reply_Post> Show_Activate_Reply_Post { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<Technology> Technologies { get; set; }
         public virtual DbSet<Technology_Care> Technology_Care { get; set; }
         public virtual DbSet<Tick_Post> Tick_Post { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Reviews_User> Reviews_User { get; set; }
-        public virtual DbSet<Show_Activate_Reply_Post> Show_Activate_Reply_Post { get; set; }
+        public virtual DbSet<Technology_Post> Technology_Post { get; set; }
     }
 }

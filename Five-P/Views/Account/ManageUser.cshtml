@@ -1,8 +1,15 @@
-﻿
+﻿@using Five_P.Models;
+@model User
 @{
+    var ngaydang = String.Format("{0:yyyy-MM-dd}", Model.user_date_born);
     ViewBag.Title = "ManageUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .modal-backdrop {
+        position: inherit;
+    }
+</style>
 <style>
     .input-file-container {
         position: relative;
@@ -112,85 +119,144 @@
     <div class="container py-md-3">
         <div class="row bottom_grids pt-md-3">
             <div class="col-lg-8 col-md-6 mt-5">
-                <div class="alert alert-success" role="alert" style="color:black">
-                    A simple secondary alert—check it out!
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <span class="alert-inner--icon"><i class="ni ni-bell-55"></i></span>
+                    <span class="alert-inner--text"><strong>Warning!</strong> This is a warning alert—check it out!</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="s-block row ml-2">
-                    <div class="col-md-4" style="background-color:#8ae9ff">
+                <div class="s-block row ml-2" id="Post">
+                    <div class="col-md-4" style="background-color:#f5f5f2">
                         <div class="container">
                             <div class="row">
                                 <img src="~/Content/UI/img/faces/team-2.jpg" alt="Circle image" class="img-fluid rounded-circle shadow mt-2" style="width: 200px;">
                                 <div class="input-file-container">
-                                    <input class="input-file" id="fileImg" type="file">
-                                    <label tabindex="0" for="my-file" class="input-file-trigger">Ảnh đại diện</label>
+                                    <input class="input-file bg-default" id="fileImg" type="file">
+                                    <label tabindex="0" for="my-file" class="input-file-trigger bg-default"><i class="fas fa-camera-retro"></i>&nbsp;&nbsp;&nbsp;Avata</label>
                                 </div>
-                                <p class="file-return"></p>
-                                <button type="button" class="btn btn-danger mt-3 w-100">Danger</button>
+                                <div class="w-100 text-center">
+                                    <i class="fab fa-jenkins" style="color:black"></i>&nbsp; @Model.user_nicename
+                                </div>
+                                <div class="w-100 text-center">
+                                    <i class="fab fa-galactic-senate" style="color:orangered;font-size:65px"></i> 5
+                                </div>
+                                <div class="w-100 text-center">
+                                    <i class="fas fa-medal" style="color:yellow; font-size:30px"></i> 5
+                                </div>
+                                <div class="w-100 text-center">
+                                    <i class="fas fa-medal" style="color:silver; font-size:25px"></i> 5
+                                </div>
+                                <div class="w-100 text-center">
+                                    <i class="fas fa-medal" style="color:#e88d15; font-size:20px"></i> 5
+                                </div>
+                                <div>
+                                    <a href="@Url.Action("PostManagement","Post")" class="btn btn-default">Quản lý bài viết</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="container">
-                            <div class="row mt-3">
-                                <i class="fas fa-user"></i> Thông tin chính
+                        <div class="container" id="Post">
+                            <div class="alert alert-secondary mt-2" role="alert" style="color:orangered">
+                                Hoạt động của tôi ở các bài viết khác.
+                            </div>
+                            <div style="color:black">
+                                <i class="far fa-credit-card"></i> &nbsp;[ Bài viết bạn đã quan tâm ]
                             </div>
                             <div class="">
-                                fdfd
+                                Tổng đã trả lời của bạn : @ViewBag.CoutReplyPost
                             </div>
                             <div class="">
-                                fdfd
+                                Tổng comment của bạn : @ViewBag.CoutMyComment
+                            </div>
+                            <br />
+                            <div style="color:black">
+                                <i class="fas fa-map-pin"></i> &nbsp;[ Bài viết đã đánh dấu ]
+                            </div>
+                            <div class="">
+                                Tổng bài viết đã đánh dấu : @ViewBag.tickMyPost
+                            </div>
+                            <br />
+                            <div style="color:black">
+                                <i class="fab fa-accessible-icon"></i> &nbsp;[ Hoạt động bài viết đã đánh giấu ]
+                            </div>
+                            <div class="">
+                                Bài viết đã đánh dấu hoạt động : @ViewBag.showActivatePost
+                            </div>
+                            <div class="">
+                                Trả lời các bài viết đã đánh dấu hoạt động : @ViewBag.showActivateReplyPost
                             </div>
                             <hr />
-                            <div class="">
-                                <i class="fas fa-user"></i> Bài viết đã đánh dấu
+                            <div class="alert alert-secondary" role="alert" style="color:orangered">
+                                Hoạt động ở bài viết của tôi.
+                            </div>
+                            <div class="" style="color:black">
+                                <i class="far fa-credit-card"></i> &nbsp;[ Bài viết của bạn ]
                             </div>
                             <div class="">
-                                fdfd
+                                Tổng lượt xem bài viết : @ViewBag.coutViewPost
                             </div>
                             <div class="">
-                                fdfd
-                            </div>
-                            <hr />
-                            <div class="">
-                                <i class="fas fa-user"></i> Hiển thị hoạt động của bài viết
+                                Tổng bài viết của bạn : @ViewBag.CoutMyPost
                             </div>
                             <div class="">
-                                fdfd
+                                Tổng trả lời tất cả bài viết : @ViewBag.coutRepyMyPost
                             </div>
                             <div class="">
-                                fdfd
-                            </div>
-                            <hr />
-                            <div class="">
-                                <i class="fas fa-user"></i> Hiển thị hoạt động của các câu trả lời abc của bài viết
+                                Bài viết được đánh giá : @ViewBag.ratePost
                             </div>
                             <div class="">
-                                fdfd
+                                Bài viết có độ nổi tiếng < 10 : @ViewBag.postUnder10
                             </div>
                             <div class="">
-                                fdfd
-                            </div>
-                            <hr />
-                            <div class="">
-                                <i class="fas fa-user"></i> Thông tin chính
+                                Bài viết có độ nổi tiếng < 20 : @ViewBag.postUnder20
                             </div>
                             <div class="">
-                                fdfd
+                                Bài viết có độ nổi tiếng > 40 : @ViewBag.postAbove40
                             </div>
                             <div class="">
-                                fdfd
-                            </div>
-                            <hr />
-                            <div class="">
-                                <i class="fas fa-user"></i> Thông tin chính
+                                Bài viết để xuất âm : @ViewBag.postUnder1
                             </div>
                             <div class="">
-                                fdfd
+                                Bài viết trả lời nhiều nhất
                             </div>
                             <div class="">
-                                fdfd
+                                Bài viết comment nhiều nhất
                             </div>
+                            <br />
+                            <div style="color:black">
+                                <i class="far fa-comment-dots"></i> &nbsp;[ Bình luận ]
+                            </div>
+                            <div class="">
+                                Tổng bình luận: @ViewBag.coutCommentMyPost
+                            </div>
+                            <br />
+                            <div style="color:black">
+                                <i class="far fa-caret-square-up"></i>&nbsp;[ Trả lời bài viết của bạn được đề xuất cao ]
+                            </div>
+                            <div class="">
+                                được đề xuất < 10 : @ViewBag.replyMyPostUnder40
+                            </div>
+                            <div class="">
+                                Được đề xuất < 20 : @ViewBag.replyMyPostUnder20
+                            </div>
+                            <div class="">
+                                Được đề xuất < 40 : @ViewBag.replyMyPostUnder40
+                            </div>
+                            <div class="">
+                                Được đề xuất > 70 : @ViewBag.replyMyPostAbove70
+                            </div>
+                            <br />
+                            <div style="color:black">
+                                <i class="far fa-caret-square-down"></i>&nbsp;[ Trả lời được đề xuất thấp ]
+                            </div>
+                            <div class="">
+                                Tổng : @ViewBag.replyMyPostUnder1
+                            </div>
+                            <br />
 
+                            <button class="btn btn-default w-100">Lịch sử</button>
                         </div>
                     </div>
                 </div>
@@ -198,10 +264,10 @@
             <div class="col-lg-4 col-md-6 mt-5">
                 <div class="row">
                     <div class="col-md-6 mb-4">
-                        <center><button type="button" class="btn btn-default">Primary</button></center>
+                        <center><a href="@Url.Action("Post","Post")" class="btn btn-secondary">Đăng bài</a></center>
                     </div>
                     <div class="col-md-6 mb-4">
-                        <center><button type="button" class="btn btn-warning">Primary</button></center>
+                        <center><button class="btn btn-secondary" data-toggle="modal" data-target="#modal-form">Mật khẩu</button></center>
                     </div>
 
                 </div>
@@ -216,27 +282,103 @@
                                     <img src="~/Content/UI/img/faces/team-2.jpg" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 70px;">
                                 </div>
                                 <div class="col-md-7">
-                                    <button class="btn btn-danger">tai hoan</button>
+                                    <a href="@Url.Action("","")" class="btn btn-default">Sữa thông tin</a>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <i class="fas fa-user"></i> Thông tin chính
-                            </div>
-                            <div class="row">
-                                <i class="fas fa-user"></i> Thông tin chính
-                            </div>
-                            <div class="row">
-                                <i class="fas fa-user"></i> Thông tin chính
-                            </div>
-                            <div class="row">
-                                <i class="fas fa-user"></i> Thông tin chính
-                            </div>
-                            <div class="row">
-                                <i class="fas fa-user"></i> Thông tin chính
-                            </div>
+                            <form>
+                                <div class="row mt-2">
+                                    <i class="fas fa-signature"></i>&nbsp; Tên : @Model.user_nicename
+                                </div>
+                                <div class="row">
+                                    <i class="fas fa-envelope-open-text"></i>&nbsp; Email : @Model.user_email
+                                </div>
+                                <div class="row">
+                                    <i class="fas fa-laptop-code"></i>&nbsp; Công nghệ : 
+                                </div>
+                                <div class="row">
+                                    <i class="far fa-calendar-alt"></i>&nbsp; Ngày sinh: @Model.user_date_born
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <i class="fas fa-child"></i>&nbsp; Tổng bạn bè: ? bạn
+                                </div>
+                                <div class="row">
+                                    <i class="fas fa-chess-king"></i>&nbsp; Độ nổi tiếng : 
+                                </div>
+                                <div class="row">
+                                    <i class="fas fa-award"></i>&nbsp; Huy hiệu : 
+                                </div>
+                                <div class="row">
+                                    <i class="fas fa-mobile-alt"></i>&nbsp; Số điện thoại : @Model.user_phone
+                                </div>
+                                <div class="row">
+                                    <i class="fas fa-map-marked-alt"></i>&nbsp; Địa chỉ: @Model.user_address
+                                </div>
+                                <div class="row">
+                                    <i class="fas fa-venus-mars"></i>&nbsp; gới tính : @Model.user_sex 
+                                </div>
+                                <div class="row">
+                                    <i class="fab fa-facebook-f"></i>&nbsp; Link facebook: @Model.user_link_facebok
+                                </div>
+                                <div class="row">
+                                    <i class="fab fa-github"></i>&nbsp; link github: @Model.user_link_github
+                                </div>
+                                <div class="row">
+                                    <i class="fas fa-briefcase"></i>&nbsp; Sở thích công việc: @Model.user_hobby_work
+                                </div>
+                                <div class="row">
+                                    <i class="far fa-grin-hearts"></i>&nbsp; Sở thích cá nhân: @Model.user_hobby
+                                </div>
+                                <br />
+                            </form>
                         </div>
                         <div class="col-md-1">
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modals đổi mật khẩu-->
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="card bg-secondary shadow border-0 mb-0">
+                        <div class="card-body px-lg-5 py-lg-5">
+                            <div class="text-center text-muted mb-4">
+                                <h3 style="color:black"><i class="fas fa-key"></i>Mật khẩu</h3>
+                            </div>
+                            <form role="form">
+                                <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="Nhập mật khẩu củ" type="password">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="Nhập mật khẩu mới" type="password">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="Nhập lại mật khẩu mới" type="password">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-warning my-4" data-dismiss="modal">Đổi mật khẩu</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -261,7 +403,6 @@
         });
         fileInput.addEventListener("change", function (event) {
             the_return.innerHTML = this.value;
-        });  
+        });
     </script>
 </section>
-

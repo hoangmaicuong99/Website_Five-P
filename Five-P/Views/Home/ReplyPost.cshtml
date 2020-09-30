@@ -3,8 +3,8 @@
 @{
     User user = (User)Session["user"];
     FivePEntities db = new FivePEntities();
-    var varColorOrange = "orange";
-    var varColorMain = "#5e72e4";
+    var varColororangered = "orangered";
+    var varColorMain = "#172b4d";
     var varFriend = "Nhắn tin";
     var varAddFriend = "Kết bạn";
     var varFinishFriend = "Đã gửi kết bạn";
@@ -28,38 +28,38 @@
                         <!--Kiểm tra nút vow-->
                         @if (user == null)
                         {
-                            <button data-toggle="modal" data-target="#modal-notification" class="btn btn-link"><i class="far fa-caret-square-up w-25 h-25"></i></button>
-                            <div class="w-100 text-center"><p style="font-size:200%;color:#ff0090">@intDivided</p></div>
-                            <button data-toggle="modal" data-target="#modal-notification" class="btn btn-link"><i class="far fa-caret-square-down w-25 h-25"></i></button>
+                            <button style="color:#172b4d" data-toggle="modal" data-target="#modal-notification" class="btn btn-link"><i class="far fa-caret-square-up w-25 h-25"></i></button>
+                            <div class="w-100 text-center"><p style="font-size:200%;color:#172b4d">@intDivided</p></div>
+                            <button style="color:#172b4d" data-toggle="modal" data-target="#modal-notification" class="btn btn-link"><i class="far fa-caret-square-down w-25 h-25"></i></button>
                         }
                         else
                         {
                             Rate_Reply_Post checkUserRateReplyPostT = db.Rate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.user_id == user.user_id && n.rate_reply_post1 == true).FirstOrDefault();
                             <form id="formRateReplyPostT@{@item.reply_post_id}" class="changSizeButtonRatePost">
                                 <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
-                                <button onclick="btnButtonChangeRateReplyPostT@{@item.reply_post_id}()" type="button" id="btnRateReplyPostT@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (checkUserRateReplyPostT != null) { @varColorOrange} else { @varColorMain}" id="RateReplyPostT@{@item.reply_post_id}" class="far fa-caret-square-up w-25 h-25"></i></button>
+                                <button onclick="btnButtonChangeRateReplyPostT@{@item.reply_post_id}()" type="button" id="btnRateReplyPostT@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (checkUserRateReplyPostT != null) { @varColororangered} else { @varColorMain}" id="RateReplyPostT@{@item.reply_post_id}" class="far fa-caret-square-up w-25 h-25"></i></button>
                             </form>
                             //vow trên
-                            <div class="w-100 text-center"><p style="font-size:200%;color:#ff0090" id="coutRateReplyPost@{@item.reply_post_id}">@intDivided</p></div>
+                            <div class="w-100 text-center"><p style="font-size:200%;color:#172b4d" id="coutRateReplyPost@{@item.reply_post_id}">@intDivided</p></div>
                             //vow dưới
                             Rate_Reply_Post checkUserRateReplyPostF = db.Rate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.user_id == user.user_id && n.rate_reply_post1 == false).FirstOrDefault();
                             <form id="formRateReplyPostF@{@item.reply_post_id}" class="changSizeButtonRatePost">
                                 <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
-                                <button onclick="btnButtonChangeRateReplyPostF@{@item.reply_post_id}()" type="button" id="btnRateReplyPostF@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (checkUserRateReplyPostF != null) { @varColorOrange} else { @varColorMain}" id="RateReplyPostF@{@item.reply_post_id}" class="far fa-caret-square-down w-25 h-25"></i></button>
+                                <button onclick="btnButtonChangeRateReplyPostF@{@item.reply_post_id}()" type="button" id="btnRateReplyPostF@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (checkUserRateReplyPostF != null) { @varColororangered} else { @varColorMain}" id="RateReplyPostF@{@item.reply_post_id}" class="far fa-caret-square-down w-25 h-25"></i></button>
                             </form>
                             }
                     </div>
                     <div class="" style="color:#fc45ff;text-align:center">
                         @if (user == null)
                         {
-                            <button class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="fas fa-history" style="width:12%;height:12%"></i></button>
+                            <button style="color:#172b4d" class="btn btn-link" data-toggle="modal" data-target="#modal-notification"><i class="fas fa-history" style="width:25%;height:25%"></i></button>
                         }
                         else
                         {
                             Show_Activate_Reply_Post showActivateReplyPost = db.Show_Activate_Reply_Post.Where(n => n.reply_post_id == item.reply_post_id && n.user_id == user.user_id).FirstOrDefault();
                             <form id="formShowActivateReplyPost@{@item.reply_post_id}" class="changSizeButtonRatePost">
                                 <input type="hidden" name="reply_post_id" value="@item.reply_post_id" />
-                                <button onclick="btnChangeShowActivateReplyPost@{@item.reply_post_id}()" type="button" id="btnButtonChangeActivateReplyPost@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (showActivateReplyPost != null) { @varColorOrange} else { @varColorMain}" id="ShowActivateReplyPost@{@item.reply_post_id}" class="fas fa-history w-25 h-25"></i></button>
+                                <button onclick="btnChangeShowActivateReplyPost@{@item.reply_post_id}()" type="button" id="btnButtonChangeActivateReplyPost@{@item.reply_post_id}" class="btn btn-link"><i style="color:@if (showActivateReplyPost != null) { @varColororangered} else { @varColorMain}" id="ShowActivateReplyPost@{@item.reply_post_id}" class="fas fa-history w-25 h-25"></i></button>
                             </form>
     }
                         <!--hien thị hoạt động bài viết này-->
@@ -121,7 +121,7 @@
                     </div>
                 </div>
             </div>
-            <a class="badge badge-pill badge-info text-uppercase" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="@item.post_id">
+            <a class="badge badge-pill badge-warning text-uppercase" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="@item.post_id">
                 Bình luận <i class="fas fa-angle-double-down"></i>
             </a>
             <div class="collapse" id="collapseExample">
@@ -142,9 +142,9 @@
                         else
                         {
                             <button id="btnComment@{@item.reply_post_id}" type="reset" class="btn btn-block btn-warning mb-3">Bình luận <i class="fas fa-comments"></i></button>
-    }
+                        }
                     </form>
-                    <a class="badge badge-pill badge-info text-uppercas" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <a class="badge badge-pill badge-default text-uppercas" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                         <i class="fas fa-angle-double-up"></i><i class="fas fa-angle-double-up"></i>
                     </a>
                 </div>
@@ -184,36 +184,36 @@
         //đổi màu các nút vow
         function btnButtonChangeRateReplyPostT@{@item.reply_post_id}()
         {
-                if (document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color == 'orange')
+                if (document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color == 'orangered')
                 {
                     document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) + 2;
-                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "orange";
-                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "#5e72e4";
+                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "orangered";
+                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "#172b4d";
                 }
-                else if (document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color == 'orange')
+                else if (document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color == 'orangered')
                 {
                     document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) - 1;
-                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "#5e72e4";
+                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "#172b4d";
                 }
                 else {
                     document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) + 1;
-                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "orange";
+                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "orangered";
                 }
             }
             function btnButtonChangeRateReplyPostF@{@item.reply_post_id}()
             {
-                if (document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color == 'orange') {
+                if (document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color == 'orangered') {
                     document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) - 2;
-                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "orange";
-                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "#5e72e4";
+                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "orangered";
+                    document.getElementById("RateReplyPostT@{@item.reply_post_id}").style.color = "#172b4d";
                 }
-                else if (document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color == 'orange') {
+                else if (document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color == 'orangered') {
                     document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) + 1;
-                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "#5e72e4";
+                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "#172b4d";
                 }
                 else {
                     document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText = Number(document.getElementById("coutRateReplyPost@{@item.reply_post_id}").innerText) - 1;
-                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "orange";
+                    document.getElementById("RateReplyPostF@{@item.reply_post_id}").style.color = "orangered";
                 }
         }
         //Save hiển thị hoạt động của bài viết (show activate reply post)
@@ -234,12 +234,12 @@
         //Đổi màu cho nút hiển thị hoạt động trả lời bài viết (show activate reply post)
         function btnChangeShowActivateReplyPost@{@item.reply_post_id}()
         {
-            if (document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color == "orange")
+            if (document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color == "orangered")
             {
-                document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color = "#5e72e4";
+                document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color = "#172b4d";
             }
             else {
-                document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color = 'orange';
+                document.getElementById("ShowActivateReplyPost@{@item.reply_post_id}").style.color = 'orangered';
             }
         }
         //comment

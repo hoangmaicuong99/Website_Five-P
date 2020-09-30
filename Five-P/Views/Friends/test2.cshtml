@@ -1,0 +1,19 @@
+﻿<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<select id="them_ca_sy" multiple="" name="MaCaSy" style="width: 99%" required="" data-select2-id="select2-data-them_ca_sy" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+    <option data-select2-id="select2-data-4-9z21"> value1</option>
+    <option data-select2-id="select2-data-5-d0ek"> value2</option>
+    <option data-select2-id="select2-data-6-icw7"> value3</option>
+    <option data-select2-id="select2-data-7-11h8"> value4</option>
+</select>
+<span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" data-select2-id="select2-data-1-k789" style="width: 99%;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="false"><button type="button" class="select2-selection__clear" tabindex="-1" title="Remove all items" aria-label="Remove all items" aria-describedby="select2-them_ca_sy-container" data-select2-id="select2-data-9-l30u"><span aria-hidden="true">×</span></button><ul class="select2-selection__rendered" id="select2-them_ca_sy-container"><li class="select2-selection__choice" title=" value2" data-select2-id="select2-data-8-irvr"><button type="button" class="select2-selection__choice__remove" tabindex="-1" title="Remove item" aria-label="Remove item" aria-describedby="select2-them_ca_sy-container-choice-zv17-value2"><span aria-hidden="true">×</span></button><span class="select2-selection__choice__display" id="select2-them_ca_sy-container-choice-zv17-value2"> value2</span></li></ul><span class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" autocomplete="off" aria-describedby="select2-them_ca_sy-container" placeholder="" style="width: 0.75em;"></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+<script>
+    $("#them_ca_sy").select2({
+        placeholder: 'Nhập ca sỹ (tối đa 3 ca sỹ)..',
+        maximumSelectionLength: 3,
+        allowClear: true
+    });
+</script>
+
+

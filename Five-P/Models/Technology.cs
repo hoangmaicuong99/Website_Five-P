@@ -17,8 +17,8 @@ namespace Five_P.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Technology()
         {
-            this.Posts = new HashSet<Post>();
             this.Technology_Care = new HashSet<Technology_Care>();
+            this.Technology_Post = new HashSet<Technology_Post>();
         }
     
         public int technology_id { get; set; }
@@ -26,8 +26,8 @@ namespace Five_P.Models
         public Nullable<System.DateTime> technology_datetime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Post> Posts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Technology_Care> Technology_Care { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Technology_Post> Technology_Post { get; set; }
     }
 }

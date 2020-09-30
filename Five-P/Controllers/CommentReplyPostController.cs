@@ -19,6 +19,12 @@ namespace Five_P.Controllers
         [HttpPost]
         public ActionResult Comment(Comment comment)
         {
+            //sum comment
+            var idReplyPost = comment.reply_post_id;
+            var idPost = db.Reply_Post.Find(idReplyPost).post_id.Value;
+            db.Posts.Find(idPost).post_sum_comment++;
+            db.Posts.Find(idPost).post_popular++;
+            //comment
             User user = (User)Session["user"];
             comment.comment_datecreated = DateTime.Now;
             comment.comment_dateedit = DateTime.Now;

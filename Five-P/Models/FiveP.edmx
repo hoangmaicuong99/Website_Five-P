@@ -56,16 +56,21 @@
           <Property Name="post_dateedit" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="post_activate" Type="bit" />
-          <Property Name="post_option" Type="int" />
           <Property Name="post_activate_admin" Type="bit" />
           <Property Name="post_title" Type="nvarchar" MaxLength="200" />
           <Property Name="post_sum_reply" Type="int" />
           <Property Name="post_sum_comment" Type="int" />
-          <Property Name="post_fame" Type="int" />
           <Property Name="post_view" Type="int" />
-          <Property Name="technology_id" Type="int" />
           <Property Name="post_popular" Type="int" />
+          <Property Name="post_calculate_medal" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Post_Technology">
+          <Property Name="post_id" Type="int" />
+          <Property Name="technology_id" Type="int" />
+          <Property Name="post_technology_id" Type="int" />
+        </EntityType>-->
         <EntityType Name="Rate_Post">
           <Key>
             <PropertyRef Name="rate_post_id" />
@@ -99,6 +104,8 @@
           <Property Name="like_reply_post_id" Type="int" />
           <Property Name="post_id" Type="int" />
           <Property Name="reply_post_title" Type="nvarchar" MaxLength="200" />
+          <Property Name="reply_post_popular" Type="int" />
+          <Property Name="reply_post__calculate_medal" Type="int" />
         </EntityType>
         <EntityType Name="Reviews_User">
           <Key>
@@ -168,6 +175,14 @@
           <Property Name="user_id" Type="int" />
           <Property Name="technology_id" Type="int" />
         </EntityType>
+        <EntityType Name="Technology_Post">
+          <Key>
+            <PropertyRef Name="post_technology_id" />
+          </Key>
+          <Property Name="post_technology_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="post_id" Type="int" />
+          <Property Name="technology_id" Type="int" />
+        </EntityType>
         <EntityType Name="Tick_Post">
           <Key>
             <PropertyRef Name="tick_post_id" />
@@ -201,6 +216,10 @@
           <Property Name="user_activate_admin" Type="bit" />
           <Property Name="user_date_born" Type="date" />
           <Property Name="user_popular" Type="int" />
+          <Property Name="user_gold_medal" Type="int" />
+          <Property Name="user_silver_medal" Type="int" />
+          <Property Name="user_bronze_medal" Type="int" />
+          <Property Name="user_vip_medal" Type="int" />
         </EntityType>
         <Association Name="FK_Comment_Reply_Post">
           <End Role="Reply_Post" Type="Self.Reply_Post" Multiplicity="0..1" />
@@ -283,18 +302,6 @@
             </Principal>
             <Dependent Role="Like">
               <PropertyRef Name="user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Post_Technology">
-          <End Role="Technology" Type="Self.Technology" Multiplicity="0..1" />
-          <End Role="Post" Type="Self.Post" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Technology">
-              <PropertyRef Name="technology_id" />
-            </Principal>
-            <Dependent Role="Post">
-              <PropertyRef Name="technology_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -490,6 +497,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Technology_Post_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Technology_Post" Type="Self.Technology_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="post_id" />
+            </Principal>
+            <Dependent Role="Technology_Post">
+              <PropertyRef Name="post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Technology_Post_Technology">
+          <End Role="Technology" Type="Self.Technology" Multiplicity="0..1" />
+          <End Role="Technology_Post" Type="Self.Technology_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technology">
+              <PropertyRef Name="technology_id" />
+            </Principal>
+            <Dependent Role="Technology_Post">
+              <PropertyRef Name="technology_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tick_Post_Post">
           <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
           <End Role="Tick_Post" Type="Self.Tick_Post" Multiplicity="*" />
@@ -531,6 +562,7 @@
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Technology" EntityType="Self.Technology" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Technology_Care" EntityType="Self.Technology_Care" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Technology_Post" EntityType="Self.Technology_Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tick_Post" EntityType="Self.Tick_Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Comment_Reply_Post" Association="Self.FK_Comment_Reply_Post">
@@ -560,10 +592,6 @@
           <AssociationSet Name="FK_Like_User" Association="Self.FK_Like_User">
             <End Role="User" EntitySet="User" />
             <End Role="Like" EntitySet="Like" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Post_Technology" Association="Self.FK_Post_Technology">
-            <End Role="Technology" EntitySet="Technology" />
-            <End Role="Post" EntitySet="Post" />
           </AssociationSet>
           <AssociationSet Name="FK_Post_User" Association="Self.FK_Post_User">
             <End Role="User" EntitySet="User" />
@@ -629,6 +657,14 @@
             <End Role="User" EntitySet="User" />
             <End Role="Technology_Care" EntitySet="Technology_Care" />
           </AssociationSet>
+          <AssociationSet Name="FK_Technology_Post_Post" Association="Self.FK_Technology_Post_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Technology_Post" EntitySet="Technology_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Technology_Post_Technology" Association="Self.FK_Technology_Post_Technology">
+            <End Role="Technology" EntitySet="Technology" />
+            <End Role="Technology_Post" EntitySet="Technology_Post" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tick_Post_Post" Association="Self.FK_Tick_Post_Post">
             <End Role="Post" EntitySet="Post" />
             <End Role="Tick_Post" EntitySet="Tick_Post" />
@@ -663,9 +699,9 @@
           <Property Name="friend_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="user_id" Type="Int32" />
           <Property Name="user_friend_id" Type="Int32" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Friend_User" FromRole="Friend" ToRole="User" />
-          <NavigationProperty Name="User1" Relationship="FivePModel.FK_Friend_User1" FromRole="Friend" ToRole="User" />
           <Property Name="friend_status" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Friend_User" FromRole="Friend" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Friend_User1" FromRole="Friend" ToRole="User" />
         </EntityType>
         <EntityType Name="Like">
           <Key>
@@ -701,22 +737,20 @@
           <Property Name="post_dateedit" Type="DateTime" Precision="3" />
           <Property Name="user_id" Type="Int32" />
           <Property Name="post_activate" Type="Boolean" />
-          <Property Name="post_option" Type="Int32" />
           <Property Name="post_activate_admin" Type="Boolean" />
           <Property Name="post_title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="post_sum_reply" Type="Int32" />
           <Property Name="post_sum_comment" Type="Int32" />
-          <Property Name="post_fame" Type="Int32" />
           <Property Name="post_view" Type="Int32" />
-          <Property Name="technology_id" Type="Int32" />
+          <Property Name="post_popular" Type="Int32" />
           <NavigationProperty Name="Likes" Relationship="Self.FK_Like_Post" FromRole="Post" ToRole="Like" />
-          <NavigationProperty Name="Technology" Relationship="Self.FK_Post_Technology" FromRole="Post" ToRole="Technology" />
           <NavigationProperty Name="User" Relationship="Self.FK_Post_User" FromRole="Post" ToRole="User" />
           <NavigationProperty Name="Rate_Post" Relationship="Self.FK_Rate_Post_Post" FromRole="Post" ToRole="Rate_Post" />
           <NavigationProperty Name="Reply_Post" Relationship="Self.FK_Reply_Post_Post" FromRole="Post" ToRole="Reply_Post" />
           <NavigationProperty Name="Show_Activate_Post" Relationship="Self.FK_Show_Activate_Post_Post" FromRole="Post" ToRole="Show_Activate_Post" />
           <NavigationProperty Name="Tick_Post" Relationship="Self.FK_Tick_Post_Post" FromRole="Post" ToRole="Tick_Post" />
-          <Property Name="post_popular" Type="Int32" />
+          <Property Name="post_calculate_medal" Type="Int32" />
+          <NavigationProperty Name="Technology_Post" Relationship="FivePModel.FK_Technology_Post_Post" FromRole="Post" ToRole="Technology_Post" />
         </EntityType>
         <EntityType Name="Rate_Post">
           <Key>
@@ -760,7 +794,20 @@
           <NavigationProperty Name="Post" Relationship="Self.FK_Reply_Post_Post" FromRole="Reply_Post" ToRole="Post" />
           <NavigationProperty Name="Rate_Reply_Post" Relationship="Self.FK_Rate_Reply_Post_Reply_Post" FromRole="Reply_Post" ToRole="Rate_Reply_Post" />
           <NavigationProperty Name="User" Relationship="Self.FK_Reply_Post_User" FromRole="Reply_Post" ToRole="User" />
-          <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="FivePModel.FK_Show_Activate_Reply_Post_Reply_Post" FromRole="Reply_Post" ToRole="Show_Activate_Reply_Post" />
+          <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="Self.FK_Show_Activate_Reply_Post_Reply_Post" FromRole="Reply_Post" ToRole="Show_Activate_Reply_Post" />
+          <Property Name="reply_post_popular" Type="Int32" />
+          <Property Name="reply_post__calculate_medal" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Reviews_User">
+          <Key>
+            <PropertyRef Name="reviews_user_id" />
+          </Key>
+          <Property Name="reviews_user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="reviews_id_user" Type="Int32" />
+          <Property Name="Review" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Reviews_User_User" FromRole="Reviews_User" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Reviews_User_User1" FromRole="Reviews_User" ToRole="User" />
         </EntityType>
         <EntityType Name="Search">
           <Key>
@@ -779,6 +826,18 @@
           <Property Name="show_activate_post_Readed" Type="Boolean" />
           <NavigationProperty Name="Post" Relationship="Self.FK_Show_Activate_Post_Post" FromRole="Show_Activate_Post" ToRole="Post" />
           <NavigationProperty Name="User" Relationship="Self.FK_Show_Activate_Post_User" FromRole="Show_Activate_Post" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Show_Activate_Reply_Post">
+          <Key>
+            <PropertyRef Name="show_activate_reply_post_id" />
+          </Key>
+          <Property Name="show_activate_reply_post_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reply_post_id" Type="Int32" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="show_activate_reply_post_datetime" Type="DateTime" Precision="3" />
+          <Property Name="show_activate_reply_post_readed" Type="Boolean" />
+          <NavigationProperty Name="Reply_Post" Relationship="Self.FK_Show_Activate_Reply_Post_Reply_Post" FromRole="Show_Activate_Reply_Post" ToRole="Reply_Post" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Show_Activate_Reply_Post_User" FromRole="Show_Activate_Reply_Post" ToRole="User" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -804,8 +863,8 @@
           <Property Name="technology_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="technology_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="technology_datetime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Posts" Relationship="Self.FK_Post_Technology" FromRole="Technology" ToRole="Post" />
           <NavigationProperty Name="Technology_Care" Relationship="Self.FK_Technology_Care_Technology" FromRole="Technology" ToRole="Technology_Care" />
+          <NavigationProperty Name="Technology_Post" Relationship="FivePModel.FK_Technology_Post_Technology" FromRole="Technology" ToRole="Technology_Post" />
         </EntityType>
         <EntityType Name="Technology_Care">
           <Key>
@@ -854,19 +913,23 @@
           <Property Name="user_popular" Type="Int32" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_User" FromRole="User" ToRole="Comment" />
           <NavigationProperty Name="Friends" Relationship="Self.FK_Friend_User" FromRole="User" ToRole="Friend" />
+          <NavigationProperty Name="Friends1" Relationship="Self.FK_Friend_User1" FromRole="User" ToRole="Friend" />
           <NavigationProperty Name="Likes" Relationship="Self.FK_Like_User" FromRole="User" ToRole="Like" />
           <NavigationProperty Name="Like_Reply_Post" Relationship="Self.FK_Like_Reply_Post_User" FromRole="User" ToRole="Like_Reply_Post" />
           <NavigationProperty Name="Posts" Relationship="Self.FK_Post_User" FromRole="User" ToRole="Post" />
           <NavigationProperty Name="Rate_Post" Relationship="Self.FK_Rate_Post_User" FromRole="User" ToRole="Rate_Post" />
           <NavigationProperty Name="Rate_Reply_Post" Relationship="Self.FK_Rate_Reply_Post_User" FromRole="User" ToRole="Rate_Reply_Post" />
           <NavigationProperty Name="Reply_Post" Relationship="Self.FK_Reply_Post_User" FromRole="User" ToRole="Reply_Post" />
+          <NavigationProperty Name="Reviews_User" Relationship="Self.FK_Reviews_User_User" FromRole="User" ToRole="Reviews_User" />
+          <NavigationProperty Name="Reviews_User1" Relationship="Self.FK_Reviews_User_User1" FromRole="User" ToRole="Reviews_User" />
           <NavigationProperty Name="Show_Activate_Post" Relationship="Self.FK_Show_Activate_Post_User" FromRole="User" ToRole="Show_Activate_Post" />
+          <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="Self.FK_Show_Activate_Reply_Post_User" FromRole="User" ToRole="Show_Activate_Reply_Post" />
           <NavigationProperty Name="Technology_Care" Relationship="Self.FK_Technology_Care_User" FromRole="User" ToRole="Technology_Care" />
           <NavigationProperty Name="Tick_Post" Relationship="Self.FK_Tick_Post_User" FromRole="User" ToRole="Tick_Post" />
-          <NavigationProperty Name="Friends1" Relationship="FivePModel.FK_Friend_User1" FromRole="User" ToRole="Friend" />
-          <NavigationProperty Name="Reviews_User" Relationship="FivePModel.FK_Reviews_User_User" FromRole="User" ToRole="Reviews_User" />
-          <NavigationProperty Name="Reviews_User1" Relationship="FivePModel.FK_Reviews_User_User1" FromRole="User" ToRole="Reviews_User" />
-          <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="FivePModel.FK_Show_Activate_Reply_Post_User" FromRole="User" ToRole="Show_Activate_Reply_Post" />
+          <Property Name="user_gold_medal" Type="Int32" />
+          <Property Name="user_silver_medal" Type="Int32" />
+          <Property Name="user_bronze_medal" Type="Int32" />
+          <Property Name="user_vip_medal" Type="Int32" />
         </EntityType>
         <Association Name="FK_Comment_Reply_Post">
           <End Role="Reply_Post" Type="Self.Reply_Post" Multiplicity="0..1" />
@@ -901,6 +964,18 @@
             </Principal>
             <Dependent Role="Friend">
               <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Friend_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="user_friend_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -949,18 +1024,6 @@
             </Principal>
             <Dependent Role="Reply_Post">
               <PropertyRef Name="like_reply_post_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Post_Technology">
-          <End Role="Technology" Type="Self.Technology" Multiplicity="0..1" />
-          <End Role="Post" Type="Self.Post" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Technology">
-              <PropertyRef Name="technology_id" />
-            </Principal>
-            <Dependent Role="Post">
-              <PropertyRef Name="technology_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1072,6 +1135,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Show_Activate_Reply_Post_Reply_Post">
+          <End Role="Reply_Post" Type="Self.Reply_Post" Multiplicity="0..1" />
+          <End Role="Show_Activate_Reply_Post" Type="Self.Show_Activate_Reply_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reply_Post">
+              <PropertyRef Name="reply_post_id" />
+            </Principal>
+            <Dependent Role="Show_Activate_Reply_Post">
+              <PropertyRef Name="reply_post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reviews_User_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Reviews_User" Type="Self.Reviews_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Reviews_User">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reviews_User_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Reviews_User" Type="Self.Reviews_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Reviews_User">
+              <PropertyRef Name="reviews_id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Show_Activate_Post_User">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Show_Activate_Post" Type="Self.Show_Activate_Post" Multiplicity="*" />
@@ -1080,6 +1179,18 @@
               <PropertyRef Name="user_id" />
             </Principal>
             <Dependent Role="Show_Activate_Post">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Show_Activate_Reply_Post_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Show_Activate_Reply_Post" Type="Self.Show_Activate_Reply_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Show_Activate_Reply_Post">
               <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1129,8 +1240,10 @@
           <EntitySet Name="Rate_Post" EntityType="Self.Rate_Post" />
           <EntitySet Name="Rate_Reply_Post" EntityType="Self.Rate_Reply_Post" />
           <EntitySet Name="Reply_Post" EntityType="Self.Reply_Post" />
+          <EntitySet Name="Reviews_User" EntityType="Self.Reviews_User" />
           <EntitySet Name="Searches" EntityType="Self.Search" />
           <EntitySet Name="Show_Activate_Post" EntityType="Self.Show_Activate_Post" />
+          <EntitySet Name="Show_Activate_Reply_Post" EntityType="Self.Show_Activate_Reply_Post" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Tags" EntityType="Self.Tag" />
           <EntitySet Name="Technologies" EntityType="Self.Technology" />
@@ -1149,6 +1262,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Friend" EntitySet="Friends" />
           </AssociationSet>
+          <AssociationSet Name="FK_Friend_User1" Association="Self.FK_Friend_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Friend" EntitySet="Friends" />
+          </AssociationSet>
           <AssociationSet Name="FK_Like_Post" Association="Self.FK_Like_Post">
             <End Role="Post" EntitySet="Posts" />
             <End Role="Like" EntitySet="Likes" />
@@ -1164,10 +1281,6 @@
           <AssociationSet Name="FK_Reply_Post_Like_Reply_Post" Association="Self.FK_Reply_Post_Like_Reply_Post">
             <End Role="Like_Reply_Post" EntitySet="Like_Reply_Post" />
             <End Role="Reply_Post" EntitySet="Reply_Post" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Post_Technology" Association="Self.FK_Post_Technology">
-            <End Role="Technology" EntitySet="Technologies" />
-            <End Role="Post" EntitySet="Posts" />
           </AssociationSet>
           <AssociationSet Name="FK_Post_User" Association="Self.FK_Post_User">
             <End Role="User" EntitySet="Users" />
@@ -1205,9 +1318,25 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Reply_Post" EntitySet="Reply_Post" />
           </AssociationSet>
+          <AssociationSet Name="FK_Show_Activate_Reply_Post_Reply_Post" Association="Self.FK_Show_Activate_Reply_Post_Reply_Post">
+            <End Role="Reply_Post" EntitySet="Reply_Post" />
+            <End Role="Show_Activate_Reply_Post" EntitySet="Show_Activate_Reply_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reviews_User_User" Association="Self.FK_Reviews_User_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Reviews_User" EntitySet="Reviews_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reviews_User_User1" Association="Self.FK_Reviews_User_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Reviews_User" EntitySet="Reviews_User" />
+          </AssociationSet>
           <AssociationSet Name="FK_Show_Activate_Post_User" Association="Self.FK_Show_Activate_Post_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Show_Activate_Post" EntitySet="Show_Activate_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Show_Activate_Reply_Post_User" Association="Self.FK_Show_Activate_Reply_Post_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Show_Activate_Reply_Post" EntitySet="Show_Activate_Reply_Post" />
           </AssociationSet>
           <AssociationSet Name="FK_Technology_Care_Technology" Association="Self.FK_Technology_Care_Technology">
             <End Role="Technology" EntitySet="Technologies" />
@@ -1221,109 +1350,47 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Tick_Post" EntitySet="Tick_Post" />
           </AssociationSet>
-          <EntitySet Name="Reviews_User" EntityType="FivePModel.Reviews_User" />
-          <AssociationSet Name="FK_Friend_User1" Association="FivePModel.FK_Friend_User1">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Friend" EntitySet="Friends" />
+          <EntitySet Name="Technology_Post" EntityType="FivePModel.Technology_Post" />
+          <AssociationSet Name="FK_Technology_Post_Post" Association="FivePModel.FK_Technology_Post_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Technology_Post" EntitySet="Technology_Post" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reviews_User_User" Association="FivePModel.FK_Reviews_User_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Reviews_User" EntitySet="Reviews_User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reviews_User_User1" Association="FivePModel.FK_Reviews_User_User1">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Reviews_User" EntitySet="Reviews_User" />
-          </AssociationSet>
-          <EntitySet Name="Show_Activate_Reply_Post" EntityType="FivePModel.Show_Activate_Reply_Post" />
-          <AssociationSet Name="FK_Show_Activate_Reply_Post_Reply_Post" Association="FivePModel.FK_Show_Activate_Reply_Post_Reply_Post">
-            <End Role="Reply_Post" EntitySet="Reply_Post" />
-            <End Role="Show_Activate_Reply_Post" EntitySet="Show_Activate_Reply_Post" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Show_Activate_Reply_Post_User" Association="FivePModel.FK_Show_Activate_Reply_Post_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Show_Activate_Reply_Post" EntitySet="Show_Activate_Reply_Post" />
+          <AssociationSet Name="FK_Technology_Post_Technology" Association="FivePModel.FK_Technology_Post_Technology">
+            <End Role="Technology" EntitySet="Technologies" />
+            <End Role="Technology_Post" EntitySet="Technology_Post" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Reviews_User">
+        <EntityType Name="Technology_Post">
           <Key>
-            <PropertyRef Name="reviews_user_id" />
+            <PropertyRef Name="post_technology_id" />
           </Key>
-          <Property Name="reviews_user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="user_id" Type="Int32" />
-          <Property Name="reviews_id_user" Type="Int32" />
-          <Property Name="Review" Type="Boolean" />
-          <NavigationProperty Name="User" Relationship="FivePModel.FK_Reviews_User_User" FromRole="Reviews_User" ToRole="User" />
-          <NavigationProperty Name="User1" Relationship="FivePModel.FK_Reviews_User_User1" FromRole="Reviews_User" ToRole="User" />
+          <Property Name="post_technology_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="post_id" Type="Int32" />
+          <Property Name="technology_id" Type="Int32" />
+          <NavigationProperty Name="Post" Relationship="FivePModel.FK_Technology_Post_Post" FromRole="Technology_Post" ToRole="Post" />
+          <NavigationProperty Name="Technology" Relationship="FivePModel.FK_Technology_Post_Technology" FromRole="Technology_Post" ToRole="Technology" />
         </EntityType>
-        <Association Name="FK_Friend_User1">
-          <End Type="FivePModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="FivePModel.Friend" Role="Friend" Multiplicity="*" />
+        <Association Name="FK_Technology_Post_Post">
+          <End Type="FivePModel.Post" Role="Post" Multiplicity="0..1" />
+          <End Type="FivePModel.Technology_Post" Role="Technology_Post" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="user_id" />
+            <Principal Role="Post">
+              <PropertyRef Name="post_id" />
             </Principal>
-            <Dependent Role="Friend">
-              <PropertyRef Name="user_friend_id" />
+            <Dependent Role="Technology_Post">
+              <PropertyRef Name="post_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reviews_User_User">
-          <End Type="FivePModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="FivePModel.Reviews_User" Role="Reviews_User" Multiplicity="*" />
+        <Association Name="FK_Technology_Post_Technology">
+          <End Type="FivePModel.Technology" Role="Technology" Multiplicity="0..1" />
+          <End Type="FivePModel.Technology_Post" Role="Technology_Post" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="user_id" />
+            <Principal Role="Technology">
+              <PropertyRef Name="technology_id" />
             </Principal>
-            <Dependent Role="Reviews_User">
-              <PropertyRef Name="user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Reviews_User_User1">
-          <End Type="FivePModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="FivePModel.Reviews_User" Role="Reviews_User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="user_id" />
-            </Principal>
-            <Dependent Role="Reviews_User">
-              <PropertyRef Name="reviews_id_user" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Show_Activate_Reply_Post">
-          <Key>
-            <PropertyRef Name="show_activate_reply_post_id" />
-          </Key>
-          <Property Name="show_activate_reply_post_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="reply_post_id" Type="Int32" />
-          <Property Name="user_id" Type="Int32" />
-          <Property Name="show_activate_reply_post_datetime" Type="DateTime" Precision="3" />
-          <Property Name="show_activate_reply_post_readed" Type="Boolean" />
-          <NavigationProperty Name="Reply_Post" Relationship="FivePModel.FK_Show_Activate_Reply_Post_Reply_Post" FromRole="Show_Activate_Reply_Post" ToRole="Reply_Post" />
-          <NavigationProperty Name="User" Relationship="FivePModel.FK_Show_Activate_Reply_Post_User" FromRole="Show_Activate_Reply_Post" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_Show_Activate_Reply_Post_Reply_Post">
-          <End Type="FivePModel.Reply_Post" Role="Reply_Post" Multiplicity="0..1" />
-          <End Type="FivePModel.Show_Activate_Reply_Post" Role="Show_Activate_Reply_Post" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Reply_Post">
-              <PropertyRef Name="reply_post_id" />
-            </Principal>
-            <Dependent Role="Show_Activate_Reply_Post">
-              <PropertyRef Name="reply_post_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Show_Activate_Reply_Post_User">
-          <End Type="FivePModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="FivePModel.Show_Activate_Reply_Post" Role="Show_Activate_Reply_Post" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="user_id" />
-            </Principal>
-            <Dependent Role="Show_Activate_Reply_Post">
-              <PropertyRef Name="user_id" />
+            <Dependent Role="Technology_Post">
+              <PropertyRef Name="technology_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1349,10 +1416,10 @@
           <EntitySetMapping Name="Friends">
             <EntityTypeMapping TypeName="FivePModel.Friend">
               <MappingFragment StoreEntitySet="Friend">
-                <ScalarProperty Name="friend_status" ColumnName="friend_status" />
                 <ScalarProperty Name="friend_id" ColumnName="friend_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="user_friend_id" ColumnName="user_friend_id" />
+                <ScalarProperty Name="friend_status" ColumnName="friend_status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1380,7 +1447,7 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="FivePModel.Post">
               <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="post_popular" ColumnName="post_popular" />
+                <ScalarProperty Name="post_calculate_medal" ColumnName="post_calculate_medal" />
                 <ScalarProperty Name="post_id" ColumnName="post_id" />
                 <ScalarProperty Name="post_content" ColumnName="post_content" />
                 <ScalarProperty Name="post_img" ColumnName="post_img" />
@@ -1388,14 +1455,12 @@
                 <ScalarProperty Name="post_dateedit" ColumnName="post_dateedit" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="post_activate" ColumnName="post_activate" />
-                <ScalarProperty Name="post_option" ColumnName="post_option" />
                 <ScalarProperty Name="post_activate_admin" ColumnName="post_activate_admin" />
                 <ScalarProperty Name="post_title" ColumnName="post_title" />
                 <ScalarProperty Name="post_sum_reply" ColumnName="post_sum_reply" />
                 <ScalarProperty Name="post_sum_comment" ColumnName="post_sum_comment" />
-                <ScalarProperty Name="post_fame" ColumnName="post_fame" />
                 <ScalarProperty Name="post_view" ColumnName="post_view" />
-                <ScalarProperty Name="technology_id" ColumnName="technology_id" />
+                <ScalarProperty Name="post_popular" ColumnName="post_popular" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1424,6 +1489,8 @@
           <EntitySetMapping Name="Reply_Post">
             <EntityTypeMapping TypeName="FivePModel.Reply_Post">
               <MappingFragment StoreEntitySet="Reply_Post">
+                <ScalarProperty Name="reply_post__calculate_medal" ColumnName="reply_post__calculate_medal" />
+                <ScalarProperty Name="reply_post_popular" ColumnName="reply_post_popular" />
                 <ScalarProperty Name="reply_post_id" ColumnName="reply_post_id" />
                 <ScalarProperty Name="reply_post_content" ColumnName="reply_post_content" />
                 <ScalarProperty Name="reply_post_datecreated" ColumnName="reply_post_datecreated" />
@@ -1433,6 +1500,16 @@
                 <ScalarProperty Name="like_reply_post_id" ColumnName="like_reply_post_id" />
                 <ScalarProperty Name="post_id" ColumnName="post_id" />
                 <ScalarProperty Name="reply_post_title" ColumnName="reply_post_title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews_User">
+            <EntityTypeMapping TypeName="FivePModel.Reviews_User">
+              <MappingFragment StoreEntitySet="Reviews_User">
+                <ScalarProperty Name="reviews_user_id" ColumnName="reviews_user_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="reviews_id_user" ColumnName="reviews_id_user" />
+                <ScalarProperty Name="Review" ColumnName="Review" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1451,6 +1528,17 @@
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="show_activate_post_datetime" ColumnName="show_activate_post_datetime" />
                 <ScalarProperty Name="show_activate_post_Readed" ColumnName="show_activate_post_Readed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Show_Activate_Reply_Post">
+            <EntityTypeMapping TypeName="FivePModel.Show_Activate_Reply_Post">
+              <MappingFragment StoreEntitySet="Show_Activate_Reply_Post">
+                <ScalarProperty Name="show_activate_reply_post_id" ColumnName="show_activate_reply_post_id" />
+                <ScalarProperty Name="reply_post_id" ColumnName="reply_post_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="show_activate_reply_post_datetime" ColumnName="show_activate_reply_post_datetime" />
+                <ScalarProperty Name="show_activate_reply_post_readed" ColumnName="show_activate_reply_post_readed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1504,6 +1592,10 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="FivePModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="user_vip_medal" ColumnName="user_vip_medal" />
+                <ScalarProperty Name="user_bronze_medal" ColumnName="user_bronze_medal" />
+                <ScalarProperty Name="user_silver_medal" ColumnName="user_silver_medal" />
+                <ScalarProperty Name="user_gold_medal" ColumnName="user_gold_medal" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="user_pass" ColumnName="user_pass" />
                 <ScalarProperty Name="user_nicename" ColumnName="user_nicename" />
@@ -1527,24 +1619,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Reviews_User">
-            <EntityTypeMapping TypeName="FivePModel.Reviews_User">
-              <MappingFragment StoreEntitySet="Reviews_User">
-                <ScalarProperty Name="Review" ColumnName="Review" />
-                <ScalarProperty Name="reviews_id_user" ColumnName="reviews_id_user" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="reviews_user_id" ColumnName="reviews_user_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Show_Activate_Reply_Post">
-            <EntityTypeMapping TypeName="FivePModel.Show_Activate_Reply_Post">
-              <MappingFragment StoreEntitySet="Show_Activate_Reply_Post">
-                <ScalarProperty Name="show_activate_reply_post_readed" ColumnName="show_activate_reply_post_readed" />
-                <ScalarProperty Name="show_activate_reply_post_datetime" ColumnName="show_activate_reply_post_datetime" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="reply_post_id" ColumnName="reply_post_id" />
-                <ScalarProperty Name="show_activate_reply_post_id" ColumnName="show_activate_reply_post_id" />
+          <EntitySetMapping Name="Technology_Post">
+            <EntityTypeMapping TypeName="FivePModel.Technology_Post">
+              <MappingFragment StoreEntitySet="Technology_Post">
+                <ScalarProperty Name="technology_id" ColumnName="technology_id" />
+                <ScalarProperty Name="post_id" ColumnName="post_id" />
+                <ScalarProperty Name="post_technology_id" ColumnName="post_technology_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

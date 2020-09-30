@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Five_P.Models.Post>
+
+@{
+    ViewBag.Title = "PostManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>PostManagement</h2>
+<h2>PostManagement</h2>
+<h2>PostManagement</h2>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tiêu đề
+        </th>
+        <th>
+            Trả lời
+        </th>
+        <th>
+            Comment
+        </th>
+        <th>
+            Lượt xem
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th>
+            Tùy chọn
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.post_title)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.post_sum_reply)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.post_sum_comment)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.post_view)
+    </td>
+    <td>
+        <input type="checkbox" style="font-size:35px"/>
+        @Html.DisplayFor(modelItem => item.post_activate)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.post_id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.post_id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.post_id })
+    </td>
+</tr>
+}
+
+</table>
