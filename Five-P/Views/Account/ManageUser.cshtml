@@ -1,9 +1,14 @@
 ﻿@using Five_P.Models;
 @model User
 @{
+    FivePEntities db = new FivePEntities();
     var ngaydang = String.Format("{0:yyyy-MM-dd}", Model.user_date_born);
     ViewBag.Title = "ManageUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var phay = ",";
+    var nam = "Nam";
+    var nu = "Nữ";
+    var EGPT = "EGPT";
 }
 <style>
     .modal-backdrop {
@@ -63,14 +68,6 @@
             font-style: normal;
             font-weight: normal;
         }
-
-
-
-
-
-
-    /* Useless styles, just for demo styles */
-
     body {
         font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
         color: #7F8C9A;
@@ -139,19 +136,19 @@
                                     <i class="fab fa-jenkins" style="color:black"></i>&nbsp; @Model.user_nicename
                                 </div>
                                 <div class="w-100 text-center">
-                                    <i class="fab fa-galactic-senate" style="color:orangered;font-size:65px"></i> 5
+                                    <i class="fab fa-galactic-senate" style="color:orangered;font-size:65px"></i> @Model.user_vip_medal
                                 </div>
                                 <div class="w-100 text-center">
-                                    <i class="fas fa-medal" style="color:yellow; font-size:30px"></i> 5
+                                    <i class="fas fa-medal" style="color:yellow; font-size:30px"></i> @Model.user_gold_medal
                                 </div>
                                 <div class="w-100 text-center">
-                                    <i class="fas fa-medal" style="color:silver; font-size:25px"></i> 5
+                                    <i class="fas fa-medal" style="color:silver; font-size:25px"></i> @Model.user_silver_medal
                                 </div>
                                 <div class="w-100 text-center">
-                                    <i class="fas fa-medal" style="color:#e88d15; font-size:20px"></i> 5
+                                    <i class="fas fa-medal" style="color:#e88d15; font-size:20px"></i> @Model.user_bronze_medal
                                 </div>
                                 <div>
-                                    <a href="@Url.Action("PostManagement","Post")" class="btn btn-default">Quản lý bài viết</a>
+                                    <a href="@Url.Action("PostManagement", "Post")" class="btn btn-default">Quản lý bài viết</a>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +261,7 @@
             <div class="col-lg-4 col-md-6 mt-5">
                 <div class="row">
                     <div class="col-md-6 mb-4">
-                        <center><a href="@Url.Action("Post","Post")" class="btn btn-secondary">Đăng bài</a></center>
+                        <center><a href="@Url.Action("Post", "Post")" class="btn btn-secondary">Đăng bài</a></center>
                     </div>
                     <div class="col-md-6 mb-4">
                         <center><button class="btn btn-secondary" data-toggle="modal" data-target="#modal-form">Mật khẩu</button></center>
@@ -282,7 +279,7 @@
                                     <img src="~/Content/UI/img/faces/team-2.jpg" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 70px;">
                                 </div>
                                 <div class="col-md-7">
-                                    <a href="@Url.Action("","")" class="btn btn-default">Sữa thông tin</a>
+                                    <a href="@Url.Action("", "")" class="btn btn-default">Sữa thông tin</a>
                                 </div>
                             </div>
                             <form>
@@ -293,20 +290,29 @@
                                     <i class="fas fa-envelope-open-text"></i>&nbsp; Email : @Model.user_email
                                 </div>
                                 <div class="row">
-                                    <i class="fas fa-laptop-code"></i>&nbsp; Công nghệ : 
+                                    @{ 
+                                        List<Technology_Care> TechnologyCare = db.Technology_Care.Where(n => n.user_id == Model.user_id).ToList();
+                                    }
+                                    <i class="fas fa-laptop-code"></i>&nbsp; Công nghệ :@foreach (var item2 in TechnologyCare) { @item2.Technology.technology_name@phay}
                                 </div>
                                 <div class="row">
                                     <i class="far fa-calendar-alt"></i>&nbsp; Ngày sinh: @Model.user_date_born
                                 </div>
                                 <hr />
                                 <div class="row">
-                                    <i class="fas fa-child"></i>&nbsp; Tổng bạn bè: ? bạn
+                                    @{
+                                        List<Friend> listFriend = db.Friends.Where(n => n.user_id == Model.user_id).ToList();
+                                        int intCoutFriend = listFriend.Count();
+
+                                    }
+                                    <i class="fas fa-child"></i>&nbsp; Tổng bạn bè: @intCoutFriend
                                 </div>
                                 <div class="row">
-                                    <i class="fas fa-chess-king"></i>&nbsp; Độ nổi tiếng : 
+                                    <i class="fas fa-chess-king"></i>&nbsp; Độ nổi tiếng : @Model.user_popular
                                 </div>
                                 <div class="row">
-                                    <i class="fas fa-award"></i>&nbsp; Huy hiệu : 
+                                    @{var varSumMedal = Model.user_gold_medal + Model.user_bronze_medal + Model.user_silver_medal + Model.user_vip_medal;}
+                                    <i class="fas fa-award"></i>&nbsp; Huy hiệu : @varSumMedal
                                 </div>
                                 <div class="row">
                                     <i class="fas fa-mobile-alt"></i>&nbsp; Số điện thoại : @Model.user_phone
@@ -315,7 +321,7 @@
                                     <i class="fas fa-map-marked-alt"></i>&nbsp; Địa chỉ: @Model.user_address
                                 </div>
                                 <div class="row">
-                                    <i class="fas fa-venus-mars"></i>&nbsp; gới tính : @Model.user_sex 
+                                    <i class="fas fa-venus-mars"></i>&nbsp; gới tính : @if(Model.user_sex == 0) { @nam} else if(Model.user_sex == 1) { @nu} else { @EGPT}
                                 </div>
                                 <div class="row">
                                     <i class="fab fa-facebook-f"></i>&nbsp; Link facebook: @Model.user_link_facebok

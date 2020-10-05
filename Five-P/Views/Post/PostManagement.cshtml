@@ -1,63 +1,144 @@
 ﻿@model IEnumerable<Five_P.Models.Post>
-
 @{
+    if (Session["user"] == null)
+    {
+        Response.Redirect("/Home/Index");
+    }
     ViewBag.Title = "PostManagement";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    String varChecked = "checked";
 }
-<h2>PostManagement</h2>
-<h2>PostManagement</h2>
-<h2>PostManagement</h2>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<style>
+    .custom-toggle input:checked + .custom-toggle-slider {
+        border: 1px solid orangered !important;
+    }
 
+        .custom-toggle input:checked + .custom-toggle-slider:before {
+            background: orangered !important;
+        }
+</style>
+<div class="py-5 mt-5"></div>
+<div class="w-100 text-center mt--5">
+    <h3>Quản lý bài viết</h3>
+</div>
+<center>
+    <div style="width: 95%">
+        <div class="row">
+            <div class="col-md-6">
+                <span class="float-left" style="padding:1%;border-radius:0px 0px 0px 0px">
+                    <button type="button" id="#" class="btn btn-outline-default">Về Trang cá nhân</button>
+                    <button type="button" id="#" class="btn btn-outline-default">Sắp sếp theo</button>
+                </span>
+            </div>
+            <div class="col-md-6">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Tiêu đề
-        </th>
-        <th>
-            Trả lời
-        </th>
-        <th>
-            Comment
-        </th>
-        <th>
-            Lượt xem
-        </th>
-        <th>
-            Trạng thái
-        </th>
-        <th>
-            Tùy chọn
-        </th>
-    </tr>
+            </div>
+            <div class="col-md-4" style="padding:1%">
+                <input type="text" id="txtsearch" placeholder="Nhập tiêu đề cần tim.." class="form-control w-100" />
+            </div>
+            <div class="col-md-1">
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.post_title)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.post_sum_reply)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.post_sum_comment)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.post_view)
-    </td>
-    <td>
-        <input type="checkbox" style="font-size:35px"/>
-        @Html.DisplayFor(modelItem => item.post_activate)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.post_id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.post_id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.post_id })
-    </td>
-</tr>
-}
+            </div>
+            <div class="col-md-7" style="padding:1%">
+                <span class="float-right">
+                    <button type="button" id="#" class="btn btn-secondary">Sắp sếp theo</button>
+                    <button type="button" id="#" class="btn btn-warning ">Sắp sếp theo</button>
+                    <button type="button" id="#" class="btn btn-default ">Sắp sếp theo</button>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped shadow">
+                    <tr style="">
+                        <th>
+                            <i class="fas fa-edit"></i> Tiêu đề
+                        </th>
+                        <th style="text-align:center">
+                            <i class="fas fa-reply"></i> Trả lời
+                        </th>
+                        <th style="text-align:center">
+                            <i class="far fa-comment-dots"></i> Comment
+                        </th>
+                        <th style="text-align:center">
+                            <i class="far fa-eye"></i> Lượt xem
+                        </th>
+                        <th style="text-align:center">
+                            <i class="fas fa-toggle-off"></i> Trạng thái
+                        </th>
+                        <th style="text-align:center">
+                            <i class="fas fa-magic"></i> Tùy chọn
+                        </th>
+                    </tr>
 
-</table>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="trDeletePost@{@item.post_id}">
+                            <td style="width:55%">
+                                @Html.DisplayFor(modelItem => item.post_title)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.post_sum_reply)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.post_sum_comment)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.post_view)
+                            </td>
+                            <td style="text-align:center">
+                                <form id="formActivatePost@{@item.post_id}">
+                                    <label class="custom-toggle">
+                                        <input type="hidden" name="post_id" value="@item.post_id" />
+                                        <input type="hidden" name="post_activate" value="@item.post_activate.Value.ToString()" />
+                                        <input type="checkbox" id="cbActivatePost@{@item.post_id}" @if (item.post_activate == true) { @varChecked }>
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                </form>
+                            </td>
+                            <td style="text-align:center">
+                                <a href="@Url.Action("Post", "Post", new { idPost = item.post_id })"><i class="fas fa-edit text-warning"></i></a> |
+                                <a href="@Url.Action("DetailQuestion", "Home", new { idpost = item.post_id })"><i class="far fa-eye text-warning"></i></a> |
+                                <a href="@Url.Action("DeletePost","Post",new { idPost = item.post_id})" data-ajax="true" data-ajax-complete="$(&#39;#trDeletePost@{@item.post_id}&#39;).remove()" data-ajax-method="Delete" data-ajax-confirm="Xóa bài viết này ?"><i class="far fa-trash-alt text-warning"></i></a>
+                            </td>
+                        </tr>
+                        <script>
+                            $(document).ready(function () {
+                                $("#cbActivatePost@{@item.post_id}").click(function () {
+                                var data = $("#formActivatePost@{@item.post_id}").serialize();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Post/ActivatePost",
+                                    data: data,
+                                    success: function (response) {
+                                    $(this).show();
+                                    }
+                                })
+                            })
+                        })
+                        </script>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</center>
+<script>
+    $("#txtsearch").on("keyup", function () {
+        var txtenter = $(this).val();
+        $("table tr").each(function (results) {
+            if (results !== 0) {
+                var id = $(this).find("td:nth-child(1)").text();
+                if (id.indexOf(txtenter) !== 0 && id.toLowerCase().indexOf(txtenter.toLowerCase()) < 0) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            }
+        });
+    });
+</script>

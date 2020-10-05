@@ -25,10 +25,10 @@
                         <h7 class="bg-warning list-group-item list-group-item-action " style="text-align:center;color:white">
                             Tùy chọn <i class="fas fa-magic"></i>
                         </h7>
-                        <button type="button" class="list-group-item list-group-item btn btn-outline-default w-100">Thành viên</button>
-                        <button type="button" class="list-group-item btn btn-outline-default w-100">Thẻ</button>
-                        <button type="button" class="list-group-item btn btn-outline-default w-100">Các loại câu hỏi</button>
-                        <button type="button" class="list-group-item btn btn-outline-default w-100">Việc làm</button>                    
+                        <button type="button" class="list-group-item list-group-item btn btn-outline-warning w-100">Thành viên</button>
+                        <button type="button" class="list-group-item btn btn-outline-warning w-100">Thẻ</button>
+                        <button type="button" class="list-group-item btn btn-outline-warning w-100">Các loại câu hỏi</button>
+                        <button type="button" class="list-group-item btn btn-outline-warning w-100">Việc làm</button>                    
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                         <div class="">
                             <div class="row">
                                 <h3 class="mb-0 col-md-7" style="font-weight:600">Tất cả câu hỏi?</h3>
-                                <a href="@Url.Action("Post","Post")" class="btn btn-default col-md-4">Đặt câu hỏi?</a>
+                                <a href="@Url.Action("Post","Post")" class="btn btn-warning col-md-4">Đặt câu hỏi?</a>
                             </div><br />
                             <div class="row">
                                 <div class="blockquote-footer col-md-3">
@@ -52,7 +52,7 @@
                                     <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#AllQuestion" href="@Url.Action("NoAnswer","Home")" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Chưa trả lời</a>
                                     <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#AllQuestion" href="@Url.Action("Answer","Home")" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Trả lời nhiều</a>
                                     <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#AllQuestion" href="@Url.Action("Views","Home")" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-container="body" data-animation="true">Lượt xem</a>
-                                    <a class="btn btn-sm btn-warning" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <a class="btn btn-sm btn-outline-warning" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                         Lọc<i class="fas fa-angle-double-down"></i>
                                     </a>
                                     <div class="collapse" id="collapseExample">
@@ -86,7 +86,7 @@
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="row border border-bottom-0">
-                                                    <p style="font-weight:600"><i class="fab fa-galactic-senate" style="font-size:25px"></i> 150 Đề xuất</p>
+                                                    <p style="font-weight:600"><i class="fab fa-galactic-senate" style="font-size:25px"></i> @item.post_popular Đề xuất</p>
                                                 </div>
                                                 <div class="row border-left border-right">
                                                     @{
@@ -104,7 +104,7 @@
                                                     <p><i class="fab fa-jedi-order" style="color:yellow;font-size:30px"></i> @item.post_popular Điểm danh tiếng của bài viết.</p>
                                                 </div>
                                                 <div class="h-auto">
-                                                    <a href="@Url.Action("DetailQuestion","Home", new { idpost = item.post_id})" class="Search">
+                                                    <a href="@Url.Action("DetailQuestion","Home", new { idpost = item.post_id})">
                                                         <u class="text-default" style="font-weight:600">
                                                             @Html.Raw(item.post_title)
                                                         </u>
@@ -116,7 +116,10 @@
                                                 <br />
                                                 <div class="row">
                                                     <div class="col-md-4">
-                                                        <span>Công nghệ bài viết </span>
+                                                        @{ 
+                                                            List<Technology_Post> technology_Posts = db.Technology_Post.Where(n => n.post_id == item.post_id).ToList();
+                                                        }
+                                                        <span>@foreach (var itemTechnologyPost in technology_Posts) { @itemTechnologyPost.Technology.technology_name} </span>
                                                     </div>
                                                     <div class="col-md-8" style="background-color:#fafafa">
                                                         <div>
@@ -125,7 +128,7 @@
                                                             </a>
                                                         </div>
                                                         <div>
-                                                            <p style="float:right;"><a href="@Url.Action("UserPage","Account",new { idUser = item.user_id})" style="color: #6c757d;">@item.User.user_nicename</a> &nbsp;<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> 5 | <i class="fas fa-medal" style="color:yellow"></i> 5| <i class="fas fa-medal" style="color:silver"></i> 5 | <i class="fas fa-medal" style="color:#e88d15"></i> 5|</p>
+                                                            <p style="float:right;"><a href="@Url.Action("UserPage","Account",new { idUser = item.user_id})" style="color: #6c757d;">@item.User.user_nicename</a> &nbsp;<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> @item.User.user_vip_medal | <i class="fas fa-medal" style="color:yellow"></i> @item.User.user_gold_medal| <i class="fas fa-medal" style="color:silver"></i> @item.User.user_silver_medal | <i class="fas fa-medal" style="color:#e88d15"></i> @item.User.user_bronze_medal|</p>
                                                         </div>
                                                         @{
                                                             List<Technology_Care> listTechnologyCare = db.Technology_Care.Where(n => n.user_id == item.user_id).ToList();

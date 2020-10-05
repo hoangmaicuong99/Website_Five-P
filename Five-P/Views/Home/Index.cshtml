@@ -509,11 +509,13 @@
         // kiểm tra form đăng ký
         function CheckformRegistration() {
             let user_email_RS = document.getElementById('user_email_RS').value;
+            
             let user_pass_RS = document.getElementById('user_pass_RS').value;
             let user_pass_ARS = document.getElementById('user_pass_ARS').value;
             let regex_email = /^([a-z0-9_\.-]+)@a\.([a-z\.]{2,6})$/;
             let regex_pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@b$!%*?&])[A-Za-z\d@(b)$!%*?&]{8,}$/;
             if (user_email_RS == '' && user_pass_RS == '' && user_pass_ARS == '') {
+                debugger
                 document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập thông tin!</u>";
             } else if (user_email_RS == '' && user_pass_RS == '') {
                 document.getElementById('notifyRS').innerHTML = "<i class='fas fa-times-circle'>&nbsp;</i><u> Bạn chưa nhập (email) và (password)!</u>";

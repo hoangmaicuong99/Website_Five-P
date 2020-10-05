@@ -53,7 +53,8 @@
                                         <span class="description">Nổi tiếng</span>
                                     </div>
                                     <div>
-                                        <span class="heading">89</span>
+                                        @{var varSumMedal = Model.user_gold_medal + Model.user_bronze_medal + Model.user_silver_medal + Model.user_vip_medal;}
+                                        <span class="heading">@varSumMedal</span>
                                         <span class="description">Huy hiệu</span>
                                         <div><i class="fas fa-medal" style="color:yellow;font-size:35px"></i></div>
                                     </div>
@@ -79,8 +80,11 @@
                             }<span class="font-weight-light"></span></h3>
                             <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>Email : @Model.user_email</div>
                             <div class="h6 mt-4">
-                                <i class="ni business_briefcase-24 mr-2"></i>Công nghệ : 
-                                    <span> </span>
+                                @{
+                                    List<Technology_Care> TechnologyCare = db.Technology_Care.Where(n => n.user_id == Model.user_id).ToList();
+                                }
+                                <i class="ni business_briefcase-24 mr-2"></i>@foreach(var item2 in TechnologyCare) { <span style="padding:1%">@item2.Technology.technology_name</span>}
+                                <span> </span>
                             </div>
                         </div>
                         <div class="">

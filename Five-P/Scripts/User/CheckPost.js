@@ -9,6 +9,9 @@
     }
     else if (titlePost.length < 20 || contentPost.length < 30) {
         showCheckPost.innerHTML = "Tiêu đề hoặc nội dung không được dưới 20 ký tự!";
+    } else if (titlePost.length > 200)
+    {
+        showCheckPost.innerHTML = "Tiêu đề không được quá 200 ký tự!";
     }
     else {
         return true;

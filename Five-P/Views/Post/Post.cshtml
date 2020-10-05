@@ -1,4 +1,13 @@
-﻿@{
+﻿@using Five_P.Models;
+@model Post
+@{
+    if(Model != null && Session["user"]!=null)
+    {
+        FivePEntities db = new FivePEntities();
+        ViewBag.Selected = "selected";
+        List<Technology_Post> technology_Posts = db.Technology_Post.Where(n => n.post_id == Model.post_id).ToList();
+        ViewBag.technology_Posts = technology_Posts;
+    }
     ViewBag.Title = "Post";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -126,18 +135,31 @@
                 </div>
                 <div class="s-block row ml-2" id="Post">
                     <div class="container post mt-2">
-                        <form onsubmit="return CheckPost()" action="@Url.Action("Post","Post")" method="post">
+                        <form onsubmit="return CheckPost()" action="@Url.Action("Post", "Post")" method="post">
+                            @if(Model != null)
+                            {
+                                <input type="hidden" name="post_id" value="@Model.post_id"/>
+                                <input type="hidden" name="post_datecreated" value="@Model.post_datecreated"/>
+                            }
                             <h3 class="title">Tiêu đề bài viết</h3>
-                            <textarea name="post_title" class="form-control" id="titlePost" onclick="GuideTitle()"></textarea>
+                            <textarea name="post_title" class="form-control" id="titlePost" onclick="GuideTitle()">@if (Model != null) { @Model.post_title}</textarea>
                             <br />
                             <h3 class="title">Nội dung bài viết <i class="fas fa-directions"></i><a href="#" onclick="GuideContentPost()" style="color:black"> ( Hướng dẫn )</a></h3>
-                            <textarea name="post_content" class="ckeditor form-control" id="contentPost"></textarea>
+                            <textarea name="post_content" class="ckeditor form-control" id="contentPost">@if (Model != null) { @Model.post_content}</textarea>
                             <br />
                             <h3 class="title">Công nghệ liên quan <i class="fas fa-directions"></i><a href="#" onclick="GuideTechnology()" style="color:black"> ( Hướng dẫn )</a></h3>
+                            <!--Show Công nghệ đã chọn-->
                             <select class="form-control" id="addTechnologys" multiple="multiple" name="postTechnology">
                                 @foreach (var item in ViewBag.dataTechnologys)
                                 {
-                                    <option value="@item.technology_id">@item.technology_name</option>
+                                    if (Model != null)
+                                    {
+                                        <option value="@item.technology_id" @foreach (var item2 in ViewBag.technology_Posts) { if (item2.technology_id == item.technology_id) { @ViewBag.Selected } }>@item.technology_name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.technology_id">@item.technology_name</option>
+                                    }
                                 }
                             </select>
                             <h3 id="showCheckPost" style="color:red"></h3>

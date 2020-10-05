@@ -352,6 +352,9 @@
         }
         else if (checkTitleReplyPost.length < 20 || checkContentReplyPost.length < 20) {
             showCheckContentReplyPost.innerHTML = 'Tiêu đề và nội dung không dưới 20 ký tự!';
+        } else if (checkTitleReplyPost.length > 200)
+        {
+            showCheckContentReplyPost.innerHTML = 'Tiêu đề không được quá 200 ký tự!';
         }
         else {
             return true;
