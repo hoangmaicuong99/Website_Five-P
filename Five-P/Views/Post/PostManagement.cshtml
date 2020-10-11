@@ -5,11 +5,15 @@
         Response.Redirect("/Home/Index");
     }
     ViewBag.Title = "PostManagement";
+    var del = "deletePost";
     Layout = "~/Views/Shared/_Layout.cshtml";
     String varChecked = "checked";
 }
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<link href="~/Content/Semantic-UI-CSS-master/semantic.min.css" rel="stylesheet" />
+<script src="~/Content/Semantic-UI-CSS-master/semantic.min.js"></script>
 <style>
     .custom-toggle input:checked + .custom-toggle-slider {
         border: 1px solid orangered !important;
@@ -18,6 +22,12 @@
         .custom-toggle input:checked + .custom-toggle-slider:before {
             background: orangered !important;
         }
+    .ui.icon.input > input {
+        padding-right: 10.67142857em !important;
+    }
+    .ui.input > input {
+        max-width: none;
+    }
 </style>
 <div class="py-5 mt-5"></div>
 <div class="w-100 text-center mt--5">
@@ -28,30 +38,108 @@
         <div class="row">
             <div class="col-md-6">
                 <span class="float-left" style="padding:1%;border-radius:0px 0px 0px 0px">
-                    <button type="button" id="#" class="btn btn-outline-default">Về Trang cá nhân</button>
-                    <button type="button" id="#" class="btn btn-outline-default">Sắp sếp theo</button>
+                    <a class="btn btn-outline-warning" href="@Url.Action("ManageUser","Account")">Cá nhân</a>
+                    <a class="btn btn-outline-default" href="@Url.Action("Post","Post")">Đặt câu hỏi</a>
                 </span>
             </div>
             <div class="col-md-6">
 
             </div>
             <div class="col-md-4" style="padding:1%">
-                <input type="text" id="txtsearch" placeholder="Nhập tiêu đề cần tim.." class="form-control w-100" />
+                <div class="form-group">
+                    <div class="input-group mb-4">
+                        <input class="form-control" id="txtsearch" placeholder="Nhập tiêu đề cần tim.." type="text">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="search icon mb-1" ></i></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-4">
 
             </div>
-            <div class="col-md-7" style="padding:1%">
-                <span class="float-right">
-                    <button type="button" id="#" class="btn btn-secondary">Sắp sếp theo</button>
-                    <button type="button" id="#" class="btn btn-warning ">Sắp sếp theo</button>
-                    <button type="button" id="#" class="btn btn-default ">Sắp sếp theo</button>
-                </span>
+            <div class="col-md-4 text-right">
+                <span>Sắp xếp : </span>
+                <div class="ui dropdown">
+                    <i class="filter icon"></i>
+                    <span class="text">Mới nhất</span>
+                    <div class="menu">
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input type="text" placeholder="Tìm...">
+                        </div>
+                        <div class="divider"></div>
+                        <div class="header">
+                            <i class="tags icon"></i>
+                            Thẻ
+                        </div>
+                        <div class="scrolling menu">
+                            <div class="item">
+                                <div class="ui orange empty circular label"></div>
+                                
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("New","Post")" data-ajax-loading="#divLoading">Mới nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui black empty circular label"></div>
+                                
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("Popular","Post")" data-ajax-loading="#divLoading" >Nổi tiếng nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui purple empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("NotFamous","Post")" data-ajax-loading="#divLoading" >Không nổi tiếng</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui red empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("ReplyAlot","Post")" data-ajax-loading="#divLoading" >Trả lời nhiều nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui blue empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("LittleReply","Post")" data-ajax-loading="#divLoading">Trả lời ít nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui black empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("CommentAlot","Post")" data-ajax-loading="#divLoading" >Comment nhiều nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui purple empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("LittleComment","Post")" data-ajax-loading="#divLoading" >Comment ít nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui orange empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("ViewAlot","Post")" data-ajax-loading="#divLoading" >Lượt xem nhiều nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("LittleView","Post")" data-ajax-loading="#divLoading">Lượt xem ít nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui yellow empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("StatusTurnOn","Post")" data-ajax-loading="#divLoading">Trạng thái bật</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui pink empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("StatusTurnOff","Post")" data-ajax-loading="#divLoading">Trạng thái tắt</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui green empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("Name","Post")" data-ajax-loading="#divLoading">Theo tiêu đề (A->Z)</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui red empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("OldDateTime","Post")" data-ajax-loading="#divLoading">Cũ nhất</a>
+                            </div>
+                            <div class="item">
+                                <div class="ui blue empty circular label"></div>
+                                <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#UpDate" href="@Url.Action("DateTimeEdit","Post")" data-ajax-loading="#divLoading">Sửa gần đây</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <table class="table table-striped shadow">
+                <table class="table table-striped shadow" id="UpDate">
                     <tr style="">
                         <th>
                             <i class="fas fa-edit"></i> Tiêu đề
@@ -72,11 +160,22 @@
                             <i class="fas fa-magic"></i> Tùy chọn
                         </th>
                     </tr>
+                    <tr id="divLoading" style="display:none">
+                        <td colspan="6" >
+                            <div class="ui segment" style="box-shadow: 0px 0px 0px 0px;border:0px solid #000000; height:150px">
+                                <div class="ui active inverted dimmer">
+                                    <div class="ui medium text loader">Loading</div>
+                                </div>
+                                <p></p>
+                                <p></p>
+                            </div>
+                        </td>
+                    </tr>
 
                     @foreach (var item in Model)
                     {
                         <tr id="trDeletePost@{@item.post_id}">
-                            <td style="width:55%">
+                            <td style="width:45%">
                                 @Html.DisplayFor(modelItem => item.post_title)
                             </td>
                             <td style="text-align:center">
@@ -101,9 +200,29 @@
                             <td style="text-align:center">
                                 <a href="@Url.Action("Post", "Post", new { idPost = item.post_id })"><i class="fas fa-edit text-warning"></i></a> |
                                 <a href="@Url.Action("DetailQuestion", "Home", new { idpost = item.post_id })"><i class="far fa-eye text-warning"></i></a> |
-                                <a href="@Url.Action("DeletePost","Post",new { idPost = item.post_id})" data-ajax="true" data-ajax-complete="$(&#39;#trDeletePost@{@item.post_id}&#39;).remove()" data-ajax-method="Delete" data-ajax-confirm="Xóa bài viết này ?"><i class="far fa-trash-alt text-warning"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#@del@item.post_id"><i class="fa fa-trash-alt"></i></a>
                             </td>
                         </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="@del@item.post_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a href="@Url.Action("DeletePost","Post",new { idPost = item.post_id})" data-ajax="true" data-ajax-complete="$(&#39;#trDeletePost@{@item.post_id}&#39;).remove()" data-ajax-method="Delete"><i class="far fa-trash-alt text-warning" data-dismiss="modal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <script>
                             $(document).ready(function () {
                                 $("#cbActivatePost@{@item.post_id}").click(function () {
@@ -127,6 +246,14 @@
     </div>
 </center>
 <script>
+    function ClearResult() {
+        $("#divLoading").empty();
+    }
+</script>
+<script>
+    $('.ui.dropdown')
+        .dropdown()
+        ;
     $("#txtsearch").on("keyup", function () {
         var txtenter = $(this).val();
         $("table tr").each(function (results) {
@@ -142,3 +269,4 @@
         });
     });
 </script>
+

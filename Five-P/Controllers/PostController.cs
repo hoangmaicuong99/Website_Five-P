@@ -73,16 +73,16 @@ namespace Five_P.Controllers
                     db.Technology_Post.Add(tp);
                 }
                 post.post_img = null;
-                post.post_datecreated = DateTime.Now;
+                post.post_datecreated = post.post_datecreated;
                 post.post_dateedit = DateTime.Now;
                 post.user_id = user.user_id;
-                post.post_activate = true;
-                post.post_activate_admin = true;
-                post.post_sum_reply = 0;
-                post.post_sum_comment = 0;
-                post.post_view = 0;
-                post.post_popular = 0;
-                post.post_calculate_medal = 0;
+                post.post_activate = post.post_activate;
+                post.post_activate_admin = post.post_activate_admin;
+                post.post_sum_reply = post.post_sum_reply;
+                post.post_sum_comment = post.post_sum_comment;
+                post.post_view = post.post_view;
+                post.post_popular = post.post_popular;
+                post.post_calculate_medal = post.post_calculate_medal;
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
                 return Redirect(pageManageUser);
@@ -194,6 +194,7 @@ namespace Five_P.Controllers
                 }
                 db.Reply_Post.Remove(db.Reply_Post.Find(item.reply_post_id));
             }
+            db.SaveChanges();
             Post post = db.Posts.Find(idPost);
             if(post!= null)
             {
@@ -201,6 +202,91 @@ namespace Five_P.Controllers
                 db.SaveChanges();
             }
             return View();
+        }
+        //Sắp xếp
+        public PartialViewResult New()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement",db.Posts.Where(n=>n.user_id == user.user_id && n.post_activate_admin == true).OrderByDescending(n=>n.post_datecreated).ToList());
+        }
+        public PartialViewResult Popular()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderByDescending(n => n.post_popular).ToList());
+        }
+        public PartialViewResult NotFamous()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderBy(n => n.post_popular).ToList());
+        }
+        public PartialViewResult ReplyAlot()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderByDescending(n => n.post_sum_reply).ToList());
+        }
+        public PartialViewResult LittleReply()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderBy(n => n.post_sum_reply).ToList());
+        }
+        public PartialViewResult CommentAlot()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderByDescending(n => n.post_sum_comment).ToList());
+        }
+        public PartialViewResult LittleComment()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderBy(n => n.post_sum_comment).ToList());
+        }
+        public PartialViewResult ViewAlot()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderByDescending(n => n.post_view).ToList());
+        }
+        public PartialViewResult LittleView()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderBy(n => n.post_view).ToList());
+        }
+        public PartialViewResult StatusTurnOn()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true && n.post_activate == true).OrderByDescending(n => n.post_datecreated).ToList());
+        }
+        public PartialViewResult StatusTurnOff()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true && n.post_activate == false).OrderByDescending(n => n.post_datecreated).ToList());
+        }
+        public PartialViewResult Name()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderBy(n => n.post_title).ToList());
+        }
+        public PartialViewResult OldDateTime()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderBy(n => n.post_datecreated).ToList());
+        }
+        public PartialViewResult DateTimeEdit()
+        {
+            System.Threading.Thread.Sleep(2000);
+            User user = (User)Session["user"];
+            return PartialView("_SortPostManagement", db.Posts.Where(n => n.user_id == user.user_id && n.post_activate_admin == true).OrderByDescending(n => n.post_dateedit).ToList());
         }
         protected override void Dispose(bool disposing)
         {

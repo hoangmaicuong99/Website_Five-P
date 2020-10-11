@@ -1,0 +1,117 @@
+﻿@using Five_P.Models;
+@model List<Post>
+@{ 
+    var del = "deletePost";
+    String varChecked = "checked";
+}
+
+<table class="table table-striped shadow" id="UpDate">
+    <tr style="">
+        <th>
+            <i class="fas fa-edit"></i> Tiêu đề
+        </th>
+        <th style="text-align:center">
+            <i class="fas fa-reply"></i> Trả lời
+        </th>
+        <th style="text-align:center">
+            <i class="far fa-comment-dots"></i> Comment
+        </th>
+        <th style="text-align:center">
+            <i class="far fa-eye"></i> Lượt xem
+        </th>
+        <th style="text-align:center">
+            <i class="fas fa-toggle-off"></i> Trạng thái
+        </th>
+        <th style="text-align:center">
+            <i class="fas fa-magic"></i> Tùy chọn
+        </th>
+    </tr>
+    <tr id="divLoading" style="display:none">
+        <td colspan="6">
+            <div class="ui segment" style="box-shadow: 0px 0px 0px 0px;border:0px solid #000000; height:150px">
+                <div class="ui active inverted dimmer">
+                    <div class="ui medium text loader">Loading</div>
+                </div>
+                <p></p>
+                <p></p>
+            </div>
+        </td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr id="trDeletePost@{@item.post_id}">
+            <td style="width:45%">
+                @Html.DisplayFor(modelItem => item.post_title)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.post_sum_reply)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.post_sum_comment)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.post_view)
+            </td>
+            <td style="text-align:center">
+                <form id="formActivatePost@{@item.post_id}">
+                    <label class="custom-toggle">
+                        <input type="hidden" name="post_id" value="@item.post_id" />
+                        <input type="hidden" name="post_activate" value="@item.post_activate.Value.ToString()" />
+                        <input type="checkbox" id="cbActivatePost@{@item.post_id}" @if (item.post_activate == true) { @varChecked }>
+                        <span class="custom-toggle-slider rounded-circle"></span>
+                    </label>
+                </form>
+            </td>
+            <td style="text-align:center">
+                <a href="@Url.Action("Post", "Post", new { idPost = item.post_id })"><i class="fas fa-edit text-warning"></i></a> |
+                <a href="@Url.Action("DetailQuestion", "Home", new { idpost = item.post_id })"><i class="far fa-eye text-warning"></i></a> |
+                @*<a href="@Url.Action("DeletePost","Post",new { idPost = item.post_id})" data-ajax="true" data-ajax-complete="$(&#39;#trDeletePost@{@item.post_id}&#39;).remove()" data-ajax-method="Delete" data-ajax-confirm="Xóa bài viết này ?"><i class="far fa-trash-alt text-warning"></i></a>*@
+                @*Ajax.ActionLink("Xóa", "DeleteConfirmed", new { @id = item.post_id }, new AjaxOptions
+                    {
+                        Confirm = "BẠn có muốn xóa hay không ?",
+                        OnComplete = "$('#row_" + item.post_id + "').remove()",
+                        HttpMethod = "Delete"
+                    })*@
+                <a href="#" data-toggle="modal" data-target="#@del@item.post_id"><i class="fa fa-trash-alt"></i></a>
+
+
+            </td>
+        </tr>
+        <!-- Modal -->
+        <div class="modal fade" id="@del@item.post_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a href="@Url.Action("DeletePost","Post",new { idPost = item.post_id})" data-ajax="true" data-ajax-complete="$(&#39;#trDeletePost@{@item.post_id}&#39;).remove()" data-ajax-method="Delete"><i class="far fa-trash-alt text-warning" data-dismiss="modal"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $("#cbActivatePost@{@item.post_id}").click(function () {
+                var data = $("#formActivatePost@{@item.post_id}").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Post/ActivatePost",
+                    data: data,
+                    success: function (response) {
+                    $(this).show();
+                    }
+                })
+            })
+        })
+        </script>
+    }
+
+</table>
