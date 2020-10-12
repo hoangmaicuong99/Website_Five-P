@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Five_P.Models;
 
 namespace Five_P.Areas.Admin.Controllers
 {
     public class FriendsController : Controller
     {
+        FivePEntities db = new FivePEntities();
         // GET: Admin/Friends
         public ActionResult Index()
         {
-            return View();
+            List<Friend> friend = db.Friends.OrderBy(n => n.User.user_nicename).ToList();
+            return View(friend);
         }
     }
 }

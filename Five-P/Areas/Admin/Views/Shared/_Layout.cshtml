@@ -30,10 +30,13 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <!-- CSS Files -->
+
+    <script src="~/Content/fontawesome/js/fontawesome.min.js"></script>
     <link href="~/Content/Layout_Admin/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Layout_Admin/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Layout_Admin/css/now-ui-dashboard.css?v=1.5.0" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="~/Content/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
     <link href="~/Content/Layout_Admin/demo/demo.css" rel="stylesheet" />
 </head>
 
@@ -54,7 +57,7 @@
             <div class="sidebar-wrapper" id="sidebar-wrapper">
                 <ul class="nav">
                     <li class="active ">
-                        <a href="@Url.Action("Index","Home")">
+                        <a href="@Url.Action("Index","HomeAdmin")">
                             <i class="now-ui-icons design_app"></i>
                             <p>Trang chủ</p>
                         </a>
@@ -226,11 +229,11 @@
     <script src="~/Content/Layout_Admin/js/now-ui-dashboard.min.js?v=1.5.0" type="text/javascript"></script><!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
     <script src="~/Content/Layout_Admin/demo/demo.js"></script>
     <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initDashboardPageCharts();
+        $(document).ready(function () {
+            // Javascript method's body can be found in assets/js/demos.js
+            demo.initDashboardPageCharts();
 
-    });
+        });
     </script>
 </body>
 

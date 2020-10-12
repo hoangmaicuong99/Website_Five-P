@@ -1,7 +1,9 @@
-﻿
+﻿@using Five_P.Models;
+@model List<User>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int intStt = 1;
 }
 
 <div class="content">
@@ -14,119 +16,59 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table">
-                            <thead class=" text-primary">
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Country
-                                </th>
-                                <th>
-                                    City
-                                </th>
-                                <th class="text-right">
-                                    Salary
-                                </th>
+                            <thead class=" text-primary text-left">
+                            <th>
+                                Stt
+                            </th>
+                            <th class="text-left">
+                                <i class="fas fa-signature"></i> Tên
+                            </th>
+                            <th class="text-right">
+                                <i class="far fa-file-image"></i> Ảnh
+                            </th>
+                            <th class="text-center">
+                                <i class="fab fa-jedi-order"></i> Điểm nổi tiếng
+                            </th>
+                            <th class="text-center">
+                                <i class="fas fa-medal"></i> Huy chương
+                            </th>
+                            <th class="text-center">
+                                <i class="fas fa-book"></i> Bài viết
+                            </th>
+                            <th class="text-center">
+                                <i class="fas fa-magic"></i> Tùy chọn
+                            </th>
                             </thead>
                             <tbody>
+                                @foreach ( var item in Model)
+                                {
                                 <tr>
-                                    <td>
-                                        Dakota Rice
+                                    <td class="text-left">
+                                        @intStt
                                     </td>
-                                    <td>
-                                        Niger
+                                    <td class="text-left">
+                                        @item.user_nicename
                                     </td>
-                                    <td>
-                                        Oud-Turnhout
+                                    <td style="width:10%;height:10%" class="text-right">
+                                        <img src="~/Content/LayoutNguoiDung/ImgUser/emp1.jpg" />
                                     </td>
-                                    <td class="text-right">
-                                        $36,738
+                                    <td class="text-center">
+                                        @item.user_popular
+                                    </td>
+                                    <td class="text-center">
+                                        ....
+                                    </td>
+                                    <td class="text-center">
+                                        ....
+                                    </td>
+                                    <td class="text-center">
+                                        <i class="fas fa-user-edit"></i> |
+                                        <i class="far fa-eye"></i> |
+                                        <i class="far fa-trash-alt"></i>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        Minerva Hooper
-                                    </td>
-                                    <td>
-                                        Curaçao
-                                    </td>
-                                    <td>
-                                        Sinaai-Waas
-                                    </td>
-                                    <td class="text-right">
-                                        $23,789
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Sage Rodriguez
-                                    </td>
-                                    <td>
-                                        Netherlands
-                                    </td>
-                                    <td>
-                                        Baileux
-                                    </td>
-                                    <td class="text-right">
-                                        $56,142
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Philip Chaney
-                                    </td>
-                                    <td>
-                                        Korea, South
-                                    </td>
-                                    <td>
-                                        Overland Park
-                                    </td>
-                                    <td class="text-right">
-                                        $38,735
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Doris Greene
-                                    </td>
-                                    <td>
-                                        Malawi
-                                    </td>
-                                    <td>
-                                        Feldkirchen in Kärnten
-                                    </td>
-                                    <td class="text-right">
-                                        $63,542
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Mason Porter
-                                    </td>
-                                    <td>
-                                        Chile
-                                    </td>
-                                    <td>
-                                        Gloucester
-                                    </td>
-                                    <td class="text-right">
-                                        $78,615
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Jon Porter
-                                    </td>
-                                    <td>
-                                        Portugal
-                                    </td>
-                                    <td>
-                                        Gloucester
-                                    </td>
-                                    <td class="text-right">
-                                        $98,615
-                                    </td>
-                                </tr>
+                                    intStt++;
+                                }
                             </tbody>
                         </table>
                     </div>
