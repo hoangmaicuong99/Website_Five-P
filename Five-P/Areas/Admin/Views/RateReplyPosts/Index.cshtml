@@ -1,7 +1,9 @@
-﻿
+﻿@using Five_P.Models;
+@model List<Rate_Reply_Post>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int intCount = 1;
 }
 <div class="content">
     <div class="row">
@@ -15,117 +17,51 @@
                         <table class="table">
                             <thead class=" text-primary">
                             <th>
-                                Name
+                                Stt
                             </th>
                             <th>
-                                Country
+                                <i class="fas fa-reply-all"></i> Trả lời
                             </th>
-                            <th>
-                                City
+                            <th class="text-center">
+                                <i class="fas fa-medal"></i> Đánh giá
                             </th>
-                            <th class="text-right">
-                                Salary
+                            <th class="text-center">
+                                <i class="now-ui-icons users_single-02"></i> Người dùng
+                            </th>
+                            <th class="text-center">
+                                <i class="fas fa-magic"></i> Tùy chọn
                             </th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Dakota Rice
-                                    </td>
-                                    <td>
-                                        Niger
-                                    </td>
-                                    <td>
-                                        Oud-Turnhout
-                                    </td>
-                                    <td class="text-right">
-                                        $36,738
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Minerva Hooper
-                                    </td>
-                                    <td>
-                                        Curaçao
-                                    </td>
-                                    <td>
-                                        Sinaai-Waas
-                                    </td>
-                                    <td class="text-right">
-                                        $23,789
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Sage Rodriguez
-                                    </td>
-                                    <td>
-                                        Netherlands
-                                    </td>
-                                    <td>
-                                        Baileux
-                                    </td>
-                                    <td class="text-right">
-                                        $56,142
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Philip Chaney
-                                    </td>
-                                    <td>
-                                        Korea, South
-                                    </td>
-                                    <td>
-                                        Overland Park
-                                    </td>
-                                    <td class="text-right">
-                                        $38,735
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Doris Greene
-                                    </td>
-                                    <td>
-                                        Malawi
-                                    </td>
-                                    <td>
-                                        Feldkirchen in Kärnten
-                                    </td>
-                                    <td class="text-right">
-                                        $63,542
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Mason Porter
-                                    </td>
-                                    <td>
-                                        Chile
-                                    </td>
-                                    <td>
-                                        Gloucester
-                                    </td>
-                                    <td class="text-right">
-                                        $78,615
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Jon Porter
-                                    </td>
-                                    <td>
-                                        Portugal
-                                    </td>
-                                    <td>
-                                        Gloucester
-                                    </td>
-                                    <td class="text-right">
-                                        $98,615
-                                    </td>
-                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @intCount
+                                        </td>
+                                        <td>
+                                            @item.Reply_Post.reply_post_title
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.rate_reply_post1 == true)
+                                            {
+                                                <i class="far fa-thumbs-up"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-thumbs-down"></i>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @item.User.user_nicename
+                                        </td>
+                                        <td class="text-center">
+                                            <i class="fas fa-user-edit"></i> |
+                                            <i class="far fa-eye"></i> |
+                                            <i class="far fa-trash-alt"></i>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
