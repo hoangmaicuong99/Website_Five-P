@@ -1,6 +1,11 @@
 ﻿@using Five_P.Models;
 @model User
 @{
+    User user = (User)Session["user"];
+    if(user == null)
+    {
+        Response.Redirect("/Home/Index");
+    }
     FivePEntities db = new FivePEntities();
     var ngaydang = String.Format("{0:yyyy-MM-dd}", Model.user_date_born);
     ViewBag.Title = "ManageUser";
@@ -9,6 +14,9 @@
     var nam = "Nam";
     var nu = "Nữ";
     var EGPT = "EGPT";
+    var a = "@([da-z.-]+)";
+    var b = "@";
+
 }
 <style>
     .modal-backdrop {
@@ -442,13 +450,13 @@
                             <div class="text-center text-muted mb-4">
                                 <h3 style="color:black"><i class="fas fa-key"></i>Mật khẩu</h3>
                             </div>
-                            <form role="form">
+                            <form role="form" onsubmit="return CheckChangePassWord()" action="@Url.Action("ChangePassWord","Account")" method="post">
                                 <div class="form-group mb-3">
                                     <div class="input-group input-group-alternative">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                         </div>
-                                        <input class="form-control" placeholder="Nhập mật khẩu củ" type="password">
+                                        <input class="form-control" id="user_pass_old" name="user_pass_old" placeholder="Nhập mật khẩu củ" type="password">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -456,7 +464,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                         </div>
-                                        <input class="form-control" placeholder="Nhập mật khẩu mới" type="password">
+                                        <input class="form-control" id="user_pass" name="user_pass" placeholder="Nhập mật khẩu mới" type="password">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -464,11 +472,12 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                         </div>
-                                        <input class="form-control" placeholder="Nhập lại mật khẩu mới" type="password">
+                                        <input class="form-control" id="user_pass_retype" name="user_pass_retype" placeholder="Nhập lại mật khẩu mới" type="password">
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <button type="button" class="btn btn-warning my-4" data-dismiss="modal">Đổi mật khẩu</button>
+                                    <h2 id="h2NotificationChangePassword"></h2>
+                                    <button type="submit" class="btn btn-warning my-4">Đổi mật khẩu</button>
                                 </div>
                             </form>
                         </div>
@@ -498,6 +507,37 @@
         });
     </script>
 </section>
+<script>
+    //Đổi mật khẩu
+    function CheckChangePassWord() {
+        let user_pass_old = document.getElementById('user_pass_old').value;
+        let user_pass = document.getElementById('user_pass').value;
+        let user_pass_retype = document.getElementById('user_pass_retype').value;
+
+        let regex_pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@b$!%*?&])[A-Za-z\d@(b)$!%*?&]{8,}$/;
+
+        if (user_pass_old != @user.user_pass) {
+            document.getElementById('h2NotificationChangePassword').innerHTML = 'Sai mật khẩu cũ';
+            return false;
+        }
+        else if (user_pass.length < 5 || user_pass_retype.length < 5) {
+            document.getElementById('h2NotificationChangePassword').innerHTML = 'Mật khẩu, mật khẩu mới hoặc mật khẩu nhập lại không được trống!';
+            return false;
+        }
+        else if (regex_pass.test(user_pass) == false) {
+            document.getElementById('h2NotificationChangePassword').innerHTML = ' Tối thiểu 8 ký tự, ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt!';
+            return false;
+        }
+        else if (user_pass != user_pass_retype) {
+            document.getElementById('h2NotificationChangePassword').innerHTML = 'Sai mật khẩu nhập lại';
+            return false;
+        }
+        else {
+            return true;
+        }
+        return false;
+    }
+</script>
 <script>
     var slideIndex = 0;
     showSlides();

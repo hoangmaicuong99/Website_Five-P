@@ -144,6 +144,8 @@
     <Compile Include="Areas\Admin\Controllers\TickPostsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AllMemberController.cs" />
+    <Compile Include="Controllers\AllTechnologyController.cs" />
     <Compile Include="Controllers\CommentReplyPostController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -229,6 +231,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AllMember\Index.css" />
+    <Content Include="Content\AllTechnology\Index.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -2293,6 +2297,7 @@
     <Content Include="Content\fontawesome\webfonts\fa-brands-400.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-regular-400.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.svg" />
+    <Content Include="Content\ImgAdvertisement\maxresdefault.jpg" />
     <Content Include="Content\ImgAdvertisement\quangCao1.jpg" />
     <Content Include="Content\ImgAdvertisement\quangCao2.jpg" />
     <Content Include="Content\ImgAdvertisement\quangCaoDienMayXanh.jpg" />
@@ -3076,6 +3081,8 @@
     <Content Include="Views\Friends\test.cshtml" />
     <Content Include="Views\Friends\test2.cshtml" />
     <Content Include="Views\Shared\_SortPostManagement.cshtml" />
+    <Content Include="Views\AllMember\Index.cshtml" />
+    <Content Include="Views\AllTechnology\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

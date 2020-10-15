@@ -1,0 +1,194 @@
+﻿@using Five_P.Models;
+@model List<User>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    FivePEntities db = new FivePEntities();
+}
+
+<link href="~/Content/AllMember/Index.css" rel="stylesheet" />
+<style>
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        line-height: 2;
+    }
+    .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+    }
+
+    /* Caption text */
+    .text {
+        color: #f2f2f2;
+        font-size: 15px;
+        padding: 8px 12px;
+        position: absolute;
+        bottom: 8px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+
+    /* The dots/bullets/indicators */
+    .dot {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+    }
+
+    .active {
+        background-color: #717171;
+    }
+
+    /* Fading animation */
+    .fade {
+        -webkit-animation-name: fade;
+        -webkit-animation-duration: 1.5s;
+        animation-name: fade;
+        animation-duration: 1.5s;
+    }
+
+        .fade:not(.show) {
+            opacity: 1;
+        }
+</style>
+<section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1 mt-2">Tất cả thành viên</h5>
+        <div class="row text-center">
+            Quảng cáo
+        </div>
+        <div class="row">
+            <div class="col-xl-9">
+                <div class="row">
+                    <!-- Team member -->
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                                <div class="mainflip">
+                                    <div class="frontside">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <p><img class=" img-fluid" src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_04.jpg" alt="card image"></p>
+                                                <h4 class="card-title">@item.user_nicename</h4>
+                                                @{
+                                                    List<Technology_Care> technology_Cares = db.Technology_Care.Where(n => n.user_id == item.user_id).ToList();
+                                                }
+                                                <p class="card-text">Công nghệ yêu thích : @foreach (var item2 in technology_Cares)
+                                                {<span>@item2.Technology.technology_name ,</span>}</p>
+                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="backside">
+                                        <div class="card">
+                                            <div class="card-body text-center mt-4">
+                                                <h4 class="card-title"><a href="@Url.Action("UserPage","Account", new { idUser = item.user_id})">@item.user_nicename</a></h4>
+                                                <pr class="card-text">
+                                                    <div class="text-left">
+                                                        ----------------------------------
+                                                    </div>
+                                                    <div class="text-left">
+                                                        Nổi tiếng : @item.user_popular
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> @item.user_vip_medal
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <i class="fas fa-medal" style="color:yellow"></i>  @item.user_gold_medal
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <i class="fas fa-medal" style="color:silver"></i>  @item.user_silver_medal
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <i class="fas fa-medal" style="color:#e88d15"></i>  @item.user_bronze_medal
+                                                    </div>
+                                                </pr>
+                                                <ul class="list-inline">
+                                                    <li class="list-inline-item">
+                                                        <a class="social-icon text-xs-center" target="_blank" href="@item.user_link_facebok">
+                                                            <i class="fab fa-facebook"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a class="social-icon text-xs-center" target="_blank" href="@item.user_link_github">
+                                                            <i class="fab fa-github"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <div class="col-xl-3 border">
+                <div class="slideshow-container">
+
+                    <div class="mySlides fade">
+                        <div class="numbertext">1 / 3</div>
+                        <img src="~/Content/ImgAdvertisement/quangCao1.jpg" style="width:100%">
+                        <div class="text">Quảng cáo</div>
+                    </div>
+
+                    <div class="mySlides fade">
+                        <div class="numbertext">2 / 3</div>
+                        <img src="~/Content/ImgAdvertisement/quangCao2.jpg" style="width:100%">
+                        <div class="text">Quảng cáo 2</div>
+                    </div>
+
+                    <div class="mySlides fade">
+                        <div class="numbertext">3 / 3</div>
+                        <img src="~/Content/ImgAdvertisement/quangCaoDienMayXanh.jpg" style="width:100%">
+                        <div class="text">Điện máy xanh</div>
+                    </div>
+
+                </div>
+                <div style="text-align:center">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        setTimeout(showSlides, 2000); // Change image every 2 seconds
+    }
+</script>
+

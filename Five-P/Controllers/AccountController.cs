@@ -135,7 +135,7 @@ namespace Five_P.Controllers
             User user = (User)Session["user"];
             if(user == null)
             {
-                return View("/Home/Index");
+                return Redirect("/Home/Index");
             }
             else
             {
@@ -190,6 +190,19 @@ namespace Five_P.Controllers
                 ViewBag.replyMyPostUnder1 = replyMyPostUnder1.Count();
                 return View(db.Users.Find(user.user_id));
             }
+        }
+        [HttpPost]
+        public ActionResult ChangePassWord(FormCollection f)
+        {
+            User user = (User)Session["user"];
+            var id = user.user_id;
+            String user_pass_old = f["user_pass_old"].ToString();
+            String user_pass = f["user_pass"].ToString();
+            String user_pass_retype = f["user_pass_retype"].ToString();
+            db.Users.Find(id).user_pass = user_pass;
+            db.SaveChanges();
+            Session["user"] = db.Users.Find(id);
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }
