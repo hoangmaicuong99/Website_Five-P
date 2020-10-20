@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Người dùng</h4>
+                    <h4 class="card-title">Người dùng ( @ViewBag.SumUser )</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -40,33 +40,33 @@
                             </th>
                             </thead>
                             <tbody>
-                                @foreach ( var item in Model)
+                                @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td class="text-left">
-                                        @intStt
-                                    </td>
-                                    <td class="text-left">
-                                        @item.user_nicename
-                                    </td>
-                                    <td style="width:10%;height:10%" class="text-right">
-                                        <img src="~/Content/LayoutNguoiDung/ImgUser/emp1.jpg" />
-                                    </td>
-                                    <td class="text-center">
-                                        @item.user_popular
-                                    </td>
-                                    <td class="text-center">
-                                        ....
-                                    </td>
-                                    <td class="text-center">
-                                        ....
-                                    </td>
-                                    <td class="text-center">
-                                        <i class="fas fa-user-edit"></i> |
-                                        <i class="far fa-eye"></i> |
-                                        <i class="far fa-trash-alt"></i>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            @intStt
+                                        </td>
+                                        <td class="text-left">
+                                            @item.user_nicename
+                                        </td>
+                                        <td style="width:10%;height:10%" class="text-right">
+                                            <img src="~/Content/LayoutNguoiDung/ImgUser/emp1.jpg" />
+                                        </td>
+                                        <td class="text-center">
+                                            @item.user_popular
+                                        </td>
+                                        <td class="text-center">
+                                            ....
+                                        </td>
+                                        <td class="text-center">
+                                            ....
+                                        </td>
+                                        <td class="text-center">
+                                            <i class="fas fa-user-edit"></i> |
+                                            <a href="/Account/UserPage?idUser=@item.user_id"><i class="far fa-eye"></i></a> |
+                                            <i class="far fa-trash-alt"></i>
+                                        </td>
+                                    </tr>
                                     intStt++;
                                 }
                             </tbody>

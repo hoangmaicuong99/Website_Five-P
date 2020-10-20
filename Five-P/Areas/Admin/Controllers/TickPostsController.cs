@@ -14,6 +14,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Tick_Post> tick_Post = db.Tick_Post.OrderBy(n => n.Post.post_title).ToList();
+            ViewBag.SumTickPost = tick_Post.Count();
             return View(tick_Post);
         }
     }

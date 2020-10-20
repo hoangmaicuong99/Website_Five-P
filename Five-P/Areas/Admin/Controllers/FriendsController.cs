@@ -14,6 +14,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Friend> friend = db.Friends.OrderBy(n => n.User.user_nicename).ToList();
+            ViewBag.SumFriend = friend.Count();
             return View(friend);
         }
     }

@@ -14,6 +14,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Rate_Reply_Post> rate_Reply_Post = db.Rate_Reply_Post.OrderBy(n => n.Reply_Post.reply_post_title).ToList();
+            ViewBag.SumRateRP = rate_Reply_Post.Count();
             return View(rate_Reply_Post);
         }
     }

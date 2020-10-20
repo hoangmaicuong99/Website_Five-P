@@ -15,6 +15,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Show_Activate_Reply_Post> show_Activate_Reply_Post = db.Show_Activate_Reply_Post.OrderBy(n => n.Reply_Post.reply_post_title).ToList();
+            ViewBag.SumShowARP = show_Activate_Reply_Post.Count();
             return View(show_Activate_Reply_Post);
         }
     }

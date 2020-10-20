@@ -4,25 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="42fea63ab0814a70ace4f8f8d7f29fcb" Name="Diagram1" ZoomLevel="85">
+      <Diagram DiagramId="c8fd3372eb294486980aa97e5e74829e" Name="Diagram1">
         <EntityTypeShape EntityType="FivePModel.Comment" Width="1.5" PointX="6" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Friend" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Like" Width="1.5" PointX="5.25" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Like_Reply_Post" Width="1.5" PointX="3" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Post" Width="1.5" PointX="3" PointY="24" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Rate_Post" Width="1.5" PointX="8.25" PointY="24.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Rate_Reply_Post" Width="1.5" PointX="10.5" PointY="17.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Reply_Post" Width="1.5" PointX="8.25" PointY="20" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Reviews_User" Width="1.5" PointX="3" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Friend" Width="1.5" PointX="3" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Like" Width="1.5" PointX="5.25" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Like_Reply_Post" Width="1.5" PointX="3" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Post" Width="1.5" PointX="3" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Rate_Post" Width="1.5" PointX="5.25" PointY="24.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Rate_Reply_Post" Width="1.5" PointX="10.5" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Reply_Post" Width="1.5" PointX="8.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Reviews_User" Width="1.5" PointX="3" PointY="29.875" IsExpanded="true" />
         <EntityTypeShape EntityType="FivePModel.Search" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Show_Activate_Post" Width="1.5" PointX="8.25" PointY="16.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Show_Activate_Reply_Post" Width="1.5" PointX="13.5" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Show_Activate_Post" Width="1.5" PointX="8.25" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Show_Activate_Reply_Post" Width="1.5" PointX="13.5" PointY="18" IsExpanded="true" />
         <EntityTypeShape EntityType="FivePModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FivePModel.Tag" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FivePModel.Technology" Width="1.5" PointX="3.75" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FivePModel.Technology_Care" Width="1.5" PointX="6" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.Tick_Post" Width="1.5" PointX="11.25" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FivePModel.User" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Technology_Post" Width="1.5" PointX="5.25" PointY="28.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.Tick_Post" Width="1.5" PointX="8.25" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FivePModel.User" Width="1.5" PointX="0.75" PointY="14.375" IsExpanded="true" />
         <AssociationConnector Association="FivePModel.FK_Comment_Reply_Post" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Comment_User" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Friend_User" ManuallyRouted="false" />
@@ -35,6 +36,7 @@
         <AssociationConnector Association="FivePModel.FK_Rate_Post_Post" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Reply_Post_Post" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Show_Activate_Post_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Technology_Post_Post" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Tick_Post_Post" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Rate_Post_User" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Rate_Reply_Post_Reply_Post" ManuallyRouted="false" />
@@ -46,11 +48,9 @@
         <AssociationConnector Association="FivePModel.FK_Show_Activate_Post_User" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Show_Activate_Reply_Post_User" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Technology_Care_Technology" ManuallyRouted="false" />
+        <AssociationConnector Association="FivePModel.FK_Technology_Post_Technology" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Technology_Care_User" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Tick_Post_User" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="FivePModel.Technology_Post" Width="1.5" PointX="6" PointY="24.375" />
-        <AssociationConnector Association="FivePModel.FK_Technology_Post_Post" />
-        <AssociationConnector Association="FivePModel.FK_Technology_Post_Technology" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

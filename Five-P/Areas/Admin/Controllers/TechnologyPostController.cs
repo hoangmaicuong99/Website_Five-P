@@ -14,6 +14,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Technology_Post> technology_Post = db.Technology_Post.OrderBy(n => n.Post.post_title).ToList();
+            ViewBag.SumTechnologyPost = technology_Post.Count();
             return View(technology_Post);
         }
     }

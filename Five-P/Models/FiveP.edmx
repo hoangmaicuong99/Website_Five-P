@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="FivePModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="FivePModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="comment_id" />
@@ -64,13 +64,6 @@
           <Property Name="post_popular" Type="int" />
           <Property Name="post_calculate_medal" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="Post_Technology">
-          <Property Name="post_id" Type="int" />
-          <Property Name="technology_id" Type="int" />
-          <Property Name="post_technology_id" Type="int" />
-        </EntityType>-->
         <EntityType Name="Rate_Post">
           <Key>
             <PropertyRef Name="rate_post_id" />
@@ -674,7 +667,8 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
             <End Role="Tick_Post" EntitySet="Tick_Post" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FivePModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -743,14 +737,14 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <Property Name="post_sum_comment" Type="Int32" />
           <Property Name="post_view" Type="Int32" />
           <Property Name="post_popular" Type="Int32" />
+          <Property Name="post_calculate_medal" Type="Int32" />
           <NavigationProperty Name="Likes" Relationship="Self.FK_Like_Post" FromRole="Post" ToRole="Like" />
           <NavigationProperty Name="User" Relationship="Self.FK_Post_User" FromRole="Post" ToRole="User" />
           <NavigationProperty Name="Rate_Post" Relationship="Self.FK_Rate_Post_Post" FromRole="Post" ToRole="Rate_Post" />
           <NavigationProperty Name="Reply_Post" Relationship="Self.FK_Reply_Post_Post" FromRole="Post" ToRole="Reply_Post" />
           <NavigationProperty Name="Show_Activate_Post" Relationship="Self.FK_Show_Activate_Post_Post" FromRole="Post" ToRole="Show_Activate_Post" />
+          <NavigationProperty Name="Technology_Post" Relationship="Self.FK_Technology_Post_Post" FromRole="Post" ToRole="Technology_Post" />
           <NavigationProperty Name="Tick_Post" Relationship="Self.FK_Tick_Post_Post" FromRole="Post" ToRole="Tick_Post" />
-          <Property Name="post_calculate_medal" Type="Int32" />
-          <NavigationProperty Name="Technology_Post" Relationship="FivePModel.FK_Technology_Post_Post" FromRole="Post" ToRole="Technology_Post" />
         </EntityType>
         <EntityType Name="Rate_Post">
           <Key>
@@ -789,14 +783,14 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <Property Name="like_reply_post_id" Type="Int32" />
           <Property Name="post_id" Type="Int32" />
           <Property Name="reply_post_title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="reply_post_popular" Type="Int32" />
+          <Property Name="reply_post__calculate_medal" Type="Int32" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Reply_Post" FromRole="Reply_Post" ToRole="Comment" />
           <NavigationProperty Name="Like_Reply_Post" Relationship="Self.FK_Reply_Post_Like_Reply_Post" FromRole="Reply_Post" ToRole="Like_Reply_Post" />
           <NavigationProperty Name="Post" Relationship="Self.FK_Reply_Post_Post" FromRole="Reply_Post" ToRole="Post" />
           <NavigationProperty Name="Rate_Reply_Post" Relationship="Self.FK_Rate_Reply_Post_Reply_Post" FromRole="Reply_Post" ToRole="Rate_Reply_Post" />
           <NavigationProperty Name="User" Relationship="Self.FK_Reply_Post_User" FromRole="Reply_Post" ToRole="User" />
           <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="Self.FK_Show_Activate_Reply_Post_Reply_Post" FromRole="Reply_Post" ToRole="Show_Activate_Reply_Post" />
-          <Property Name="reply_post_popular" Type="Int32" />
-          <Property Name="reply_post__calculate_medal" Type="Int32" />
         </EntityType>
         <EntityType Name="Reviews_User">
           <Key>
@@ -864,7 +858,7 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <Property Name="technology_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="technology_datetime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Technology_Care" Relationship="Self.FK_Technology_Care_Technology" FromRole="Technology" ToRole="Technology_Care" />
-          <NavigationProperty Name="Technology_Post" Relationship="FivePModel.FK_Technology_Post_Technology" FromRole="Technology" ToRole="Technology_Post" />
+          <NavigationProperty Name="Technology_Post" Relationship="Self.FK_Technology_Post_Technology" FromRole="Technology" ToRole="Technology_Post" />
         </EntityType>
         <EntityType Name="Technology_Care">
           <Key>
@@ -875,6 +869,16 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <Property Name="technology_id" Type="Int32" />
           <NavigationProperty Name="Technology" Relationship="Self.FK_Technology_Care_Technology" FromRole="Technology_Care" ToRole="Technology" />
           <NavigationProperty Name="User" Relationship="Self.FK_Technology_Care_User" FromRole="Technology_Care" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Technology_Post">
+          <Key>
+            <PropertyRef Name="post_technology_id" />
+          </Key>
+          <Property Name="post_technology_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="post_id" Type="Int32" />
+          <Property Name="technology_id" Type="Int32" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_Technology_Post_Post" FromRole="Technology_Post" ToRole="Post" />
+          <NavigationProperty Name="Technology" Relationship="Self.FK_Technology_Post_Technology" FromRole="Technology_Post" ToRole="Technology" />
         </EntityType>
         <EntityType Name="Tick_Post">
           <Key>
@@ -911,6 +915,10 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <Property Name="user_activate_admin" Type="Boolean" />
           <Property Name="user_date_born" Type="DateTime" Precision="0" />
           <Property Name="user_popular" Type="Int32" />
+          <Property Name="user_gold_medal" Type="Int32" />
+          <Property Name="user_silver_medal" Type="Int32" />
+          <Property Name="user_bronze_medal" Type="Int32" />
+          <Property Name="user_vip_medal" Type="Int32" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_User" FromRole="User" ToRole="Comment" />
           <NavigationProperty Name="Friends" Relationship="Self.FK_Friend_User" FromRole="User" ToRole="Friend" />
           <NavigationProperty Name="Friends1" Relationship="Self.FK_Friend_User1" FromRole="User" ToRole="Friend" />
@@ -926,10 +934,6 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="Self.FK_Show_Activate_Reply_Post_User" FromRole="User" ToRole="Show_Activate_Reply_Post" />
           <NavigationProperty Name="Technology_Care" Relationship="Self.FK_Technology_Care_User" FromRole="User" ToRole="Technology_Care" />
           <NavigationProperty Name="Tick_Post" Relationship="Self.FK_Tick_Post_User" FromRole="User" ToRole="Tick_Post" />
-          <Property Name="user_gold_medal" Type="Int32" />
-          <Property Name="user_silver_medal" Type="Int32" />
-          <Property Name="user_bronze_medal" Type="Int32" />
-          <Property Name="user_vip_medal" Type="Int32" />
         </EntityType>
         <Association Name="FK_Comment_Reply_Post">
           <End Role="Reply_Post" Type="Self.Reply_Post" Multiplicity="0..1" />
@@ -1075,6 +1079,18 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Technology_Post_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Technology_Post" Type="Self.Technology_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="post_id" />
+            </Principal>
+            <Dependent Role="Technology_Post">
+              <PropertyRef Name="post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tick_Post_Post">
           <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
           <End Role="Tick_Post" Type="Self.Tick_Post" Multiplicity="*" />
@@ -1207,6 +1223,18 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Technology_Post_Technology">
+          <End Role="Technology" Type="Self.Technology" Multiplicity="0..1" />
+          <End Role="Technology_Post" Type="Self.Technology_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technology">
+              <PropertyRef Name="technology_id" />
+            </Principal>
+            <Dependent Role="Technology_Post">
+              <PropertyRef Name="technology_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Technology_Care_User">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Technology_Care" Type="Self.Technology_Care" Multiplicity="*" />
@@ -1248,6 +1276,7 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <EntitySet Name="Tags" EntityType="Self.Tag" />
           <EntitySet Name="Technologies" EntityType="Self.Technology" />
           <EntitySet Name="Technology_Care" EntityType="Self.Technology_Care" />
+          <EntitySet Name="Technology_Post" EntityType="Self.Technology_Post" />
           <EntitySet Name="Tick_Post" EntityType="Self.Tick_Post" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_Comment_Reply_Post" Association="Self.FK_Comment_Reply_Post">
@@ -1298,6 +1327,10 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
             <End Role="Post" EntitySet="Posts" />
             <End Role="Show_Activate_Post" EntitySet="Show_Activate_Post" />
           </AssociationSet>
+          <AssociationSet Name="FK_Technology_Post_Post" Association="Self.FK_Technology_Post_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Technology_Post" EntitySet="Technology_Post" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tick_Post_Post" Association="Self.FK_Tick_Post_Post">
             <End Role="Post" EntitySet="Posts" />
             <End Role="Tick_Post" EntitySet="Tick_Post" />
@@ -1342,6 +1375,10 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
             <End Role="Technology" EntitySet="Technologies" />
             <End Role="Technology_Care" EntitySet="Technology_Care" />
           </AssociationSet>
+          <AssociationSet Name="FK_Technology_Post_Technology" Association="Self.FK_Technology_Post_Technology">
+            <End Role="Technology" EntitySet="Technologies" />
+            <End Role="Technology_Post" EntitySet="Technology_Post" />
+          </AssociationSet>
           <AssociationSet Name="FK_Technology_Care_User" Association="Self.FK_Technology_Care_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Technology_Care" EntitySet="Technology_Care" />
@@ -1350,50 +1387,7 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
             <End Role="User" EntitySet="Users" />
             <End Role="Tick_Post" EntitySet="Tick_Post" />
           </AssociationSet>
-          <EntitySet Name="Technology_Post" EntityType="FivePModel.Technology_Post" />
-          <AssociationSet Name="FK_Technology_Post_Post" Association="FivePModel.FK_Technology_Post_Post">
-            <End Role="Post" EntitySet="Posts" />
-            <End Role="Technology_Post" EntitySet="Technology_Post" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Technology_Post_Technology" Association="FivePModel.FK_Technology_Post_Technology">
-            <End Role="Technology" EntitySet="Technologies" />
-            <End Role="Technology_Post" EntitySet="Technology_Post" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Technology_Post">
-          <Key>
-            <PropertyRef Name="post_technology_id" />
-          </Key>
-          <Property Name="post_technology_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="post_id" Type="Int32" />
-          <Property Name="technology_id" Type="Int32" />
-          <NavigationProperty Name="Post" Relationship="FivePModel.FK_Technology_Post_Post" FromRole="Technology_Post" ToRole="Post" />
-          <NavigationProperty Name="Technology" Relationship="FivePModel.FK_Technology_Post_Technology" FromRole="Technology_Post" ToRole="Technology" />
-        </EntityType>
-        <Association Name="FK_Technology_Post_Post">
-          <End Type="FivePModel.Post" Role="Post" Multiplicity="0..1" />
-          <End Type="FivePModel.Technology_Post" Role="Technology_Post" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="post_id" />
-            </Principal>
-            <Dependent Role="Technology_Post">
-              <PropertyRef Name="post_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Technology_Post_Technology">
-          <End Type="FivePModel.Technology" Role="Technology" Multiplicity="0..1" />
-          <End Type="FivePModel.Technology_Post" Role="Technology_Post" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Technology">
-              <PropertyRef Name="technology_id" />
-            </Principal>
-            <Dependent Role="Technology_Post">
-              <PropertyRef Name="technology_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1447,7 +1441,6 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="FivePModel.Post">
               <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="post_calculate_medal" ColumnName="post_calculate_medal" />
                 <ScalarProperty Name="post_id" ColumnName="post_id" />
                 <ScalarProperty Name="post_content" ColumnName="post_content" />
                 <ScalarProperty Name="post_img" ColumnName="post_img" />
@@ -1461,6 +1454,7 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
                 <ScalarProperty Name="post_sum_comment" ColumnName="post_sum_comment" />
                 <ScalarProperty Name="post_view" ColumnName="post_view" />
                 <ScalarProperty Name="post_popular" ColumnName="post_popular" />
+                <ScalarProperty Name="post_calculate_medal" ColumnName="post_calculate_medal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1489,8 +1483,6 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <EntitySetMapping Name="Reply_Post">
             <EntityTypeMapping TypeName="FivePModel.Reply_Post">
               <MappingFragment StoreEntitySet="Reply_Post">
-                <ScalarProperty Name="reply_post__calculate_medal" ColumnName="reply_post__calculate_medal" />
-                <ScalarProperty Name="reply_post_popular" ColumnName="reply_post_popular" />
                 <ScalarProperty Name="reply_post_id" ColumnName="reply_post_id" />
                 <ScalarProperty Name="reply_post_content" ColumnName="reply_post_content" />
                 <ScalarProperty Name="reply_post_datecreated" ColumnName="reply_post_datecreated" />
@@ -1500,6 +1492,8 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
                 <ScalarProperty Name="like_reply_post_id" ColumnName="like_reply_post_id" />
                 <ScalarProperty Name="post_id" ColumnName="post_id" />
                 <ScalarProperty Name="reply_post_title" ColumnName="reply_post_title" />
+                <ScalarProperty Name="reply_post_popular" ColumnName="reply_post_popular" />
+                <ScalarProperty Name="reply_post__calculate_medal" ColumnName="reply_post__calculate_medal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1579,6 +1573,15 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Technology_Post">
+            <EntityTypeMapping TypeName="FivePModel.Technology_Post">
+              <MappingFragment StoreEntitySet="Technology_Post">
+                <ScalarProperty Name="post_technology_id" ColumnName="post_technology_id" />
+                <ScalarProperty Name="post_id" ColumnName="post_id" />
+                <ScalarProperty Name="technology_id" ColumnName="technology_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Tick_Post">
             <EntityTypeMapping TypeName="FivePModel.Tick_Post">
               <MappingFragment StoreEntitySet="Tick_Post">
@@ -1592,10 +1595,6 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="FivePModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="user_vip_medal" ColumnName="user_vip_medal" />
-                <ScalarProperty Name="user_bronze_medal" ColumnName="user_bronze_medal" />
-                <ScalarProperty Name="user_silver_medal" ColumnName="user_silver_medal" />
-                <ScalarProperty Name="user_gold_medal" ColumnName="user_gold_medal" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="user_pass" ColumnName="user_pass" />
                 <ScalarProperty Name="user_nicename" ColumnName="user_nicename" />
@@ -1616,15 +1615,10 @@ warning 6013: The table/view 'FiveP.dbo.Post_Technology' does not have a primary
                 <ScalarProperty Name="user_activate_admin" ColumnName="user_activate_admin" />
                 <ScalarProperty Name="user_date_born" ColumnName="user_date_born" />
                 <ScalarProperty Name="user_popular" ColumnName="user_popular" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Technology_Post">
-            <EntityTypeMapping TypeName="FivePModel.Technology_Post">
-              <MappingFragment StoreEntitySet="Technology_Post">
-                <ScalarProperty Name="technology_id" ColumnName="technology_id" />
-                <ScalarProperty Name="post_id" ColumnName="post_id" />
-                <ScalarProperty Name="post_technology_id" ColumnName="post_technology_id" />
+                <ScalarProperty Name="user_gold_medal" ColumnName="user_gold_medal" />
+                <ScalarProperty Name="user_silver_medal" ColumnName="user_silver_medal" />
+                <ScalarProperty Name="user_bronze_medal" ColumnName="user_bronze_medal" />
+                <ScalarProperty Name="user_vip_medal" ColumnName="user_vip_medal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

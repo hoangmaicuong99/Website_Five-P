@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"> Bài viết</h4>
+                    <h4 class="card-title"> Bài viết ( @ViewBag.SumPost )</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -57,7 +57,7 @@
                                         </td>
                                         <td class="text-center">
                                             <i class="fas fa-user-edit"></i> |
-                                            <i class="far fa-eye"></i> |
+                                            <a href="/Home/DetailQuestion?idpost=@item.post_id"><i class="far fa-eye"></i></a> |
                                             <i class="far fa-trash-alt"></i>
                                         </td>
                                     </tr>

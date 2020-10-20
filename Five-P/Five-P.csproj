@@ -2877,13 +2877,6 @@
     <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Content\ckeditor\skins\moono-lisa\readme.md" />
-    <EntityDeploy Include="Models\FiveP.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>FiveP.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\FiveP.edmx.diagram">
-      <DependentUpon>FiveP.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\Semantic-UI-CSS-master\.versions" />
     <Content Include="Content\Semantic-UI-CSS-master\LICENSE" />
     <Content Include="Content\Semantic-UI-CSS-master\package.json" />
@@ -2959,6 +2952,13 @@
     <Content Include="Areas\Admin\Views\TechnologyPost\Index.cshtml" />
     <Content Include="Areas\Admin\Views\TechnologyUsers\Index.cshtml" />
     <Content Include="Areas\Admin\Views\HomeAdmin\Index.cshtml" />
+    <EntityDeploy Include="Models\FiveP.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FiveP.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\FiveP.edmx.diagram">
+      <DependentUpon>FiveP.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />

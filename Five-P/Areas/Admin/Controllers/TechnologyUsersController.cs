@@ -14,6 +14,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Technology_Care> technology_Care = db.Technology_Care.OrderBy(n => n.User.user_nicename).ToList();
+            ViewBag.SumTechnologyCare = technology_Care.Count();
             return View(technology_Care);
         }
     }

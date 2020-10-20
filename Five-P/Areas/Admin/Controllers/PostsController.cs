@@ -15,6 +15,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Post> post = db.Posts.ToList();
+            ViewBag.SumPost = post.Count();
             return View(post);
         }
     }

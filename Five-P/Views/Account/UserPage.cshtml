@@ -33,7 +33,36 @@
                             </div>
                             <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
                                 <div class="card-profile-actions py-4 mt-lg-0">
-                                    <a href="#" class="btn btn-sm btn-info mr-4">kết bạn</a>
+                                    <form action="@Url.Action("AddFriend","Friend")" method="post">
+                                        <input type="hidden" name="user_friend_id" value="@Model.user_id" />
+
+                                        @if (user != null)
+                                        {
+                                            Friend friend1 = db.Friends.FirstOrDefault(n => n.user_id == user.user_id && n.user_friend_id == Model.user_id && n.friend_status == false);
+                                            Friend friend2 = db.Friends.FirstOrDefault(n => n.user_id == Model.user_id && n.user_friend_id == user.user_id && n.friend_status == false);
+                                            Friend friend3 = db.Friends.FirstOrDefault(n => n.user_id == Model.user_id && n.user_friend_id == user.user_id && n.friend_status == true);
+                                            if (friend1 != null)
+                                            {
+                                                <button type="submit" class="btn btn-sm btn-info mr-4">Hủy lời mời</button>
+                                            }
+                                            else if (friend2 != null)
+                                            {
+                                                <button type="submit" class="btn btn-sm btn-info mr-4">Xác nhận</button>
+                                            }
+                                            else if (friend3 != null)
+                                            {
+                                                <button type="submit" class="btn btn-sm btn-info mr-4">Bạn bè</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-sm btn-info mr-4">kết bạn</button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-sm btn-info mr-4">Đăng nhập kết bạn</button>
+                                        }
+                                    </form>
                                     <a href="#" class="btn btn-sm btn-default float-right">nhắn tin</a>
                                 </div>
                             </div>

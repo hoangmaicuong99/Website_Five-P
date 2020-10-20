@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"> Bạn người dùng</h4>
+                    <h4 class="card-title"> Bạn người dùng ( @ViewBag.SumFriend )</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -45,7 +45,7 @@
                                         </td>
                                         <td class="text-right">
                                             <i class="fas fa-user-edit"></i> |
-                                            <i class="far fa-eye"></i> |
+                                            <a href="/Account/UserPage?idUser=@item.user_id"><i class="far fa-eye"></i></a> |
                                             <i class="far fa-trash-alt"></i>
                                         </td>
                                     </tr>

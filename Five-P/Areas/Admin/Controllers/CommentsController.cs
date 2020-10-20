@@ -14,6 +14,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Comment> commnet = db.Comments.OrderBy(n => n.Reply_Post.reply_post_title).ToList();
+            ViewBag.SumComment = commnet.Count();
             return View(commnet);
         }
     }

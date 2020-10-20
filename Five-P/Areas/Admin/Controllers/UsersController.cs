@@ -14,6 +14,7 @@ namespace Five_P.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<User> user = db.Users.ToList();
+            ViewBag.SumUser = user.Count();
             return View(user);
         }
     }
