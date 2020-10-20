@@ -16,7 +16,7 @@ namespace Five_P.Controllers
         FivePEntities db = new FivePEntities();
         [ValidateInput(false)]
         [HttpPost]
-        public ActionResult ReplyPost([Bind(Include = "reply_post_id,reply_post_content,reply_post_datecreated,reply_post_dateedit,user_id,reply_post_activate,like_reply_post_id,post_id,reply_post_title")] Reply_Post reply_Post)
+        public ActionResult ReplyPost([Bind(Include = "reply_post_id,reply_post_content,reply_post_datecreated,reply_post_dateedit,user_id,reply_post_activate,like_reply_post_id,post_id,reply_post_title")] Reply_Post reply_Post, Notification notification)
         {
             User user = (User)Session["user"];
             Reply_Post userReplyPost = db.Reply_Post.FirstOrDefault(n => n.user_id == user.user_id && n.post_id == reply_Post.post_id);
@@ -28,6 +28,22 @@ namespace Five_P.Controllers
             //Bài viết
             db.Posts.Find(reply_Post.post_id).post_sum_reply++;
             db.Posts.Find(reply_Post.post_id).post_popular++;
+            //Thông báo 
+            List<Show_Activate_Post> show_Activate_Posts = db.Show_Activate_Post.Where(n => n.post_id == reply_Post.post_id).ToList();
+            foreach(var item in show_Activate_Posts)
+            {
+                if(item.user_id != user.user_id)
+                {
+                    notification.user_id = item.user_id;
+                    notification.post_id = item.post_id;
+                    notification.notification_datecreate = DateTime.Now;
+                    notification.notification_content = user.user_nicename + " Đã trả lời bài viết " + db.Posts.Find(reply_Post.post_id).post_title;
+                    notification.notification_status = true;
+                    db.Notifications.Add(notification);
+                    db.SaveChanges();
+                }
+            }
+            
             //Trả lời bài viết
             reply_Post.reply_post_datecreated = DateTime.Now;
             reply_Post.reply_post_dateedit = DateTime.Now;

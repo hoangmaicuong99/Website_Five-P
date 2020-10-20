@@ -23,6 +23,7 @@ namespace Five_P.Models
             this.Show_Activate_Post = new HashSet<Show_Activate_Post>();
             this.Technology_Post = new HashSet<Technology_Post>();
             this.Tick_Post = new HashSet<Tick_Post>();
+            this.Notifications = new HashSet<Notification>();
         }
     
         public int post_id { get; set; }
@@ -53,5 +54,7 @@ namespace Five_P.Models
         public virtual ICollection<Technology_Post> Technology_Post { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tick_Post> Tick_Post { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

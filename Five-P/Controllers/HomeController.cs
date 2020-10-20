@@ -706,7 +706,16 @@ namespace Five_P.Controllers
             db.SaveChanges();
             return View();
         }
-
+        public PartialViewResult Notification()
+        {
+            return PartialView();
+        }
+        public ActionResult FalseNotification(int? idNotification)
+        {
+            db.Notifications.Find(idNotification).notification_status = false;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
 
 
 

@@ -44,5 +44,8 @@ namespace Five_P.Models
         public virtual DbSet<Technology_Post> Technology_Post { get; set; }
         public virtual DbSet<Tick_Post> Tick_Post { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<Advertisement> Advertisements { get; set; }
+        public virtual DbSet<Image_Advertisement> Image_Advertisement { get; set; }
     }
 }

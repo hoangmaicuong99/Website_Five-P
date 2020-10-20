@@ -1,0 +1,20 @@
+﻿
+@using Five_P.Models;
+@model List<Notification>
+
+@{
+    FivePEntities db = new FivePEntities();
+    User user = (User)Session["user"];
+}
+@if (user != null)
+{
+    List<Notification> notifications = db.Notifications.Where(n => n.user_id == user.user_id && n.notification_status == true).OrderByDescending(n=>n.notification_datecreate).Take(14).ToList();
+    int intCountNotification = notifications.Count();
+    <a class="nav-link" href="#" id="navbar-primary_dropdown_2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell text-warning" style="font-size:25px"></i> @intCountNotification</a>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-primary_dropdown_2">
+        @foreach (var item in notifications)
+        {
+            <a class="dropdown-item" href="@Url.Action("DetailQuestion","Home", new { idpost = item.post_id})">@item.notification_content</a><a href="@Url.Action("FalseNotification","Home",new { idNotification = item.notification_id})" class="float-right"><i class="far fa-times-circle "></i></a>
+        }
+    </div>
+}

@@ -51,6 +51,12 @@
         <AssociationConnector Association="FivePModel.FK_Technology_Post_Technology" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Technology_Care_User" ManuallyRouted="false" />
         <AssociationConnector Association="FivePModel.FK_Tick_Post_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FivePModel.Notification" Width="1.5" PointX="11.25" PointY="21.75" />
+        <AssociationConnector Association="FivePModel.FK_Notification_Post" />
+        <AssociationConnector Association="FivePModel.FK_Notification_User" />
+        <EntityTypeShape EntityType="FivePModel.Advertisement" Width="1.5" PointX="3.375" PointY="3.875" />
+        <EntityTypeShape EntityType="FivePModel.Image_Advertisement" Width="1.5" PointX="5.625" PointY="3.875" />
+        <AssociationConnector Association="FivePModel.FK_Image_Advertisement_Advertisement" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

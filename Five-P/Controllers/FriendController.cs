@@ -66,5 +66,28 @@ namespace Five_P.Controllers
             }
             
         }
+        public ActionResult FriendUser()
+        {
+            User user = (User)Session["user"];
+            if(user == null)
+            {
+                return Redirect("/Home/Index");
+            }
+            List<Friend> friend = db.Friends.Where(n => n.user_id == user.user_id && n.friend_status == true || n.user_friend_id == user.user_id && n.friend_status == true).ToList();
+            ViewBag.SumFriend = friend.Count();
+            return View(friend);
+        }
+        public PartialViewResult FriendConFirm()
+        {
+            User user = (User)Session["user"];
+            List<Friend> friends = db.Friends.Where(n => n.user_friend_id == user.user_id && n.friend_status == false).ToList();
+            return PartialView(friends);
+        }
+        public PartialViewResult SendFriend()
+        {
+            User user = (User)Session["user"];
+            List<Friend> friends = db.Friends.Where(n => n.user_id == user.user_id && n.friend_status == false).ToList();
+            return PartialView(friends);
+        }
     }
 }

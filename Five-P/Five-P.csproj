@@ -144,17 +144,24 @@
     <Compile Include="Areas\Admin\Controllers\TickPostsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AllActivatePostUserController.cs" />
     <Compile Include="Controllers\AllMemberController.cs" />
+    <Compile Include="Controllers\AllNotificationUserController.cs" />
     <Compile Include="Controllers\AllTechnologyController.cs" />
+    <Compile Include="Controllers\AllTickPostUserController.cs" />
     <Compile Include="Controllers\CommentReplyPostController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\testController\FriendsController.cs" />
+    <Compile Include="Controllers\testController\NotificationsController.cs" />
     <Compile Include="Controllers\testController\PostsController.cs" />
     <Compile Include="Controllers\testController\Reply_PostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Advertisement.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
@@ -177,10 +184,16 @@
     <Compile Include="Models\Friend.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Image_Advertisement.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Like.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Like_Reply_Post.cs">
+      <DependentUpon>FiveP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Notification.cs">
       <DependentUpon>FiveP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Post.cs">
@@ -3083,12 +3096,24 @@
     <Content Include="Views\Shared\_SortPostManagement.cshtml" />
     <Content Include="Views\AllMember\Index.cshtml" />
     <Content Include="Views\AllTechnology\Index.cshtml" />
+    <Content Include="Views\Friend\FriendUser.cshtml" />
+    <Content Include="Views\Shared\ViewFriend.cshtml" />
+    <Content Include="Views\Friend\FriendConFirm.cshtml" />
+    <Content Include="Views\Friend\SendFriend.cshtml" />
+    <Content Include="Views\Notifications\Create.cshtml" />
+    <Content Include="Views\Notifications\Delete.cshtml" />
+    <Content Include="Views\Notifications\Details.cshtml" />
+    <Content Include="Views\Notifications\Edit.cshtml" />
+    <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\Home\Notification.cshtml" />
+    <Content Include="Views\AllTickPostUser\Index.cshtml" />
+    <Content Include="Views\AllActivatePostUser\Index.cshtml" />
+    <Content Include="Views\AllNotificationUser\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\Database\" />
-    <Folder Include="Views\Friend\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

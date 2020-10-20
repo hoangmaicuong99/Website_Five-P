@@ -4,7 +4,15 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FivePModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FivePModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Advertisement">
+          <Key>
+            <PropertyRef Name="advertisement_id" />
+          </Key>
+          <Property Name="advertisement_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="advertisement_nicename" Type="nvarchar(max)" />
+          <Property Name="advertisement_note" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="comment_id" />
@@ -26,6 +34,14 @@
           <Property Name="user_friend_id" Type="int" />
           <Property Name="friend_status" Type="bit" />
         </EntityType>
+        <EntityType Name="Image_Advertisement">
+          <Key>
+            <PropertyRef Name="image_advertisement_id" />
+          </Key>
+          <Property Name="image_advertisement_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="image_advertisement" Type="nvarchar(max)" />
+          <Property Name="advertisement_id" Type="int" />
+        </EntityType>
         <EntityType Name="Like">
           <Key>
             <PropertyRef Name="like_id" />
@@ -44,6 +60,17 @@
           <Property Name="like_reply_post_likeORdis" Type="bit" />
           <Property Name="like_reply_post_datecreated" Type="datetime" />
           <Property Name="like_reply_post_dateedit" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="notification_id" />
+          </Key>
+          <Property Name="notification_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="post_id" Type="int" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="notification_content" Type="nvarchar" MaxLength="350" />
+          <Property Name="notification_status" Type="bit" />
+          <Property Name="notification_datecreate" Type="datetime" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
@@ -262,6 +289,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Image_Advertisement_Advertisement">
+          <End Role="Advertisement" Type="Self.Advertisement" Multiplicity="0..1" />
+          <End Role="Image_Advertisement" Type="Self.Image_Advertisement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Advertisement">
+              <PropertyRef Name="advertisement_id" />
+            </Principal>
+            <Dependent Role="Image_Advertisement">
+              <PropertyRef Name="advertisement_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Like_Post">
           <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
           <End Role="Like" Type="Self.Like" Multiplicity="*" />
@@ -294,6 +333,30 @@
               <PropertyRef Name="user_id" />
             </Principal>
             <Dependent Role="Like">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="post_id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Notification">
               <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -539,10 +602,13 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="FivePModelStoreContainer">
+          <EntitySet Name="Advertisement" EntityType="Self.Advertisement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Friend" EntityType="Self.Friend" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Image_Advertisement" EntityType="Self.Image_Advertisement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Like" EntityType="Self.Like" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Like_Reply_Post" EntityType="Self.Like_Reply_Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rate_Post" EntityType="Self.Rate_Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rate_Reply_Post" EntityType="Self.Rate_Reply_Post" Schema="dbo" store:Type="Tables" />
@@ -574,6 +640,10 @@
             <End Role="User" EntitySet="User" />
             <End Role="Friend" EntitySet="Friend" />
           </AssociationSet>
+          <AssociationSet Name="FK_Image_Advertisement_Advertisement" Association="Self.FK_Image_Advertisement_Advertisement">
+            <End Role="Advertisement" EntitySet="Advertisement" />
+            <End Role="Image_Advertisement" EntitySet="Image_Advertisement" />
+          </AssociationSet>
           <AssociationSet Name="FK_Like_Post" Association="Self.FK_Like_Post">
             <End Role="Post" EntitySet="Post" />
             <End Role="Like" EntitySet="Like" />
@@ -585,6 +655,14 @@
           <AssociationSet Name="FK_Like_User" Association="Self.FK_Like_User">
             <End Role="User" EntitySet="User" />
             <End Role="Like" EntitySet="Like" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_Post" Association="Self.FK_Notification_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_User" Association="Self.FK_Notification_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
           <AssociationSet Name="FK_Post_User" Association="Self.FK_Post_User">
             <End Role="User" EntitySet="User" />
@@ -667,8 +745,7 @@
             <End Role="Tick_Post" EntitySet="Tick_Post" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FivePModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -745,6 +822,7 @@
           <NavigationProperty Name="Show_Activate_Post" Relationship="Self.FK_Show_Activate_Post_Post" FromRole="Post" ToRole="Show_Activate_Post" />
           <NavigationProperty Name="Technology_Post" Relationship="Self.FK_Technology_Post_Post" FromRole="Post" ToRole="Technology_Post" />
           <NavigationProperty Name="Tick_Post" Relationship="Self.FK_Tick_Post_Post" FromRole="Post" ToRole="Tick_Post" />
+          <NavigationProperty Name="Notifications" Relationship="FivePModel.FK_Notification_Post" FromRole="Post" ToRole="Notification" />
         </EntityType>
         <EntityType Name="Rate_Post">
           <Key>
@@ -934,6 +1012,7 @@
           <NavigationProperty Name="Show_Activate_Reply_Post" Relationship="Self.FK_Show_Activate_Reply_Post_User" FromRole="User" ToRole="Show_Activate_Reply_Post" />
           <NavigationProperty Name="Technology_Care" Relationship="Self.FK_Technology_Care_User" FromRole="User" ToRole="Technology_Care" />
           <NavigationProperty Name="Tick_Post" Relationship="Self.FK_Tick_Post_User" FromRole="User" ToRole="Tick_Post" />
+          <NavigationProperty Name="Notifications" Relationship="FivePModel.FK_Notification_User" FromRole="User" ToRole="Notification" />
         </EntityType>
         <Association Name="FK_Comment_Reply_Post">
           <End Role="Reply_Post" Type="Self.Reply_Post" Multiplicity="0..1" />
@@ -1387,7 +1466,89 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Tick_Post" EntitySet="Tick_Post" />
           </AssociationSet>
+          <EntitySet Name="Notifications" EntityType="FivePModel.Notification" />
+          <AssociationSet Name="FK_Notification_Post" Association="FivePModel.FK_Notification_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_User" Association="FivePModel.FK_Notification_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <EntitySet Name="Advertisements" EntityType="FivePModel.Advertisement" />
+          <EntitySet Name="Image_Advertisement" EntityType="FivePModel.Image_Advertisement" />
+          <AssociationSet Name="FK_Image_Advertisement_Advertisement" Association="FivePModel.FK_Image_Advertisement_Advertisement">
+            <End Role="Advertisement" EntitySet="Advertisements" />
+            <End Role="Image_Advertisement" EntitySet="Image_Advertisement" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="notification_id" />
+          </Key>
+          <Property Name="notification_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="post_id" Type="Int32" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="notification_content" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="notification_status" Type="Boolean" />
+          <NavigationProperty Name="Post" Relationship="FivePModel.FK_Notification_Post" FromRole="Notification" ToRole="Post" />
+          <NavigationProperty Name="User" Relationship="FivePModel.FK_Notification_User" FromRole="Notification" ToRole="User" />
+          <Property Name="notification_datecreate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_Notification_Post">
+          <End Type="FivePModel.Post" Role="Post" Multiplicity="0..1" />
+          <End Type="FivePModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="post_id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="post_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_User">
+          <End Type="FivePModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="FivePModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Advertisement">
+          <Key>
+            <PropertyRef Name="advertisement_id" />
+          </Key>
+          <Property Name="advertisement_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="advertisement_nicename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="advertisement_note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Image_Advertisement" Relationship="FivePModel.FK_Image_Advertisement_Advertisement" FromRole="Advertisement" ToRole="Image_Advertisement" />
+        </EntityType>
+        <EntityType Name="Image_Advertisement">
+          <Key>
+            <PropertyRef Name="image_advertisement_id" />
+          </Key>
+          <Property Name="image_advertisement_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="image_advertisement1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="advertisement_id" Type="Int32" />
+          <NavigationProperty Name="Advertisement" Relationship="FivePModel.FK_Image_Advertisement_Advertisement" FromRole="Image_Advertisement" ToRole="Advertisement" />
+        </EntityType>
+        <Association Name="FK_Image_Advertisement_Advertisement">
+          <End Type="FivePModel.Advertisement" Role="Advertisement" Multiplicity="0..1" />
+          <End Type="FivePModel.Image_Advertisement" Role="Image_Advertisement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Advertisement">
+              <PropertyRef Name="advertisement_id" />
+            </Principal>
+            <Dependent Role="Image_Advertisement">
+              <PropertyRef Name="advertisement_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1619,6 +1780,36 @@
                 <ScalarProperty Name="user_silver_medal" ColumnName="user_silver_medal" />
                 <ScalarProperty Name="user_bronze_medal" ColumnName="user_bronze_medal" />
                 <ScalarProperty Name="user_vip_medal" ColumnName="user_vip_medal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="FivePModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="notification_datecreate" ColumnName="notification_datecreate" />
+                <ScalarProperty Name="notification_status" ColumnName="notification_status" />
+                <ScalarProperty Name="notification_content" ColumnName="notification_content" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="post_id" ColumnName="post_id" />
+                <ScalarProperty Name="notification_id" ColumnName="notification_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Advertisements">
+            <EntityTypeMapping TypeName="FivePModel.Advertisement">
+              <MappingFragment StoreEntitySet="Advertisement">
+                <ScalarProperty Name="advertisement_note" ColumnName="advertisement_note" />
+                <ScalarProperty Name="advertisement_nicename" ColumnName="advertisement_nicename" />
+                <ScalarProperty Name="advertisement_id" ColumnName="advertisement_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Image_Advertisement">
+            <EntityTypeMapping TypeName="FivePModel.Image_Advertisement">
+              <MappingFragment StoreEntitySet="Image_Advertisement">
+                <ScalarProperty Name="advertisement_id" ColumnName="advertisement_id" />
+                <ScalarProperty Name="image_advertisement1" ColumnName="image_advertisement" />
+                <ScalarProperty Name="image_advertisement_id" ColumnName="image_advertisement_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

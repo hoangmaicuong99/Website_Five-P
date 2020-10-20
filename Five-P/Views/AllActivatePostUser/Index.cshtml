@@ -1,0 +1,35 @@
+﻿@using Five_P.Models;
+@model List<Show_Activate_Post>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="py-5 mt-5"></div>
+<div class="w-100 text-center mt--5">
+    <h3>Hoạt động bài viết</h3>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Bài viết
+        </th>
+        <th>Tùy chọn</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Post.post_title
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.show_activate_post_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.show_activate_post_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.show_activate_post_id })
+            </td>
+        </tr>
+    }
+
+</table>

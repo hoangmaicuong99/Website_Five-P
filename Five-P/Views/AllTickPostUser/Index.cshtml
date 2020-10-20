@@ -1,0 +1,31 @@
+﻿@using Five_P.Models;
+@model List<Tick_Post>
+
+
+<div class="py-5 mt-5"></div>
+<div class="w-100 text-center mt--5">
+    <h3>BÀi viết đánh dấu</h3>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Tên bài viết
+        </th>
+        <th>Tùy chọn</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Post.post_title
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.tick_post_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.tick_post_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.tick_post_id })
+            </td>
+        </tr>
+    }
+
+</table>
